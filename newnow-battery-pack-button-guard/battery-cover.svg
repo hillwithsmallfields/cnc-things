@@ -13,7 +13,7 @@
    height="1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.91pre2 r13516"
    sodipodi:docname="battery-cover.svg">
   <defs
      id="defs4">
@@ -32,16 +32,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="53.559113"
-     inkscape:cy="993.82611"
+     inkscape:zoom="1.979899"
+     inkscape:cx="26.594827"
+     inkscape:cy="5.6305342"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="695"
-     inkscape:window-height="499"
+     inkscape:window-width="1918"
+     inkscape:window-height="1078"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -60,30 +60,21 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#cccccc;stroke:#000000;stroke-width:0.35433072;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#cccccc;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect2820"
-       width="98"
-       height="67"
-       x="0.33176151"
-       y="0.067036934"
-       ry="5.5558391" />
+       width="332.71652"
+       height="219.3307"
+       x="0.17716536"
+       y="832.85431"
+       ry="18.187553" />
     <rect
-       style="stroke-width:42.51968384;stroke-miterlimit:4;stroke-dasharray:none"
-       id="rect2822"
-       width="0.50507629"
-       height="2.0203052"
-       x="95.459419"
-       y="20.996433"
-       ry="0.25253814" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#cccccc;stroke:#000000;stroke-width:0.35433072;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="path3596"
-       sodipodi:cx="14.394673"
-       sodipodi:cy="55.341621"
-       sodipodi:rx="2.7779195"
-       sodipodi:ry="3.9845908"
-       d="m 17.172593,55.341621 a 2.7779195,3.9845908 0 1 1 -5.555839,0 2.7779195,3.9845908 0 1 1 5.555839,0 z"
-       transform="translate(-2.6785714,-3.2142857)" />
+       style="opacity:0.37000002;fill:#2c05e7;fill-opacity:0.23529412;stroke:#922b1d;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4156"
+       width="41.463791"
+       height="20.746401"
+       x="629.06024"
+       y="564.83502"
+       ry="10.3732"
+       transform="matrix(0.71627853,0.69781449,-0.68595341,0.72764546,0,0)" />
   </g>
 </svg>
