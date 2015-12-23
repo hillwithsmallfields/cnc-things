@@ -1,0 +1,71 @@
+* Panel phablet bezel notes
+* Second version, made <2014-11-02 Sun>
+** Measurements
+
+   |------------------------------------------+--------+-------|
+   | Measurement                              | type   |    mm |
+   |------------------------------------------+--------+-------|
+   | Overall width                            | length |   268 |
+   | X-centre                                 | length |   134 |
+   | Height of front bezel                    | length |   150 |
+   | Height of back bezel                     | length |   145 |
+   | Tablet width                             | length |   188 |
+   | Tablet height                            | length |   108 |
+   | Total front bezel side margins           | length |    80 |
+   | Left side of hole in back bezel          | x pos  |    50 |
+   | Right side of hole in back bezel         | x pos  |   238 |
+   | Total top/bottom margins of back bezel   | length |    42 |
+   | Bottom of hole in back bezel             | x pos  |    10 |
+   | Screen width                             | length |   156 |
+   | Screen height                            | length |    88 |
+   | Screen offset from bottom of front bezel | y pos  |    10 |
+   | Screen offset from side of front bezel   | x pos  |    56 |
+   | Offset of "louder" from left of tablet   | length |    23 |
+   | Offset of "quieter" from left of tablet  | length |    38 |
+   | Offset of "power" from left of tablet    | length |    54 |
+   | Offset of USB from bottom of tablet      | length |    32 |
+   | Offset of audio from bottom of tablet    | length |    77 |
+   | Inset for "louder"                       | x pos  |    63 |
+   | Inset for "quieter"                      | x pos  |    78 |
+   | Inset for "power"                        | x pos  |    94 |
+   | Inset for USB                            | y pos  |    42 |
+   | Inset for audio                          | y pos  |    87 |
+   | Width of top inset for bolts             | length |    10 |
+   | Leftmost inset centre                    | x pos  |    53 |
+   | Middle inset centre                      | x pos  |   128 |
+   | Right inset centre                       | x pos  |   205 |
+   | width between top buttons                | length |   216 |
+   | width between middle buttons             | length |   213 |
+   | width between bottom buttons             | length |   214 |
+   | top button y                             | y pos  |   100 |
+   | top left button x                        | x pos  |    26 |
+   | top right button x                       | x pos  |   242 |
+   | middle button                            | y pos  |    82 |
+   | middle left button x                     | x pos  |  27.5 |
+   | middle right button x                    | x pos  | 240.5 |
+   | bottom button y                          | y pos  |    61 |
+   | bottom left button x                     | x pos  |    27 |
+   | bottom right button x                    | x pos  |   241 |
+   |------------------------------------------+--------+-------|
+
+** Objects
+
+   |-----------------------------------+------+--------+-------+--------+-------+-----|
+   | Object                            | left | bottom | width | height | right | top |
+   |-----------------------------------+------+--------+-------+--------+-------+-----|
+   | Front bezel                       |   10 |     10 |   268 |    150 |   278 | 160 |
+   | Hole in front bezel               |   66 |     30 |   156 |     88 |   222 | 118 |
+   | Top left button in front bezel    |   19 |     92 |    16 |     16 |       |     |
+   | Middle left button in front bezel |   19 |     74 |    16 |     16 |       |     |
+   | Bottom left button in front bezel |   19 |     53 |    16 |     16 |       |     |
+   | Back bezel                        |   10 |    170 |   268 |    145 |   278 | 315 |
+   | Hole in back bezel                |   50 |    180 |   188 |    108 |   238 | 288 |
+   | Left bolt inset                   |   58 |    307 |    10 |     10 |       |     |
+   | Middle bolt inset                 |  133 |    307 |    10 |     10 |       |     |
+   | Right bolt inset                  |  210 |    307 |    10 |     10 |       |     |
+   | Louder solenoid                   |   67 |    288 |    12 |     13 |       |     |
+   | Quieter solenoid                  |   82 |    288 |    12 |     13 |       |     |
+   | Power solenoid                    |   98 |    288 |    12 |     13 |       |     |
+   | USB connector                     |   30 |    204 |    20 |     16 |       |     |
+   | Audio connector                   |   30 |    242 |    20 |     10 |       |     |
+   |-----------------------------------+------+--------+-------+--------+-------+-----|
