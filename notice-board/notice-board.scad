@@ -1,16 +1,19 @@
 // Cork noticeboard with a screen and keyboard embedded in it
 
-total_width = 75;
-total_height = 94;
+total_keypad_width = 75;
+total_keypad_height = 94;
 columns = 4;
 rows = 5;
-key_width = total_width / columns;
-key_height = total_height / rows;
+key_width = total_keypad_width / columns;
+key_height = total_keypad_height / rows;
 key_x_margin = 3;
 key_y_margin = 3;
 
+screen_height = 100;
+screen_width = 165;
+
 module key(y,x) {
-     translate([y * key_height + key_y_margin, x * key_width + key_x_margin])
+     color("green") translate([y * key_height + key_y_margin, x * key_width + key_x_margin])
 	  square([key_height - 2 * key_y_margin, key_width - 2 * key_x_margin]);
 }
 
@@ -20,6 +23,12 @@ module keypad() {
 	       key(i, j);
 	  }
      }
+     square([total_keypad_height, total_keypad_width]);
 }
 
-keypad();
+module screen() {
+     square(screen_height, screen_width);
+}
+
+rotate(90) keypad();
+translate([100,0]) screen();
