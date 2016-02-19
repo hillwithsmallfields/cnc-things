@@ -1,5 +1,5 @@
 // Cork noticeboard with a screen and keyboard embedded in it
-// Time-stamp: <2016-02-19 07:39:05 jcgs>
+// Time-stamp: <2016-02-19 21:57:03 jcgs>
 
 /* The keypad is a cheap generic USB keypad, available from many suppliers */
 
@@ -31,13 +31,15 @@ module key(y,x) {
 }
 
 module keypad() {
-     for (i = [0 : rows - 1]) {
-	  for (j = [0 : columns - 1]) {
-	       key(i, j);
+     difference() {
+	  // todo: rounded corners?
+	  square([total_keypad_height, total_keypad_width]);
+	  for (i = [0 : rows - 1]) {
+	       for (j = [0 : columns - 1]) {
+		    key(i, j);
+	       }
 	  }
      }
-     // todo: rounded corners?
-     square([total_keypad_height, total_keypad_width]);
 }
 
 module screen() {
