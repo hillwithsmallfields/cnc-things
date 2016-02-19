@@ -22,7 +22,7 @@ module moulding() {
 }
 
 length = 3 * 25;
-height = 1 * 25;
+height = 0.75 * 25;
 double_height = height * 2;
 angle = 36;
 
@@ -33,8 +33,16 @@ module support () {
      }
 }
 
-//translate([moulding_a, moulding_a])
-rotate([0,0,-90 + (90 - angle)]) moulding();
+module moulding_in_place () {
+     translate([-3, 0])
+	  rotate([0,0,-90 + (90 - angle)]) moulding();
+}
 
-support();
+difference() {
+     support();
+     
+     moulding_in_place();
+}
+
+// color([1,0,0]) moulding_in_place();
 
