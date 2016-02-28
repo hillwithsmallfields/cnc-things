@@ -30,15 +30,19 @@ module key(y,x) {
 	  square([key_height - 2 * key_y_margin, key_width - 2 * key_x_margin]);
 }
 
+module keys(maxrow, maxcol) {
+     for (i = [0 : maxrow - 1]) {
+	  for (j = [0 : maxcol - 1]) {
+	       key(i, j);
+	  }
+     }
+}
+
 module keypad() {
      difference() {
 	  // todo: rounded corners?
 	  square([total_keypad_height, total_keypad_width]);
-	  for (i = [0 : rows - 1]) {
-	       for (j = [0 : columns - 1]) {
-		    key(i, j);
-	       }
-	  }
+	  keys(rows, columns);
      }
 }
 
