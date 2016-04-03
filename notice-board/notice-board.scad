@@ -1,5 +1,5 @@
 // Cork noticeboard with a screen and keyboard embedded in it
-// Time-stamp: <2016-03-24 21:56:17 jcgs>
+// Time-stamp: <2016-03-28 21:06:51 jcgs>
 
 /* The keypad is a cheap generic USB keypad, available from many suppliers */
 
@@ -11,7 +11,7 @@ rows = 4;
 
 key_width = total_keypad_width / columns;
 key_height = total_keypad_height / rows;
-key_margin = 3;
+key_margin = 1;
 
 /* The screen is a 7" bare LCD with a separate driver board, with no
  * frame or case; like the keypad, it's a generic commodity item */
@@ -81,8 +81,8 @@ module screen_backing() {
 
 
 module main_corkboard_cuts() {
-// translate([0, keypad_x_margin]) keypad();
-     translate([0, keypad_x_margin]) easy_cutting_keypad();
+     translate([0, keypad_x_margin]) keypad();
+     // translate([0, keypad_x_margin]) easy_cutting_keypad();
      translate([total_keypad_height + gap_between_keypad_and_screen, 0]) {
 	  union() {
 	       screen();
@@ -92,5 +92,15 @@ module main_corkboard_cuts() {
      }
 }
 
-scale([1,-1]) main_corkboard_cuts();
-// screen_backing();
+// scale([1,-1])
+// main_corkboard_cuts();
+/* translate([screen_height * 2.25, 0]) { */
+/*      union () { */
+/* 	  screen_backing(); */
+/* 	  translate([screen_height * 1.2, 0]) screen_backing(); */
+/*      } */
+/* } */
+
+keypad();
+
+
