@@ -1,7 +1,14 @@
 // Cork noticeboard with a screen and keyboard embedded in it
-// Time-stamp: <2016-03-28 21:06:51 jcgs>
+// Time-stamp: <2016-04-06 07:02:59 jcgs>
 
-/* The keypad is a cheap generic USB keypad, available from many suppliers */
+total_width = 75;
+total_height = 94;
+columns = 4;
+rows = 5;
+key_width = total_width / columns;
+key_height = total_height / rows;
+key_x_margin = 3;
+key_y_margin = 3;
 
 /* I'm using the keypad rotated to landscape, so I've described it ready-rotated */
 total_keypad_width = 94;
@@ -88,7 +95,6 @@ module main_corkboard_cuts() {
 	       screen();
 	       screen_ribbon_cutout();
 	  }
-	  translate([(screen_height - camera_height) / 2, screen_width + gap_between_camera_and_screen]) camera();
      }
 }
 
@@ -102,5 +108,3 @@ module main_corkboard_cuts() {
 /* } */
 
 keypad();
-
-
