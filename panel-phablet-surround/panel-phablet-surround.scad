@@ -25,12 +25,48 @@ total_top_and_bottom_margins_of_back_bezel = height_of_back_bezel - tablet_heigh
 left_side_of_hole_in_back_bezel = total_back_bezel_side_margins / 2;
 right_side_of_hole_in_back_bezel = left_side_of_hole_in_back_bezel + tablet_width;
 bottom_of_hole_in_back_bezel = 10;
+top_of_hole_in_back_bezel = bottom_of_hole_in_back_bezel + tablet_height;
 
 /* Front bezel */
 
 height_of_front_bezel = 150;
 screen_offset_from_bottom_of_front_bezel = 10;
 screen_offset_from_side_of_front_bezel = 56;
+
+/* Buttons */
+
+button_radius = 7.5;
+button_spacing = 30;
+
+bottom_button_y = 30;
+middle_button_y = bottom_button_y + button_spacing;
+top_button_y = middle_button_y + button_spacing;
+
+left_button_x = 30;
+right_button_x = overall_width - 13;
+
+/* Solenoids */
+
+solenoid_height = 10;
+solenoid_width = 15;
+left_solenoid_offset = 15;
+middle_solenoid_offset = 40;
+right_solenoid_offset = 55;
+
+/* Shapes */
+
+module button(y, x) {
+     translate([y,x]) circle(r=button_radius, center=true);
+}
+
+module buttons() {
+	  button(bottom_button_y, left_button_x);
+	  button(middle_button_y, left_button_x);
+	  button(top_button_y, left_button_x);
+	  button(bottom_button_y, right_button_x);
+	  button(middle_button_y, right_button_x);
+	  button(top_button_y, right_button_x);
+}
 
 module rounded_square(height, width, corner_radius) {
      union() {
@@ -46,6 +82,12 @@ module rounded_square(height, width, corner_radius) {
 module hole_for_tablet() {
      translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
 	  rounded_square(tablet_height, tablet_width, tablet_corner_radius);
+     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + left_solenoid_offset])
+	  square([solenoid_height, solenoid_width]);
+     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + middle_solenoid_offset])
+	  square([solenoid_height, solenoid_width]);
+     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + right_solenoid_offset])
+	  square([solenoid_height, solenoid_width]);
 }
 
 module hole_for_screen() {
@@ -57,6 +99,7 @@ module back_bezel() {
      difference() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
+	  buttons();
      }
 }
 
@@ -64,6 +107,7 @@ module front_bezel() {
      difference() {
 	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
 	  hole_for_screen();
+	  buttons();
      }
 }
 
