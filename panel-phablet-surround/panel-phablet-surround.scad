@@ -9,8 +9,8 @@ minimum_cutting_radius = 3;
 
 /* The tablet */
 
-tablet_width = 188;
-tablet_height = 108;
+tablet_width = 190;
+tablet_height = 110;
 
 screen_width = 156;
 screen_height = 88;
@@ -47,10 +47,10 @@ right_button_x = overall_width - 13;
 
 /* Solenoids */
 
-solenoid_height = 10;
-solenoid_width = 15;
+solenoid_height = 12;
+solenoid_width = 16;
 left_solenoid_offset = 15;
-middle_solenoid_offset = 40;
+middle_solenoid_offset = 30;
 right_solenoid_offset = 55;
 
 /* Shapes */
@@ -92,7 +92,7 @@ module hole_for_tablet() {
 
 module hole_for_screen() {
      translate([screen_offset_from_bottom_of_front_bezel, screen_offset_from_side_of_front_bezel])
-	  rounded_square(tablet_height, tablet_width, minimum_cutting_radius);
+	  rounded_square(screen_height, screen_width, minimum_cutting_radius);
 }
 
 module back_bezel() {
