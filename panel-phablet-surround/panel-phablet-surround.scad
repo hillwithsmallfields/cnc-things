@@ -38,12 +38,12 @@ screen_offset_from_side_of_front_bezel = 56;
 button_radius = 7.5;
 button_spacing = 30;
 
-bottom_button_y = 30;
+bottom_button_y = 70;
 middle_button_y = bottom_button_y + button_spacing;
 top_button_y = middle_button_y + button_spacing;
 
 left_button_x = 30;
-right_button_x = overall_width - 13;
+right_button_x = overall_width - 26;
 
 /* Solenoids */
 
@@ -52,6 +52,18 @@ solenoid_width = 16;
 left_solenoid_offset = 15;
 middle_solenoid_offset = 30;
 right_solenoid_offset = 55;
+
+/* Connections */
+
+usb_bottom = bottom_of_hole_in_back_bezel + 22;
+usb_height = 14;
+usb_right = left_side_of_hole_in_back_bezel;
+usb_width = 16;
+
+audio_top = top_of_hole_in_back_bezel - 28;
+audio_height = 10;
+audio_bottom = audio_top - audio_height;
+audio_width = 20;
 
 /* Shapes */
 
@@ -63,6 +75,7 @@ module buttons() {
 	  button(bottom_button_y, left_button_x);
 	  button(middle_button_y, left_button_x);
 	  button(top_button_y, left_button_x);
+
 	  button(bottom_button_y, right_button_x);
 	  button(middle_button_y, right_button_x);
 	  button(top_button_y, right_button_x);
@@ -90,6 +103,14 @@ module hole_for_tablet() {
 	  square([solenoid_height, solenoid_width]);
 }
 
+module hole_for_usb() {
+     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_width]) square([usb_height, usb_width]);
+}
+
+module hole_for_audio() {
+     translate([audio_bottom, left_side_of_hole_in_back_bezel - audio_width]) square([audio_height, audio_width]);
+}
+
 module hole_for_screen() {
      translate([screen_offset_from_bottom_of_front_bezel, screen_offset_from_side_of_front_bezel])
 	  rounded_square(screen_height, screen_width, minimum_cutting_radius);
@@ -100,6 +121,8 @@ module back_bezel() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
 	  buttons();
+	  hole_for_usb();
+	  hole_for_audio();
      }
 }
 
