@@ -36,14 +36,21 @@ screen_offset_from_side_of_front_bezel = 56;
 /* Buttons */
 
 button_radius = 7.5;
-button_spacing = 30;
 
-bottom_button_y = 70;
-middle_button_y = bottom_button_y + button_spacing;
-top_button_y = middle_button_y + button_spacing;
-
+middle_button_y = 100;
+left_bottom_button_y = middle_button_y - 22;
+left_top_button_y = middle_button_y + 19;
+right_bottom_button_y = middle_button_y - 21;
+right_top_button_y = middle_button_y + 18;
+     
 left_button_x = 30;
 right_button_x = overall_width - 26;
+
+/* Cutout for adjacent meter */
+
+meter_diameter = 52;
+meter_radius = meter_diameter / 2;
+meter_offset = meter_radius - 8;
 
 /* Solenoids */
 
@@ -72,16 +79,17 @@ module button(y, x) {
 }
 
 module buttons() {
-	  button(bottom_button_y, left_button_x);
+	  button(left_bottom_button_y, left_button_x);
 	  button(middle_button_y, left_button_x);
-	  button(top_button_y, left_button_x);
+	  button(left_top_button_y, left_button_x);
 
-	  button(bottom_button_y, right_button_x);
+	  button(right_bottom_button_y, right_button_x);
 	  button(middle_button_y, right_button_x);
-	  button(top_button_y, right_button_x);
+	  button(right_top_button_y, right_button_x);
 }
 
 module rounded_square(height, width, corner_radius) {
+     /* Note: this can be done more neatly with https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#minkowski */
      union() {
 	  translate([0,corner_radius]) square([height, width - 2 * corner_radius]);
 	  translate([corner_radius,0]) square([height - 2 * corner_radius, width]);
@@ -103,6 +111,10 @@ module hole_for_tablet() {
 	  square([solenoid_height, solenoid_width]);
 }
 
+module adjacent_meter_cutout() {
+     translate([middle_button_y, overall_width + meter_offset]) circle(r=meter_radius, center=true);
+}
+	  
 module hole_for_usb() {
      translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_width]) square([usb_height, usb_width]);
 }
@@ -121,6 +133,7 @@ module back_bezel() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
 	  buttons();
+	  adjacent_meter_cutout();
 	  hole_for_usb();
 	  hole_for_audio();
      }
@@ -131,6 +144,7 @@ module front_bezel() {
 	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
 	  hole_for_screen();
 	  buttons();
+	  adjacent_meter_cutout();
      }
 }
 
