@@ -11,19 +11,19 @@ shackle_diameter = 22;
 
 rack_diameter = 8;		/* TODO: measure this */
 
-bolt_diameter = 6;
+bolt_outer_diameter = 6;
+bolt_inner_diameter = 5;
 bolt_length = 20;
 
-/* bolt holes TODO: fix the position, move into the "difference", also do them for the endpiece */
-module bolt_holes() {
+module bolt_holes(hole_diameter) {
      rotate([0,0,45]) {
 	  translate([block_radius/2,0,0]) {
-	       cylinder(h = bolt_length, r = bolt_diameter / 2, $fn = 360);
+	       cylinder(h = bolt_length, r = hole_diameter / 2, $fn = 360);
 	  }
      }
      rotate([0,0,45 + 180]) {
 	  translate([block_radius/2,0,0]) {
-	       cylinder(h = bolt_length, r = bolt_diameter / 2, $fn = 360);
+	       cylinder(h = bolt_length, r = hole_diameter / 2, $fn = 360);
 	  }
      }
 }
@@ -44,7 +44,7 @@ module block() {
 		    cylinder(h = block_diameter * 2, r = rack_diameter / 2, center = true, $fn = 360);
 	       }
 	  }
-	  translate([0,0,(block_length)/-2]) bolt_holes();
+	  translate([0,0,(block_length)/-2]) bolt_holes(bolt_inner_diameter);
      }
 
      /* endpiece */
@@ -58,7 +58,7 @@ module block() {
 		    }
 	       }
 	       translate([0,0,-bolt_length/2]) {
-		    bolt_holes();
+		    bolt_holes(bolt_outer_diameter);
 	       }
 	  }
      }
