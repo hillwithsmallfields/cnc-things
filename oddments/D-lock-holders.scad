@@ -15,20 +15,20 @@ bolt_outer_diameter = 6;
 bolt_inner_diameter = 5;
 bolt_length = 20;
 
-module bolt_holes(hole_diameter) {
-     rotate([0,0,45]) {
+module bolt_holes(twist, hole_diameter) {
+     rotate([0,0,twist]) {
 	  translate([block_radius/2,0,0]) {
 	       cylinder(h = bolt_length, r = hole_diameter / 2, $fn = 360);
 	  }
      }
-     rotate([0,0,45 + 180]) {
+     rotate([0,0,twist + 180]) {
 	  translate([block_radius/2,0,0]) {
 	       cylinder(h = bolt_length, r = hole_diameter / 2, $fn = 360);
 	  }
      }
 }
 
-module block() {
+module block(twist) {
      /* main block */
      difference() {
 	  cylinder(h = main_block_length, r = block_radius, center = true, $fn = 360);
@@ -40,11 +40,11 @@ module block() {
 	  }
 	  /* the hole for the rack */
 	  translate([0, 0, (main_block_length) / -2]) {
-	       rotate([90,0,45]) {
+	       rotate([90,0,twist]) {
 		    cylinder(h = block_diameter * 2, r = rack_diameter / 2, center = true, $fn = 360);
 	       }
 	  }
-	  translate([0,0,(block_length)/-2]) bolt_holes(bolt_inner_diameter);
+	  translate([0,0,(block_length)/-2]) bolt_holes(twist, bolt_inner_diameter);
      }
 
      /* endpiece */
@@ -53,15 +53,29 @@ module block() {
 	       cylinder(h = endpiece, r = block_radius, center = true, $fn = 360);
 	       /* the hole for the rack */
 	       translate([0, 0, endpiece / 2]) {
-		    rotate([90,0,45]) {
+		    rotate([90,0,twist]) {
 			 cylinder(h = block_diameter * 2, r = rack_diameter / 2, center = true, $fn = 360);
 		    }
 	       }
 	       translate([0,0,-bolt_length/2]) {
-		    bolt_holes(bolt_outer_diameter);
+		    bolt_holes(twist, bolt_outer_diameter);
 	       }
 	  }
      }
 }
-     
-block();
+
+front_twist = 75;
+
+block(front_twist);
+rotate([0,0,front_twist]) translate([0,100,0]) rotate([0,0,-front_twist]) block(front_twist);
+rotate([90,0,180+front_twist]) translate([0,-35,-50]) color("black") cylinder(h = 200, r = rack_diameter / 2, , $fn = 360);
+
+back_twist = -75;
+
+translate([0,120,0]) {
+     block(back_twist);
+     rotate([0,0,back_twist]) translate([0,-100,0]) rotate([0,0,75]) block(back_twist /* this last one works only for one angle, I think*/);
+     rotate([90,0,back_twist]) translate([0,-35,-50]) color("black") cylinder(h = 200, r = rack_diameter / 2, $fn = 360);
+}
+
+
