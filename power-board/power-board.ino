@@ -26,6 +26,52 @@
    to power the backlight of the display, usually on pin 15 and 16 of
    the LCD connector */
 
+/*
+    Arduino pinout:
+
+    |-----+-----------+--------------------------------|
+    | pin | direction | function                       |
+    |-----+-----------+--------------------------------|
+    | A0  | in        | voltage                        |
+    | A1  | in        | alternator current             |
+    | A2  | in        | vehicle current                |
+    | A3  | in        |                                |
+    | D01 | out       | warning LED                    |
+    | D02 | in        | button A                       |
+    | D03 | in        | button B                       |
+    | D04 | out       | LCD pin 5                      |
+    | D05 | out       | LCD pin 4                      |
+    | D06 | out       | LCD pin 3                      |
+    | D07 | out       | LCD pin 2                      |
+    | D10 | both      | onewire to temperature sensors |
+    | D11 | out       | LCD enable                     |
+    | D12 | out       | LCD RS                         |
+    | D13 |           |                                |
+    |-----+-----------+--------------------------------|
+
+    LCD cable:
+
+    |-----+---------------------------------|
+    | pin | function                        |
+    |-----+---------------------------------|
+    |   1 | 0v                              |
+    |   2 | 5v to LCD                       |
+    |   3 | 12V back from switch on LCD box |
+    |   4 | LCD pin 5                       |
+    |   5 | LCD pin 4                       |
+    |   6 | LCD pin 3                       |
+    |   7 | LCD pin 2                       |
+    |   8 | LCD enable                      |
+    |   9 | LCD RS                          |
+    |  10 | warning LED                     |
+    |  11 | button A                        |
+    |  12 | button B                        |
+    |  13 | serial out                      |
+    |  14 |                                 |
+    |  15 | 12V to switch on LCD box        |
+    |-----+---------------------------------|
+*/
+
 /*******/
 /* LCD */
 /*******/
