@@ -4,10 +4,10 @@ board_thickness = 9;
 board_height = 200;
 board_width = 100;
 
-sensor_height = 36;		/* todo: measure */
-sensor_width = 20;		/* todo: measure */
+sensor_height = 40;		/* todo: measure */
+sensor_width = 30;		/* todo: measure */
 sensor_bolt_spacing = 20;	/* todo: measure */
-sensor_bolt_x_offset = 6;	/* todo: measure */
+sensor_bolt_x_offset = 7;	/* todo: measure */
 sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
 
 sensor_base_depth = 3;
