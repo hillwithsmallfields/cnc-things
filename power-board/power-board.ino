@@ -29,47 +29,49 @@
 /*
     Arduino pinout:
 
-    |-----+-----------+--------------------------------|
-    | pin | direction | function                       |
-    |-----+-----------+--------------------------------|
-    | A0  | in        | voltage                        |
-    | A1  | in        | alternator current             |
-    | A2  | in        | vehicle current                |
-    | A3  | in        |                                |
-    | D01 | out       | warning LED                    |
-    | D02 | in        | button A                       |
-    | D03 | in        | button B                       |
-    | D04 | out       | LCD pin 5                      |
-    | D05 | out       | LCD pin 4                      |
-    | D06 | out       | LCD pin 3                      |
-    | D07 | out       | LCD pin 2                      |
-    | D10 | both      | onewire to temperature sensors |
-    | D11 | out       | LCD enable                     |
-    | D12 | out       | LCD RS                         |
-    | D13 |           |                                |
-    |-----+-----------+--------------------------------|
+    |-----+-----------+-------+-----+--------------------------------|
+    | pin | direction | cable | LCD | function                       |
+    |-----+-----------+-------+-----+--------------------------------|
+    | A0  | in        |       |     | voltage                        |
+    | A1  | in        |       |     | alternator current             |
+    | A2  | in        |       |     | vehicle current                |
+    | A3  | in        |       |     |                                |
+    | D01 |           |       |     |                                |
+    | D02 |           |       |     |                                |
+    | D03 | in        |    10 |     | button A                       |
+    | D04 | in        |    11 |     | button B                       |
+    | D05 | out       |     3 |  11 | LCD pin 4                      |
+    | D06 | out       |     4 |  12 | LCD pin 5                      |
+    | D07 | out       |     5 |  13 | LCD pin 6                      |
+    | D08 | out       |     6 |  14 | LCD pin 7                      |
+    | D09 |           |       |     |                                |
+    | D10 | both      |       |     | onewire to temperature sensors |
+    | D11 | out       |     7 |   6 | LCD enable                     |
+    | D12 | out       |     8 |   4 | LCD RS                         |
+    | D13 | out       |     2 |     | warning LED                    |
+    |-----+-----------+-------+-----+--------------------------------|
 
     LCD cable:
 
-    |-----+---------------------------------|
-    | pin | function                        |
-    |-----+---------------------------------|
-    |   1 | 0v                              |
-    |   2 | 5v to LCD                       |
-    |   3 | 12V back from switch on LCD box |
-    |   4 | LCD pin 5                       |
-    |   5 | LCD pin 4                       |
-    |   6 | LCD pin 3                       |
-    |   7 | LCD pin 2                       |
-    |   8 | LCD enable                      |
-    |   9 | LCD RS                          |
-    |  10 | warning LED                     |
-    |  11 | button A                        |
-    |  12 | button B                        |
-    |  13 | serial out                      |
-    |  14 |                                 |
-    |  15 | 12V to switch on LCD box        |
-    |-----+---------------------------------|
+    |-------+-----+---------------------------------|
+    | cable | LCD | function                        |
+    |-------+-----+---------------------------------|
+    |     1 |   1 | 0v                              |
+    |     2 |     | warning LED                     |
+    |     3 |  11 | LCD pin 4                       |
+    |     4 |  12 | LCD pin 5                       |
+    |     5 |  13 | LCD pin 6                       |
+    |     6 |  14 | LCD pin 7                       |
+    |     7 |   6 | LCD enable                      |
+    |     8 |   4 | LCD RS                          |
+    |     9 |     | serial out                      |
+    |    10 |     | serial in                       |
+    |    11 |     | button A                        |
+    |    12 |     | button B                        |
+    |    13 |   2 | 5v to LCD                       |
+    |    14 |     | 12V back from switch on LCD box |
+    |    15 |     | 12V to switch on LCD box        |
+    |-------+-----+---------------------------------|
 */
 
 /*******/
@@ -77,7 +79,7 @@
 /*******/
 
 //initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(12, 11, 5, 6, 7, 8);
 #define LCD_WIDTH 20
 #define LCD_HEIGHT 2
 
