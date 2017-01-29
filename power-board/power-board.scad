@@ -25,7 +25,13 @@ arduino_height = 1.3 * 25.4;
 arduino_width = 0.7 * 25.4;
 
 arduino_x_position = board_width - (arduino_width + 25);
-arduino_y_position = 25;
+arduino_y_position = 25; 
+
+ubec_height = 1.3 * 25.4;
+ubec_width = 0.7 * 25.4;
+
+ubec_x_position = board_width - (ubec_width + 25);
+ubec_y_position = 100;
 
 bolt_length = 20;
 bolt_diameter = 6;		/* todo: measure */
@@ -35,9 +41,6 @@ bolt_head_diameter = 10;	/* todo: measure */
 cable_width = board_thickness;
 
 mounting_hole_offset = 15;
-
-tab_thickness = 5;
-tab_inset = 5;
 
 module one_board()
 {
@@ -79,6 +82,11 @@ module arduino_cutout()
      cube(size=[arduino_width, arduino_height, board_thickness]);
 }
 
+module ubec_cutout()
+{
+     cube(size=[ubec_width, ubec_height, board_thickness]);
+}
+
 module base_board()
 {
      one_board();
@@ -110,12 +118,7 @@ module holes_board(hole_size, with_wires)
 
 module lower_board()
 {
-     union() {
-	  holes_board(bolt_head_diameter, true);
-	  translate([tab_inset, 0, 0]) {
-	  cube([tab_thickness, board_height, board_thickness]);
-	  }
-	  }
+     holes_board(bolt_head_diameter, true);
 }
 
 module middle_board()
@@ -129,6 +132,7 @@ module upper_board()
 	  one_board();
 	  translate([diode_input_x, diode_input_y]) {
 	       bolt_cutout();
+	       /* todo: cutout for diode */
 	       translate([0, -diode_length]) {
 		    sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
@@ -139,6 +143,7 @@ module upper_board()
 	       }
 	  }
 	  translate([arduino_x_position, arduino_y_position]) arduino_cutout();
+	  translate([ubec_x_position, ubec_y_position]) ubec_cutout();
      }
 }
 
