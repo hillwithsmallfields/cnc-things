@@ -254,13 +254,10 @@ void loop(void)
   lcd.setCursor(0, 0);
   lcd.print(buf);
 
+  /* todo: show all the temperatures */
   sprintf(buf, "%c %d", temperature_flags[0], temperatures[0]);
   lcd.setCursor(0,1);
   lcd.print(buf);
-
-  /* sprintf(buf, "%d: %d", next_sensor, temperatures[next_sensor]); */
-  /* lcd.setCursor(0, 1); */
-  /* lcd.print(buf); */
 
   /* todo: put the warning light on if any temperature is too high */
 }
