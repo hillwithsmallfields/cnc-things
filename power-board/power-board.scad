@@ -49,12 +49,9 @@ module one_board()
      }
 }
 
-module bolt_cutout()
+module bolt_cutout(size)
 {
-     union() {
-	  cylinder(h=bolt_head_thickness, r=bolt_head_diameter/2, center=true);
-	  translate([0,0,bolt_head_thickness]) cylinder(h=bolt_length, r=bolt_diameter/2, center=true);
-     }
+     cylinder(h=board_thickness, r=size/2, center=true);
 }
 
 module sensor_cutout()
@@ -73,31 +70,41 @@ module base_board()
      one_board();
 }
 
-module lower_board()
+module holes_board(hole_size)
 {
      difference() {
 	  one_board();
 	  translate([diode_input_x, diode_input_y]) {
-	       bolt_cutout();
+	       bolt_cutout(hole_size);
 	       translate([0, -diode_length]) {
-		    bolt_cutout();
-		    translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
+		    bolt_cutout(hole_size);
+		    // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
-			 bolt_cutout();
+			 bolt_cutout(hole_size);
 			 translate([0,-gap_between_sensors]) {
-			      bolt_cutout();
-			      translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
+			      bolt_cutout(hole_size);
+			      // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 			      translate([0, -sensor_bolt_spacing]) {
-				   bolt_cutout();
+				   bolt_cutout(hole_size);
 			      }
 			 }
 		    }
 	       }
 	  }
      }
+     }
+
+module lower_board()
+{
+     holes_board(bolt_head_diameter);
 }
 
 module middle_board()
+{
+     holes_board(bolt_diameter);
+}
+
+module upper_board()
 {
      difference() {
 	  one_board();
@@ -114,11 +121,6 @@ module middle_board()
 	  }
 	  translate([arduino_x_position, arduino_y_position]) arduino_cutout();
      }
-}
-
-module upper_board()
-{
-     one_board();
 }
 
 base_board();
