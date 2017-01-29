@@ -32,7 +32,12 @@ bolt_diameter = 6;		/* todo: measure */
 bolt_head_thickness = 5;	/* todo: measure */
 bolt_head_diameter = 10;	/* todo: measure */
 
+cable_width = board_thickness;
+
 mounting_hole_offset = 15;
+
+tab_thickness = 5;
+tab_inset = 5;
 
 module one_board()
 {
@@ -49,9 +54,18 @@ module one_board()
      }
 }
 
-module bolt_cutout(size)
+module bolt_cutout(size, with_wire)
 {
-     cylinder(h=board_thickness, r=size/2, center=true);
+     union() {
+	  cylinder(h=board_thickness*2, r=size/2, center=true);
+	  if (with_wire) {
+	       translate([0, cable_width/2, 0]) {
+		    rotate([0,0,180]) {
+			 cube(size=[board_width, cable_width, board_thickness]);
+		    }
+	       }
+	  }
+     }
 }
 
 module sensor_cutout()
@@ -70,22 +84,22 @@ module base_board()
      one_board();
 }
 
-module holes_board(hole_size)
+module holes_board(hole_size, with_wires)
 {
      difference() {
 	  one_board();
 	  translate([diode_input_x, diode_input_y]) {
-	       bolt_cutout(hole_size);
+	       bolt_cutout(hole_size, with_wires);
 	       translate([0, -diode_length]) {
-		    bolt_cutout(hole_size);
+		    bolt_cutout(hole_size, false);
 		    // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
-			 bolt_cutout(hole_size);
+			 bolt_cutout(hole_size, with_wires);
 			 translate([0,-gap_between_sensors]) {
-			      bolt_cutout(hole_size);
+			      bolt_cutout(hole_size, with_wires);
 			      // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 			      translate([0, -sensor_bolt_spacing]) {
-				   bolt_cutout(hole_size);
+				   bolt_cutout(hole_size, with_wires);
 			      }
 			 }
 		    }
@@ -96,12 +110,17 @@ module holes_board(hole_size)
 
 module lower_board()
 {
-     holes_board(bolt_head_diameter);
+     union() {
+	  holes_board(bolt_head_diameter, true);
+	  translate([tab_inset, 0, 0]) {
+	  cube([tab_thickness, board_height, board_thickness]);
+	  }
+	  }
 }
 
 module middle_board()
 {
-     holes_board(bolt_diameter);
+     holes_board(bolt_diameter, false);
 }
 
 module upper_board()
