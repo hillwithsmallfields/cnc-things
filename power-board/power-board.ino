@@ -79,8 +79,19 @@
 /*******/
 
 //initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 11, 5, 6, 7, 8);
-#define LCD_WIDTH 20
+// Suggested:
+// LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+// Actual:
+
+#define LCD_enable 5
+#define LCD_RS 6
+#define LCD_D4 7
+#define LCD_D5 8
+#define LCD_D6 11
+#define LCD_D7 12
+
+LiquidCrystal lcd(LCD_enable, LCD_RS, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+#define LCD_WIDTH 16
 #define LCD_HEIGHT 2
 
 /**********/
@@ -91,6 +102,8 @@ int chargingCurrentPin = A0;
 int systemCurrentPin = A1;
 int voltagePin = A2;
 
+int voltageScale = 1;
+
 /****************************/
 /* DS18S20 Temperature chip */
 /****************************/
@@ -98,7 +111,13 @@ int voltagePin = A2;
 #define MAX_DS1820_SENSORS 4
 
 OneWire  ds(9);  // on pin 9
-byte addr[MAX_DS1820_SENSORS][8];
+byte addrs[MAX_DS1820_SENSORS][8];
+
+int sensors_found = 0;
+
+int temperatures[MAX_DS1820_SENSORS];
+char temperature_flags[MAX_DS1820_SENSORS];
+int temperature_bits = 0;
 
 /***************/
 /* Warning LED */
@@ -106,35 +125,53 @@ byte addr[MAX_DS1820_SENSORS][8];
 
 int warningLED = 13;
 
+/********************/
+/* Message building */
+/********************/
+
+char buf[32];
+
 /*************/
 /* Functions */
 /*************/
 
 void setup(void)
 {
-  lcd.begin(LCD_WIDTH, LCD_HEIGHT,1);
+  lcd.begin(LCD_HEIGHT, LCD_WIDTH);
 
   pinMode(warningLED, OUTPUT);
 
   lcd.setCursor(0,0);
-  lcd.print("DS1820 Test");
-  int sensor;
-  for (sensor = 0; sensor < MAX_DS1820_SENSORS; sensor++) {
-    if (!ds.search(addr[sensor])) {
-	lcd.setCursor(0,0);
-	lcd.print("No more addresses.");
-	ds.reset_search();
-	delay(250);
-	return;
+  for (sensors_found = 0; sensors_found < MAX_DS1820_SENSORS; sensors_found++) {
+    ds.reset_search();
+    if (!ds.search(addrs[sensors_found])) {
+      lcd.setCursor(0,0);
+      sprintf(buf, "max addr %d", sensors_found);
+      lcd.print(buf);
+      ds.reset_search();
+    } else {
+      switch (addrs[sensors_found][0]) {
+      case 0X10: temperature_bits = 9;
+        break;
+      case 0X28: temperature_bits = 12;
+        break;
+      default: temperature_bits = 0;
+        lcd.setCursor(0,1);
+        sprintf(buf, "Wrong device %d", sensors_found);
+        lcd.print(buf);
+        temperature_flags[sensors_found] = 'D';
+        break;
       }
+    }
   }
+  sprintf(buf, "%d sensors", sensors_found);
+  lcd.setCursor(0,1);
+  lcd.print(buf);
 }
-
-int temperatures[MAX_DS1820_SENSORS];
 
 int next_sensor = 0;
 
-char buf[32];
+int loop_count = 0;
 
 void loop(void)
 {
@@ -146,57 +183,84 @@ void loop(void)
   int voltage;
 
   int TReading;
-  if (OneWire::crc8( addr[next_sensor], 7) != addr[next_sensor][7]) {
-    lcd.setCursor(0,0);
-    lcd.print("CRC is not valid");
-    return;
+
+  delay(1000);                      // maybe 750ms is enough, maybe not
+
+  if (OneWire::crc8(addrs[next_sensor], 7) != addrs[next_sensor][7]) {
+    /* lcd.setCursor(0,0); */
+    /* lcd.print("CRC is not valid"); */
+    temperature_flags[next_sensor] = 'C';
+  } else {
+      temperature_flags[next_sensor] = 'D';
+
+    if (temperature_bits == 0) {
+    } else {
+      ds.reset();
+      ds.select(addrs[next_sensor]);
+      ds.write(0x44,1); // start conversion, with parasite power on at the end
+
+      /* todo: http://playground.arduino.cc/Learning/OneWire says how
+         to start all converting at the same time:
+
+         Multiple-device commands
+
+         Alternatively, you can address a command to all slave devices
+         by issuing a 'Skip ROM' command (0xCC), instead. It is
+         important to consider the effects of issuing a command to
+         multiple devices. Sometimes, this may be intended and
+         beneficial. For example, issuing a Skip ROM followed by a
+         convert T (0x44) would instruct all networked devices that
+         have a Convert T command to perform a temperature
+         conversion. This can be a time-saving and efficient way of
+         performing the operations. On the other hand, issuing a Read
+         Scratchpad (0xBE) command would cause all devices to report
+         Scratchpad data simultaneously. Power consumption of all
+         devices (for example, during a temperature conversion) is
+         also important when using a Skip ROM command sequence. */
+
+      // we might do a ds.depower() here, but the reset will take care of it.
+
+      present = ds.reset();
+      ds.select(addrs[next_sensor]);
+      ds.write(0xBE);           // Read Scratchpad
+
+      for ( i = 0; i < 9; i++) {        // we need 9 bytes
+        data[i] = ds.read();
+      }
+
+      TReading = (data[1] << 8) + data[0];
+      if (TReading & 0x8000) {          // negative
+        TReading = (TReading ^ 0xffff) + 1; // 2's comp
+      }
+
+      temperatures[next_sensor] = TReading / 16;
+      temperature_flags[next_sensor] = 'V';
+    }
   }
-
-  if ( addr[next_sensor][0] != 0x10) {
-    lcd.setCursor(0,0);
-    lcd.print("Device is not a DS18S20 family device.");
-    return;
-  }
-
-  ds.reset();
-  ds.select(addr[next_sensor]);
-  ds.write(0x44,1); // start conversion, with parasite power on at the end
-
-  delay(1000);			// maybe 750ms is enough, maybe not
-  // we might do a ds.depower() here, but the reset will take care of it.
-
-  present = ds.reset();
-  ds.select(addr[next_sensor]);
-  ds.write(0xBE);		// Read Scratchpad
-
-  for ( i = 0; i < 9; i++) {	// we need 9 bytes
-    data[i] = ds.read();
-  }
-
-  TReading = (data[1] << 8) + data[0];
-  if (TReading & 0x8000) {		// negative
-    TReading = (TReading ^ 0xffff) + 1; // 2's comp
-  }
-
-  temperatures[next_sensor] = TReading*100/2;
-
-  chargingCurrent = analogRead(chargingCurrentPin);
-  systemCurrent = analogRead(systemCurrentPin);
-  voltage = analogRead(voltagePin);
-
-  sprintf(buf, "%dV %dA %dA", voltagePin, chargingCurrent, systemCurrent);
-  lcd.setCursor(0, 0);
-  lcd.print(buf);
-  
-  sprintf(buf, "%d: %d", next_sensor, temperatures[next_sensor]);
-  lcd.setCursor(0, 1);
-  lcd.print(buf);
-
-  /* todo: put the warning light on if any temperature is too high */
-  
   next_sensor++;
-  if (next_sensor >= sensor<MAX_DS1820_SENSORS) {
+  if (next_sensor >= sensors_found) {
     next_sensor = 0;
   }
 
+  chargingCurrent = (int)((analogRead(chargingCurrentPin) - 512) / 5.12);
+  systemCurrent = (int)((analogRead(systemCurrentPin) - 512) / 5.12);
+  voltage = analogRead(voltagePin) / voltageScale;
+
+  lcd.clear();
+  sprintf(buf, "%2dV %2dA, %2dA=%2dA",
+	  voltagePin,
+	  chargingCurrent, systemCurrent,
+	  chargingCurrent - systemCurrent);
+  lcd.setCursor(0, 0);
+  lcd.print(buf);
+
+  sprintf(buf, "%c %d", temperature_flags[0], temperatures[0]);
+  lcd.setCursor(0,1);
+  lcd.print(buf);
+
+  /* sprintf(buf, "%d: %d", next_sensor, temperatures[next_sensor]); */
+  /* lcd.setCursor(0, 1); */
+  /* lcd.print(buf); */
+
+  /* todo: put the warning light on if any temperature is too high */
 }
