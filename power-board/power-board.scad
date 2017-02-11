@@ -13,6 +13,11 @@ sensor_bolt_spacing = 29;
 sensor_bolt_x_offset = 7;
 sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
 
+sensor_board_wires_start = 10;
+sensor_board_wires_end = 20;
+sensor_board_wires_inset = 5;
+sensor_board_wires_length = 20;
+
 sensor_base_depth = 3;
 
 gap_between_sensors = 25;
@@ -22,7 +27,11 @@ diagram_spacing = 75;
 diode_input_x = 25;
 diode_input_y = board_height - 45;
 
-diode_length = 27;
+diode_bolt_spacing = 27;
+diode_top_bolt_offset = 7.5;
+
+diode_length = 42;
+diode_width = 16;
 
 arduino_height = 1.4 * 25.4;
 arduino_width = 0.8 * 25.4;
@@ -76,6 +85,13 @@ module bolt_cutout(size, with_wire)
      }
 }
 
+module diode_cutout()
+{
+     translate([-diode_width / 2, - (diode_length - diode_top_bolt_offset)]) {
+	  cube(size=[diode_width, diode_length, board_thickness]);
+     }
+}
+
 module sensor_cutout()
 {
      translate([-sensor_bolt_x_offset, -sensor_height+sensor_bolt_y_offset])
@@ -103,7 +119,7 @@ module holes_board(hole_size, with_wires)
 	  one_board();
 	  translate([diode_input_x, diode_input_y]) {
 	       bolt_cutout(hole_size, with_wires);
-	       translate([0, -diode_length]) {
+	       translate([0, -diode_bolt_spacing]) {
 		    bolt_cutout(hole_size, false);
 		    // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
@@ -128,7 +144,17 @@ module lower_board()
 
 module middle_board()
 {
-     holes_board(bolt_diameter, false);
+     difference() {
+	  holes_board(bolt_diameter, false);
+	  /* todo: neither of these positions is right */
+	  translate([(diode_input_x - sensor_bolt_x_offset) + sensor_width - sensor_board_wires_inset,
+		     (diode_input_y - diode_bolt_spacing) + sensor_bolt_y_offset - sensor_board_wires_end]) {
+	       cube(size=[sensor_board_wires_length, sensor_board_wires_end - sensor_board_wires_start, board_thickness]);
+	       translate([0, -gap_between_sensors]) {
+		    cube(size=[sensor_board_wires_length, sensor_board_wires_end - sensor_board_wires_start, board_thickness]);
+	       }
+	  }
+     }
 }
 
 module upper_board()
@@ -137,8 +163,8 @@ module upper_board()
 	  one_board();
 	  translate([diode_input_x, diode_input_y]) {
 	       bolt_cutout();
-	       /* todo: cutout for diode */
-	       translate([0, -diode_length]) {
+	       diode_cutout();
+	       translate([0, -diode_bolt_spacing]) {
 		    sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
 			 translate([0,-gap_between_sensors]) {
@@ -152,7 +178,7 @@ module upper_board()
      }
 }
 
-solid = false;
+solid = true;
 
 if (solid) {
      base_board();
