@@ -37,13 +37,26 @@ arduino_height = 1.4 * 25.4;
 arduino_width = 0.8 * 25.4;
 
 arduino_x_position = board_width - (arduino_width + 10);
-arduino_y_position = 35;
+arduino_y_position = 25;
+
+D15_height = 10;
+D15_width = 27;
+D15_bolt_hole_spacing = 33;
+
+D15_x_position = (arduino_x_position - D15_width) / 2;
+D15_y_position = arduino_y_position;
+
+stripboard_width = 25;
+stripboard_length = 32;
+
+stripboard_x_position = arduino_x_position;
+stripboard_y_position = arduino_y_position + arduino_height + 15;
 
 ubec_height = 2 * 25.4;
 ubec_width = 1 * 25.4;
 
 ubec_x_position = board_width - (ubec_width + 10);
-ubec_y_position = 100;
+ubec_y_position = board_height - (15 + ubec_height);
 
 bolt_length = 30;
 bolt_diameter = 6;
@@ -53,18 +66,24 @@ cable_width = 11;
 
 mounting_hole_offset = 12.5;
 
-wiring_channel_width = 20;
-wiring_channel_length = 100;
+long_wiring_channel_width = 20;
+long_wiring_channel_length = 150;
 
-wiring_channel_x_position = arduino_x_position;
-wiring_channel_y_position = arduino_y_position;
+long_wiring_channel_x_position = arduino_x_position;
+long_wiring_channel_y_position = arduino_y_position;
 
+side_wiring_channel_width = 10;
+side_wiring_channel_length = 50;
+
+side_wiring_channel_x_position = arduino_x_position - side_wiring_channel_length;
+side_wiring_channel_y_position = arduino_y_position;
 
 module one_board()
 {
      translate([cutting_margin, cutting_margin]) {
 	  difference() {
 	       cube(size=[board_width, board_height, board_thickness]);
+	       /* corner holes to hold it together */
 	       translate([mounting_hole_offset, mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
 	       translate([board_width - mounting_hole_offset, mounting_hole_offset])
@@ -72,6 +91,11 @@ module one_board()
 	       translate([mounting_hole_offset, board_height - mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
 	       translate([board_width - mounting_hole_offset, board_height - mounting_hole_offset])
+		    cylinder(h=board_thickness, r=bolt_diameter/2);
+	       /* central holes to mount it */
+	       translate([board_width / 2, mounting_hole_offset])
+		    cylinder(h=board_thickness, r=bolt_diameter/2);
+	       translate([board_width / 2, board_height - mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
 	  }
      }
@@ -107,6 +131,21 @@ module sensor_cutout()
 module arduino_cutout()
 {
      cube(size=[arduino_width, arduino_height, board_thickness]);
+}
+
+module D15_cutout()
+{
+     cube(size=[D15_width, D15_height, board_thickness]);
+     translate([(D15_bolt_hole_spacing - D15_width) / -2, D15_height / 2]) {
+	  cylinder(h=board_thickness, r = 2);
+	  translate([D15_bolt_hole_spacing, 0])
+	       cylinder(h=board_thickness, r = 2);
+     }
+}
+
+module stripboard_cutout()
+{
+     cube(size=[stripboard_width, stripboard_length, board_thickness]);
 }
 
 module ubec_cutout()
@@ -150,8 +189,10 @@ module middle_board()
 {
      difference() {
 	  holes_board(bolt_diameter, false);
-	  translate([wiring_channel_x_position, wiring_channel_y_position])
-	       cube(size=[wiring_channel_width, wiring_channel_length, board_thickness]);
+	  translate([long_wiring_channel_x_position, long_wiring_channel_y_position])
+	       cube(size=[long_wiring_channel_width, long_wiring_channel_length, board_thickness]);
+	  translate([side_wiring_channel_x_position, side_wiring_channel_y_position])
+	       cube(size=[side_wiring_channel_length, side_wiring_channel_width, board_thickness]);
 	  translate([diode_input_x
 		     + sensor_width
 		     - sensor_bolt_x_offset,
@@ -191,6 +232,8 @@ module upper_board()
 	       }
 	  }
 	  translate([arduino_x_position, arduino_y_position]) arduino_cutout();
+	  translate([stripboard_x_position, stripboard_y_position]) stripboard_cutout();
+	  translate([D15_x_position, D15_y_position]) D15_cutout();
 	  translate([ubec_x_position, ubec_y_position]) ubec_cutout();
      }
 }
