@@ -46,13 +46,12 @@ ubec_x_position = board_width - (ubec_width + 10);
 ubec_y_position = 100;
 
 bolt_length = 30;
-bolt_diameter = 6;		/* todo: measure */
-bolt_head_thickness = 5;	/* todo: measure */
-bolt_head_diameter = 15;	/* todo: measure */
+bolt_diameter = 6;
+bolt_head_diameter = 15;
 
-cable_width = board_thickness;
+cable_width = 11;
 
-mounting_hole_offset = 15;
+mounting_hole_offset = 12.5;
 
 module one_board()
 {
