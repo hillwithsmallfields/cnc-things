@@ -92,7 +92,7 @@ ubec_y_position = board_height - (15 + ubec_height);
 
 /* The bolts that make the power connections */
 bolt_length = 30;
-bolt_diameter = 6;
+bolt_diameter = 6.2;
 bolt_head_diameter = 16;
 
 /* Make it wide enough for the ring connector too */
