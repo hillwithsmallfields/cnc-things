@@ -1,29 +1,58 @@
-/* Tufnol board for protection diode and current sensors for my Land Rover. */
+/* Tufnol board stack for protection diode and current sensors for my Land Rover.
+
+   This takes the power in from the alternator (via a Schottky diode
+   to prevent backfeed from the battery, as I once nearly had a faulty
+   alternator nearly catch fire because of backfeed), and measures the
+   current at two points: from the alternator to the battery, and from
+   the battery to the vehicle (apart from the starter motor).
+
+   An isolator switch comes between the input and output sections,
+   making it easy to cut off the power to almost all the vehicle
+   circuits (apart from those run from the auxiliary / leisure
+   battery).
+
+   The sensor boards are the 100A Hall effect sensors readily
+   available online, and the Arduino is an Arduino Pro Mini.  The
+   program for the Arduino is in power-board.ino in the same directory
+   as this OpenSCAD file.  It is set up to measure the current in and
+   out of the battery, the system voltage, and to use 'one-wire'
+   digital temperature sensors to monitory the temperature of the
+   system.  It displays all these on a 2-line LCD display, which is
+   connected via a D15 connector.
+ */
 
 board_thickness = 9;
 board_stock_height = 200;
 board_stock_width = 100;
+
+/* For cutting on a CNC router, as the plastic I'm using isn't allowed
+ * in my local hackerspace's laser cutter */
 cutting_margin = 5;
+
 board_height = board_stock_height - (2 * cutting_margin);
 board_width = board_stock_width - (2 * cutting_margin);
 
+/* The Hall effect current sensor boards */
 sensor_height = 44;
 sensor_width = 32;
+/* The bolts for the power connections */
 sensor_bolt_spacing = 29;
 sensor_bolt_x_offset = 7;
 sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
-
+/* The sensor connections to the Arduino */
 sensor_wires_start = 10;
 sensor_wires_end = 20;
 sensor_wires_inset = 5;
 sensor_wires_length = 20;
 
-sensor_base_depth = 3;
-
 gap_between_sensors = 25;
 
+/* How far to separate the layers on the exploded diagram of the
+ * stack; not part of the actual design */
 diagram_spacing = 75;
 
+/* We start the positioning of the power chain components from where
+ * the current comes in, and work our way down relative to that */
 diode_input_x = 25;
 diode_input_y = board_height - 30;
 
@@ -52,20 +81,27 @@ stripboard_length = 32;
 stripboard_x_position = arduino_x_position;
 stripboard_y_position = arduino_y_position + arduino_height + 15;
 
+/* We use a UBEC (switch-mode voltage dropper) to power the logic */
 ubec_height = 2 * 25.4;
 ubec_width = 1 * 25.4;
 
 ubec_x_position = board_width - (ubec_width + 10);
 ubec_y_position = board_height - (15 + ubec_height);
 
+/* The bolts that make the power connections */
 bolt_length = 30;
 bolt_diameter = 6;
 bolt_head_diameter = 15;
 
+/* The cable I'm using is thicker than is strictly needed. */
 cable_width = 11;
 
+/* The holes for bolting the stack together, and for bolting it into
+ * place in the vehicle */
 mounting_hole_offset = 12.5;
 
+/* Two cutouts in the layer below the component layer, for running the
+ * internal wiring */
 long_wiring_channel_width = 20;
 long_wiring_channel_length = 150;
 
@@ -78,6 +114,7 @@ side_wiring_channel_length = 50;
 side_wiring_channel_x_position = arduino_x_position - side_wiring_channel_length;
 side_wiring_channel_y_position = arduino_y_position;
 
+/* The common part of all the boards in the stack */
 module one_board()
 {
      translate([cutting_margin, cutting_margin]) {
@@ -101,6 +138,9 @@ module one_board()
      }
 }
 
+/* The cutout for one power bolt and its cable; the cable is optional,
+ * as the bolt joining the input diode and the incoming current sensor
+ * doesn't have a cable of its own, as it's fed from the diode */
 module bolt_cutout(size, with_wire)
 {
      union() {
@@ -135,6 +175,9 @@ module arduino_cutout()
 
 module D15_cutout()
 {
+     /* This could be a proper D-connector shape, but I don't need
+      * that level of detail (and don't want to constrain which was
+      * round the connector can fit) */
      cube(size=[D15_width, D15_height, board_thickness]);
      translate([(D15_bolt_hole_spacing - D15_width) / -2, D15_height / 2]) {
 	  cylinder(h=board_thickness, r = 2);
@@ -143,6 +186,9 @@ module D15_cutout()
      }
 }
 
+/* A small board linking the arduino to the rest of the system, and
+ * containing the voltage divider for measuring the vehicle system
+ * voltage */
 module stripboard_cutout()
 {
      cube(size=[stripboard_width, stripboard_length, board_thickness]);
@@ -153,11 +199,15 @@ module ubec_cutout()
      cube(size=[ubec_width, ubec_height, board_thickness]);
 }
 
+/* The bottom board of the stack, that keeps the conducting parts away
+ * from the vehicle body */
 module base_board()
 {
      one_board();
 }
 
+/* This is the common part for the two layers that the conducting
+ * bolts contact */
 module holes_board(hole_size, with_wires)
 {
      difference() {
@@ -180,11 +230,17 @@ module holes_board(hole_size, with_wires)
      }
      }
 
+/* The board for the level the power cables connect at; the cutouts
+ * are large enough to take the bolt heads (and the socket spanner for
+ * fastening the bolts) and also for the ring terminals on the power
+ * cables */
 module lower_board()
 {
      holes_board(bolt_head_diameter, true);
 }
 
+/* The conducting bolt bodies pass through holes in this board, which
+ * also houses the channels for the internal wiring */
 module middle_board()
 {
      difference() {
@@ -215,6 +271,7 @@ module middle_board()
      }
 }
 
+/* The top board fits around the active components. */
 module upper_board()
 {
      difference() {
@@ -238,6 +295,9 @@ module upper_board()
      }
 }
 
+/* Set this to 'true' to see the boards stacked up to see how the
+ * features line up, or to 'false' to get them side-by-side ready for
+ * cutting. */
 solid = true;
 
 if (solid) {

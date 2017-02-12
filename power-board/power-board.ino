@@ -1,11 +1,23 @@
 /* Sketch for reading current and voltage for my Land Rover's power measurement board.
-   It also reads the temperatures of the power components. */
 
-/* Based on http://playground.arduino.cc/Learning/OneWire,
+   It reads the current from the alternator to the battery, and from
+   the battery to the vehicle's general systems, and displays them on
+   an LCD character display connected via a D15 connector, which also
+   carries a few other signals to/from the box containing the UI
+   components.
+
+   It also reads the temperatures of the power components.
+
+   Based on http://playground.arduino.cc/Learning/OneWire,
    https://www.arduino.cc/en/Tutorial/HelloWorld, and
-   https://www.arduino.cc/en/Tutorial/AnalogInput */
+   https://www.arduino.cc/en/Tutorial/AnalogInput
 
-/* Explanation at https://tushev.org/articles/arduino/10/how-it-works-ds18b20-and-arduino */
+   Explanation at https://tushev.org/articles/arduino/10/how-it-works-ds18b20-and-arduino
+
+   The physical design to go with this is in power-board.scad in the
+   same directory as this program; it defines a stack of plastic
+   boards that hold the components in place.
+ */
 
 #include <OneWire.h>
 #include <LiquidCrystal.h>
@@ -50,6 +62,10 @@
     | D12 | out       |     8 |   4 | LCD RS                         |
     | D13 | out       |     2 |     | warning LED                    |
     |-----+-----------+-------+-----+--------------------------------|
+
+    I've not yet decided what to assign the buttons to; it'll probably
+    be one to snapshot a sequence of readings several times a second
+    for a few seconds, and one to step through the saves sequence.
 
     LCD cable:
 
