@@ -13,10 +13,10 @@ sensor_bolt_spacing = 29;
 sensor_bolt_x_offset = 7;
 sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
 
-sensor_board_wires_start = 10;
-sensor_board_wires_end = 20;
-sensor_board_wires_inset = 5;
-sensor_board_wires_length = 20;
+sensor_wires_start = 10;
+sensor_wires_end = 20;
+sensor_wires_inset = 5;
+sensor_wires_length = 20;
 
 sensor_base_depth = 3;
 
@@ -127,12 +127,10 @@ module holes_board(hole_size, with_wires)
 	       bolt_cutout(hole_size, with_wires);
 	       translate([0, -diode_bolt_spacing]) {
 		    bolt_cutout(hole_size, false);
-		    // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 		    translate([0,-sensor_bolt_spacing]) {
 			 bolt_cutout(hole_size, with_wires);
 			 translate([0,-gap_between_sensors]) {
 			      bolt_cutout(hole_size, with_wires);
-			      // translate([0,0,board_thickness-sensor_base_depth]) sensor_cutout();
 			      translate([0, -sensor_bolt_spacing]) {
 				   bolt_cutout(hole_size, with_wires);
 			      }
@@ -160,15 +158,15 @@ module middle_board()
 		     diode_input_y +
 		     sensor_bolt_y_offset
 		     - diode_bolt_spacing]) {
-	       translate([-sensor_board_wires_inset, -sensor_board_wires_end]) {
-		    cube(size=[sensor_board_wires_length,
-			       sensor_board_wires_end - sensor_board_wires_start,
+	       translate([-sensor_wires_inset, -sensor_wires_end]) {
+		    cube(size=[sensor_wires_length,
+			       sensor_wires_end - sensor_wires_start,
 			       board_thickness]);
 	       }
 	       translate([0, -(sensor_bolt_spacing + gap_between_sensors)]) {
-		    translate([-sensor_board_wires_inset, -sensor_board_wires_end]) {
-			 cube(size=[sensor_board_wires_length,
-				    sensor_board_wires_end - sensor_board_wires_start,
+		    translate([-sensor_wires_inset, -sensor_wires_end]) {
+			 cube(size=[sensor_wires_length,
+				    sensor_wires_end - sensor_wires_start,
 				    board_thickness]);
 		    }
 	       }
