@@ -33,8 +33,8 @@ board_height = board_stock_height - (2 * cutting_margin);
 board_width = board_stock_width - (2 * cutting_margin);
 
 /* The Hall effect current sensor boards */
-sensor_height = 44;
-sensor_width = 32;
+sensor_height = 45;
+sensor_width = 33;
 /* The bolts for the power connections */
 sensor_bolt_spacing = 29;
 sensor_bolt_x_offset = 7;
@@ -42,7 +42,7 @@ sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
 /* The sensor connections to the Arduino */
 sensor_wires_start = 10;
 sensor_wires_end = 23;
-sensor_wires_inset = 5;
+sensor_wires_inset = 3;
 sensor_wires_length = 20;
 
 gap_between_sensors = 25;
@@ -116,12 +116,26 @@ side_wiring_channel_length = 50;
 side_wiring_channel_x_position = arduino_x_position - side_wiring_channel_length;
 side_wiring_channel_y_position = arduino_y_position;
 
+rounded = true;
+
 /* The common part of all the boards in the stack */
 module one_board()
 {
      translate([cutting_margin, cutting_margin]) {
 	  difference() {
-	       cube(size=[board_width, board_height, board_thickness]);
+	       if (rounded) {
+		    union() {
+			 translate([mounting_hole_offset, 0]) cube(size=[board_width - 2 * mounting_hole_offset, board_height, board_thickness]);
+			 translate([0, mounting_hole_offset]) cube(size=[board_width, board_height - 2 * mounting_hole_offset, board_thickness]);
+			 translate([mounting_hole_offset, mounting_hole_offset, 0]) cylinder(h = board_thickness, r = mounting_hole_offset);
+			 translate([board_width - mounting_hole_offset, mounting_hole_offset]) cylinder(h = board_thickness, r = mounting_hole_offset);
+			 translate([board_width - mounting_hole_offset, board_height - mounting_hole_offset, 0]) cylinder(h = board_thickness, r = mounting_hole_offset);
+			 translate([mounting_hole_offset, board_height - mounting_hole_offset]) cylinder(h = board_thickness, r = mounting_hole_offset);
+		    }
+	       } else {
+		    cube(size=[board_width, board_height, board_thickness]);
+	       }
+	       
 	       /* corner holes to hold it together */
 	       translate([mounting_hole_offset, mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
@@ -131,6 +145,7 @@ module one_board()
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
 	       translate([board_width - mounting_hole_offset, board_height - mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
+
 	       /* central holes to mount it */
 	       translate([board_width / 2, mounting_hole_offset])
 		    cylinder(h=board_thickness, r=bolt_diameter/2);
@@ -302,7 +317,7 @@ module upper_board()
 /* Set this to 'true' to see the boards stacked up to see how the
  * features line up, or to 'false' to get them side-by-side ready for
  * cutting. */
-solid = true;
+solid = false;
 
 if (solid) {
      base_board();
