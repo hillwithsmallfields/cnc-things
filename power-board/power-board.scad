@@ -41,7 +41,7 @@ sensor_bolt_x_offset = 7;
 sensor_bolt_y_offset = (sensor_height - sensor_bolt_spacing) / 2;
 /* The sensor connections to the Arduino */
 sensor_wires_start = 10;
-sensor_wires_end = 20;
+sensor_wires_end = 23;
 sensor_wires_inset = 5;
 sensor_wires_length = 20;
 
@@ -75,8 +75,10 @@ D15_bolt_hole_spacing = 33;
 D15_x_position = (arduino_x_position - D15_width) / 2;
 D15_y_position = arduino_y_position;
 
-stripboard_width = 25;
-stripboard_length = 32;
+D15_wire_access_slot_width = 4;
+
+stripboard_width = 26;
+stripboard_length = 33;
 
 stripboard_x_position = arduino_x_position;
 stripboard_y_position = arduino_y_position + arduino_height + 15;
@@ -91,10 +93,10 @@ ubec_y_position = board_height - (15 + ubec_height);
 /* The bolts that make the power connections */
 bolt_length = 30;
 bolt_diameter = 6;
-bolt_head_diameter = 15;
+bolt_head_diameter = 16;
 
-/* The cable I'm using is thicker than is strictly needed. */
-cable_width = 11;
+/* Make it wide enough for the ring connector too */
+power_cable_slot_width = 13;
 
 /* The holes for bolting the stack together, and for bolting it into
  * place in the vehicle */
@@ -146,9 +148,9 @@ module bolt_cutout(size, with_wire)
      union() {
 	  cylinder(h=board_thickness*2, r=size/2, center=true);
 	  if (with_wire) {
-	       translate([0, cable_width/2, 0]) {
+	       translate([0, power_cable_slot_width/2, 0]) {
 		    rotate([0,0,180]) {
-			 cube(size=[board_width, cable_width, board_thickness]);
+			 cube(size=[board_width, power_cable_slot_width, board_thickness]);
 		    }
 	       }
 	  }
@@ -184,6 +186,8 @@ module D15_cutout()
 	  translate([D15_bolt_hole_spacing, 0])
 	       cylinder(h=board_thickness, r = 2);
      }
+     translate([(D15_width - D15_wire_access_slot_width) / 2, D15_height])
+	  cube(size=[D15_wire_access_slot_width, sensor_height/2, board_thickness]);
 }
 
 /* A small board linking the arduino to the rest of the system, and
