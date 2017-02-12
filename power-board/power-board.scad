@@ -25,7 +25,7 @@ gap_between_sensors = 25;
 diagram_spacing = 75;
 
 diode_input_x = 25;
-diode_input_y = board_height - 45;
+diode_input_y = board_height - 30;
 
 diode_bolt_spacing = 27;
 diode_top_bolt_offset = 7.5;
@@ -52,6 +52,13 @@ bolt_head_diameter = 15;
 cable_width = 11;
 
 mounting_hole_offset = 12.5;
+
+wiring_channel_width = 20;
+wiring_channel_length = 100;
+
+wiring_channel_x_position = arduino_x_position;
+wiring_channel_y_position = arduino_y_position;
+
 
 module one_board()
 {
@@ -145,12 +152,25 @@ module middle_board()
 {
      difference() {
 	  holes_board(bolt_diameter, false);
-	  /* todo: neither of these positions is right */
-	  translate([(diode_input_x - sensor_bolt_x_offset) + sensor_width - sensor_board_wires_inset,
-		     (diode_input_y - diode_bolt_spacing) + sensor_bolt_y_offset - sensor_board_wires_end]) {
-	       cube(size=[sensor_board_wires_length, sensor_board_wires_end - sensor_board_wires_start, board_thickness]);
-	       translate([0, -gap_between_sensors]) {
-		    cube(size=[sensor_board_wires_length, sensor_board_wires_end - sensor_board_wires_start, board_thickness]);
+	  translate([wiring_channel_x_position, wiring_channel_y_position])
+	       cube(size=[wiring_channel_width, wiring_channel_length, board_thickness]);
+	  translate([diode_input_x
+		     + sensor_width
+		     - sensor_bolt_x_offset,
+		     diode_input_y +
+		     sensor_bolt_y_offset
+		     - diode_bolt_spacing]) {
+	       translate([-sensor_board_wires_inset, -sensor_board_wires_end]) {
+		    cube(size=[sensor_board_wires_length,
+			       sensor_board_wires_end - sensor_board_wires_start,
+			       board_thickness]);
+	       }
+	       translate([0, -(sensor_bolt_spacing + gap_between_sensors)]) {
+		    translate([-sensor_board_wires_inset, -sensor_board_wires_end]) {
+			 cube(size=[sensor_board_wires_length,
+				    sensor_board_wires_end - sensor_board_wires_start,
+				    board_thickness]);
+		    }
 	       }
 	  }
      }
