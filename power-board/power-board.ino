@@ -88,6 +88,33 @@
     |    14 |     | 12V back from switch on LCD box |
     |    15 |     | 12V to switch on LCD box        |
     |-------+-----+---------------------------------|
+
+    Connections to USB converter:
+
+    +--------+
+    | Black  |
+    | White  |
+    | Grey   |
+    | Purple |
+    | Blue   |
+    | Green  |
+    +--------+
+
+    Stripboard lines:
+
+   |-------+-----------------+-----+--------------------|
+   | Strip | Wire to Arduino | Pin | Function           |
+   |-------+-----------------+-----+--------------------|
+   |     1 | Black           | Gnd | Gnd                |
+   |     2 | Purple          | A0  | Voltage            |
+   |     3 | Blue            | A1  | Alternator current |
+   |     4 | Green           | A2  | Vehicle Current    |
+   |     5 | Yellow          | A3  |                    |
+   |     6 | Grey            | 8   |                    |
+   |     7 | -               | -   |                    |
+   |     8 | Red             | VCC |                    |
+   |-------+-----------------+-----+--------------------|
+
 */
 
 /*******/
