@@ -30,7 +30,7 @@ top_of_hole_in_back_bezel = bottom_of_hole_in_back_bezel + tablet_height;
 /* Front bezel */
 
 height_of_front_bezel = 150;
-screen_offset_from_bottom_of_front_bezel = 10;
+screen_offset_from_bottom_of_front_bezel = bottom_of_hole_in_back_bezel + 10;
 screen_offset_from_side_of_front_bezel = 56;
 
 /* Buttons */
@@ -56,14 +56,14 @@ meter_offset = meter_radius - 8;
 
 solenoid_height = 12;
 solenoid_width = 16;
-left_solenoid_offset = 15;
+left_solenoid_offset = 18;
 middle_solenoid_offset = 30;
-right_solenoid_offset = 55;
+right_solenoid_offset = 47;
 
 /* Connections */
 
 usb_bottom = bottom_of_hole_in_back_bezel + 22;
-usb_height = 14;
+usb_height = 18;
 usb_right = left_side_of_hole_in_back_bezel;
 usb_width = 16;
 
@@ -148,5 +148,21 @@ module front_bezel() {
      }
 }
 
-back_bezel();
-translate([height_of_back_bezel + 8, 0]) front_bezel();
+solid = false;
+squat = false;
+
+exploded_diagram_spacing = -25;
+
+if (solid) {
+     linear_extrude(height=10) back_bezel();
+     translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) front_bezel();
+} else {
+     if (squat) {
+	  back_bezel();
+	  translate([height_of_back_bezel + 8, 0]) front_bezel();
+     } else {			/* elongated form */
+	  back_bezel();
+	  translate([0, overall_width + 8]) front_bezel();
+     }
+}
+
