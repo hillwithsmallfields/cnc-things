@@ -111,7 +111,7 @@
    |     4 | Green           | A2  | Vehicle Current    |
    |     5 | Yellow          | A3  |                    |
    |     6 | Grey            | 8   |                    |
-   |     7 | -               | -   |                    |
+   |     7 | Orange          | D10 | Temperature        |
    |     8 | Red             | VCC |                    |
    |-------+-----------------+-----+--------------------|
 
