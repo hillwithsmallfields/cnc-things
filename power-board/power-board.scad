@@ -318,15 +318,25 @@ module upper_board()
  * features line up, or to 'false' to get them side-by-side ready for
  * cutting. */
 solid = false;
+just_one = true;
 
 if (solid) {
-     base_board();
-     translate([0,0,diagram_spacing]) lower_board();
-     translate([0,0,2*diagram_spacing]) middle_board();
-     translate([0,0,3*diagram_spacing]) upper_board();
+     if (just_one) {
+	  projection()
+	       lower_board();
+     } else {     base_board();
+	  translate([0,0,diagram_spacing]) lower_board();
+	  translate([0,0,2*diagram_spacing]) middle_board();
+	  translate([0,0,3*diagram_spacing]) upper_board();
+     }
 } else {
-     projection() base_board();
-     translate([board_stock_width, 0]) projection() lower_board();
-     translate([board_stock_width * 2, 0]) projection() middle_board();
-     translate([board_stock_width * 3, 0]) projection() upper_board();
+     if (just_one) {
+	  projection()
+	       lower_board();
+     } else {
+	  projection() base_board();
+	  translate([board_stock_width, 0]) projection() lower_board();
+	  translate([board_stock_width * 2, 0]) projection() middle_board();
+	  translate([board_stock_width * 3, 0]) projection() upper_board();
+     }
 }

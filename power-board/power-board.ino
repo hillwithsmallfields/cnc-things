@@ -69,25 +69,25 @@
 
     LCD cable:
 
-    |-------+-----+---------------------------------|
-    | cable | LCD | function                        |
-    |-------+-----+---------------------------------|
-    |     1 |   1 | 0v                              |
-    |     2 |     | warning LED                     |
-    |     3 |  11 | LCD pin 4                       |
-    |     4 |  12 | LCD pin 5                       |
-    |     5 |  13 | LCD pin 6                       |
-    |     6 |  14 | LCD pin 7                       |
-    |     7 |   6 | LCD enable                      |
-    |     8 |   4 | LCD RS                          |
-    |     9 |     | serial out                      |
-    |    10 |     | serial in                       |
-    |    11 |     | button A                        |
-    |    12 |     | button B                        |
-    |    13 |   2 | 5v to LCD                       |
-    |    14 |     | 12V back from switch on LCD box |
-    |    15 |     | 12V to switch on LCD box        |
-    |-------+-----+---------------------------------|
+    |-------+--------+-----+---------------------------------|
+    | cable |        | LCD | function                        |
+    |-------+--------+-----+---------------------------------|
+    |     1 | black  |   1 | 0v                              |
+    |     2 | blue   |     | warning LED                     |
+    |     3 | black  |  11 | LCD pin 4                       |
+    |     4 | brown  |  12 | LCD pin 5                       |
+    |     5 | red    |  13 | LCD pin 6                       |
+    |     6 | orange |  14 | LCD pin 7                       |
+    |     7 | yellow |   6 | LCD enable                      |
+    |     8 | green  |   4 | LCD RS                          |
+    |     9 | white  |     | serial out                      |
+    |    10 | grey   |     | serial in                       |
+    |    11 | purple |     | button A                        |
+    |    12 | blue   |     | button B                        |
+    |    13 | purple |   2 | 5v to LCD                       |
+    |    14 |        |     | 12V back from switch on LCD box |
+    |    15 |        |     | 12V to switch on LCD box        |
+    |-------+--------+-----+---------------------------------|
 
     Connections to USB converter:
 
@@ -114,6 +114,18 @@
    |     7 | Orange          | D10 | Temperature        |
    |     8 | Red             | VCC |                    |
    |-------+-----------------+-----+--------------------|
+
+   DS18B20 temperature sensors:
+
+   ---------
+   | 1 2 3 |  seen from below
+   \-------/
+
+   |---+--------|
+   | 1 | Ground |
+   | 2 | Data   |
+   | 3 | Power  |
+   |---+--------|
 
 */
 
