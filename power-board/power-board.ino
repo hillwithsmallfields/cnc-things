@@ -45,8 +45,8 @@
     | pin | direction | cable | LCD | function                       |
     |-----+-----------+-------+-----+--------------------------------|
     | A0  | in        |       |     | voltage                        |
-    | A1  | in        |       |     | alternator current             |
-    | A2  | in        |       |     | vehicle current                |
+    | A1  | in        |       |     | vehicle current                |
+    | A2  | in        |       |     | alternator current             |
     | A3  | in        |       |     |                                |
     | D01 |           |       |     |                                |
     | D02 |           |       |     |                                |
@@ -102,18 +102,18 @@
 
     Stripboard lines:
 
-   |-------+-----------------+-----+--------------------|
-   | Strip | Wire to Arduino | Pin | Function           |
-   |-------+-----------------+-----+--------------------|
-   |     1 | Black           | Gnd | Gnd                |
-   |     2 | Purple          | A0  | Voltage            |
-   |     3 | Blue            | A1  | Alternator current |
-   |     4 | Green           | A2  | Vehicle Current    |
-   |     5 | Yellow          | A3  |                    |
-   |     6 | Grey            | 8   |                    |
-   |     7 | Orange          | D10 | Temperature        |
-   |     8 | Red             | VCC |                    |
-   |-------+-----------------+-----+--------------------|
+   |-------+-----------------+-----+----------------------|
+   | Strip | Wire to Arduino | Pin | Function             |
+   |-------+-----------------+-----+----------------------|
+   |     1 | Black           | Gnd | Gnd                  |
+   |     2 | Purple          | A0  | Voltage              |
+   |     3 | Blue            | A1  | Vehicle Current      |
+   |     4 | Green           | A2  | Alternator current   |
+   |     5 | Yellow          | A3  |                      |
+   |     6 | Orange          | D10 | Temperature          |
+   |     7 | -               | -   | Vehicle full voltage |
+   |     8 | Red             | VCC | Supply               |
+   |-------+-----------------+-----+----------------------|
 
    DS18B20 temperature sensors:
 
@@ -153,9 +153,9 @@ LiquidCrystal lcd(LCD_enable, LCD_RS, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 /* Analog */
 /**********/
 
-int chargingCurrentPin = A0;
+int chargingCurrentPin = A2;
 int systemCurrentPin = A1;
-int voltagePin = A2;
+int voltagePin = A0;
 
 int voltageScale = 1;
 
