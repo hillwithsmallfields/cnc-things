@@ -317,8 +317,8 @@ module upper_board()
 /* Set this to 'true' to see the boards stacked up to see how the
  * features line up, or to 'false' to get them side-by-side ready for
  * cutting. */
-solid = false;
-just_one = true;
+solid = true;
+just_one = false;
 
 if (solid) {
      if (just_one) {
