@@ -55,10 +55,15 @@ module support_arm() {
      }
 }
 
-support_arm();
-/*
-translate([width, support_length*2 - end_radius]) rotate([0,0,180]) support_arm();
-translate([0, support_length*2 + bracer_length + gap - end_radius]) bracer();
-translate([width, support_length*2 + bracer_length - end_radius]) rotate([0,0,180]) bracer();
-*/
+all = true;
+
+if (all) {
+     support_arm();
+     translate([width, support_length*2 - end_radius]) rotate([0,0,180]) support_arm();
+     translate([0, support_length*2 + bracer_length + gap - end_radius]) bracer();
+     translate([width, support_length*2 + bracer_length - end_radius]) rotate([0,0,180]) bracer();
+} else {
+     translate([0, bracer_length]) bracer();
+     translate([width,  bracer_length ]) rotate([0,0,180]) bracer();
+}
 
