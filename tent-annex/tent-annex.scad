@@ -6,7 +6,7 @@ xd_cover_back_to_tent_front      = 82;
 xd_tent_front_to_tent_chine      = 41;
 y_tent_chine                     = 92;
 xd_tent_front_to_tent_gable      = 92;
-y_tent_gable                     = 100; /* guess; TODO measure this */
+y_tent_gable                     = 80; /* guess; TODO measure this */
 y_gable_base                     = 16;  /* guess; TODO measure this */
 y_tent_top                       = 130;
 xd_tent_board_length             = 122;
@@ -73,7 +73,7 @@ module annex() {
 }
 
 module tent_window() {
-     translate([x_tent_hinge + xd_tent_board_length - xd_tent_front_to_tent_gable,
+     translate([xd_tent_window + xd_tent_board_length - xd_tent_front_to_tent_gable,
                 y_gable_base]) square([xd_tent_window, yd_tent_window]);
 }
 
