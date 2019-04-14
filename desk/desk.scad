@@ -20,10 +20,11 @@ payload_height = 17;
 payload_depth = 5;
 
 extension_depth = 6;
+extension_support_thickness = 1;
 extension_payload_holder_width = payload_width + 1;
 extension_payload_holder_height = payload_height + 1;
 extension_support_length = leg_length - 1;
-extension_support_thickness = 1;
+extension_payload_base_width = top_width;
 
 module leg() {
      cube(size=[leg_thickness, leg_thickness, leg_length]);
@@ -83,19 +84,21 @@ module extension_base() {
 	       cube(size=[extension_depth, extension_support_thickness, extension_support_length]);
 	  translate([0,top_width/2 + ((extension_payload_holder_width / 2) + extension_support_thickness), 0])
 	       cube(size=[extension_depth, extension_support_thickness, extension_support_length]);
-	  translate([0,(top_width-extension_payload_holder_width-extension_support_thickness)/2, 0])
-	       cube(size=[extension_depth, extension_payload_holder_width+extension_support_thickness*2, extension_support_thickness]);
+	  translate([0, 0, 0])
+	       cube(size=[extension_depth,
+                          extension_payload_base_width,
+                          extension_support_thickness]);
      }
 }
 
 desk();
-translate([top_depth, 0, 0]) extension_base();
+translate([top_depth, 0, 0]) color([1,0,0]) extension_base();
 raise = $t < 0.25 ? $t*4 : $t > 0.75 ? (1.0 - $t) * 4 : 1;
 push_forward = ($t < 0.25 || $t > 0.75) ? 0 : ($t < 0.5 ? $t - 0.25 : 0.75 - $t);
 translate([top_depth, 0, 0]) {
      translate([0,0,raise * extension_payload_holder_height]) {
-	  extension();
+	  color ([0,1,0]) extension();
 	  translate([push_forward*-48,0,0])
-	       payload();
+	       color([0,0,1]) payload();
      }
 }
