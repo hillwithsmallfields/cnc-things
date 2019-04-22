@@ -117,8 +117,17 @@ module cover_roof() {
      color("grey") translate([xd_start + xd_front_leg_base_to_cover_front, y_cover_front_height]) rotate([angle-90,-90,0]) square([z_annex_width, xs_roof_length]);
 }
 
-color("black", 0.25) roofrack();
-translate([x_tent_front, 2]) tent_baseboards();
-cover_roof();
-translate([x_tent_front, 0]) tent();
-annex();
+if (false) {
+    color("black", 0.25) roofrack();
+    translate([x_tent_front, 2]) tent_baseboards();
+    cover_roof();
+    translate([x_tent_front, 0]) tent();
+    annex();
+} else {
+    color("green") annex_side();
+    /* annex_front(); */
+    translate([500, 150]) rotate([0,0,82]) {
+        color("blue") annex_roof();
+	color("red") translate([0,-70]) annex_overlap();
+    }
+}
