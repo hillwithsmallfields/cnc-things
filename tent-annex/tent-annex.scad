@@ -1,4 +1,4 @@
-xd_start                         = 80; /* guess; measure this */
+xd_start                         = 93;
 xd_front_leg_base_to_cover_front = 71;
 y_cover_front_height             = 98;
 xd_cover_front_to_cover_back     = 132; /* horizontally along the roofrack */
@@ -7,12 +7,12 @@ xd_cover_back_to_tent_front      = 82;
 xd_tent_front_to_tent_chine      = 41;
 y_tent_chine                     = 92;
 xd_tent_front_to_tent_gable      = 92;
-y_tent_gable                     = 80; /* guess; TODO measure this */
-y_gable_base                     = 16;  /* guess; TODO measure this */
+y_tent_gable                     = 72;
+y_gable_base                     = 20;
 y_tent_top                       = 130;
 xd_tent_board_length             = 122;
 
-z_annex_width = 5 * 30;         /* approximation (5 ft); TODO find real measurement */
+z_annex_width = 152;
 xs_roof_length = sqrt(pow(xd_cover_front_to_cover_back, 2) + pow(y_cover_back_height - y_cover_front_height, 2));
 
 x_cover_front = xd_start + xd_front_leg_base_to_cover_front;
