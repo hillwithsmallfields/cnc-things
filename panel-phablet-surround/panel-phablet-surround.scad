@@ -1,5 +1,9 @@
 /* sizes all in mm */
 
+/* Configuration */
+all_three_solenoids = false;
+with_buttons = false;
+
 /* Overall dimensions */
 
 overall_width = 268;
@@ -105,10 +109,12 @@ module hole_for_tablet() {
 	  rounded_square(tablet_height, tablet_width, tablet_corner_radius);
      translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + left_solenoid_offset])
 	  square([solenoid_height, solenoid_width]);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + middle_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + right_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
+     if (all_three_solenoids) {
+          translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + middle_solenoid_offset])
+               square([solenoid_height, solenoid_width]);
+          translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + right_solenoid_offset])
+               square([solenoid_height, solenoid_width]);
+     }
 }
 
 module adjacent_meter_cutout() {
@@ -132,7 +138,7 @@ module back_bezel() {
      difference() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
-	  buttons();
+          if (with_buttons) buttons();
 	  adjacent_meter_cutout();
 	  hole_for_usb();
 	  hole_for_audio();
@@ -143,7 +149,7 @@ module front_bezel() {
      difference() {
 	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
 	  hole_for_screen();
-	  buttons();
+	  if (with_buttons) buttons();
 	  adjacent_meter_cutout();
      }
 }
