@@ -1,7 +1,6 @@
 /* sizes all in mm */
 
 /* Configuration */
-all_three_solenoids = false;
 with_buttons = false;
 
 /* Overall dimensions */
@@ -56,13 +55,17 @@ meter_diameter = 52;
 meter_radius = meter_diameter / 2;
 meter_offset = meter_radius - 8;
 
-/* Solenoids */
+/* Solenoid to operate power button */
+
+power_control_assembly_offset = 18;
+
+power_lever_height = 12;
+power_lever_width = 16;
 
 solenoid_height = 12;
-solenoid_width = 16;
-left_solenoid_offset = 18;
-middle_solenoid_offset = 30;
-right_solenoid_offset = 47;
+solenoid_width = 36;
+solenoid_x_offset = 10;
+solenoid_y_offset = 10;
 
 /* Connections */
 
@@ -104,16 +107,21 @@ module rounded_square(height, width, corner_radius) {
      }
 }
 
+module hole_for_power_control_assembly() {
+     translate([top_of_hole_in_back_bezel - 1,
+                left_side_of_hole_in_back_bezel + power_control_assembly_offset]) {
+          square([power_lever_height, power_lever_width]);
+          translate([solenoid_y_offset, solenoid_x_offset]) square([solenoid_height, solenoid_width]);
+     }
+}
+
 module hole_for_tablet() {
-     translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
-	  rounded_square(tablet_height, tablet_width, tablet_corner_radius);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + left_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
-     if (all_three_solenoids) {
-          translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + middle_solenoid_offset])
-               square([solenoid_height, solenoid_width]);
-          translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + right_solenoid_offset])
-               square([solenoid_height, solenoid_width]);
+     union() {
+          translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
+               rounded_square(tablet_height, tablet_width, tablet_corner_radius);
+          hole_for_power_control_assembly();
+	  hole_for_usb();
+	  hole_for_audio();
      }
 }
 
@@ -140,8 +148,6 @@ module back_bezel() {
 	  hole_for_tablet();
           if (with_buttons) buttons();
 	  adjacent_meter_cutout();
-	  hole_for_usb();
-	  hole_for_audio();
      }
 }
 
