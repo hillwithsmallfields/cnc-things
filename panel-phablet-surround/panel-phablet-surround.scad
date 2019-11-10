@@ -1,7 +1,9 @@
 /* sizes all in mm */
 
+/* todo: threaded insert holes */
+
 /* Configuration */
-with_buttons = false;
+with_buttons = true;
 
 /* Overall dimensions */
 
