@@ -57,7 +57,7 @@ meter_offset = meter_radius - 8;
 
 /* Solenoid to operate power button */
 
-power_control_assembly_offset = 18;
+power_control_assembly_offset = 50;
 
 power_lever_height = 12;
 power_lever_width = 16;
@@ -66,6 +66,12 @@ solenoid_height = 12;
 solenoid_width = 36;
 solenoid_x_offset = 10;
 solenoid_y_offset = 10;
+
+/* Gap for volume control */
+
+volume_control_offset = 20;
+volume_control_width = 22;
+volume_control_depth = 5;
 
 /* Connections */
 
@@ -113,6 +119,9 @@ module hole_for_power_control_assembly() {
           square([power_lever_height, power_lever_width]);
           translate([solenoid_y_offset, solenoid_x_offset]) square([solenoid_height, solenoid_width]);
      }
+     translate([top_of_hole_in_back_bezel - 1,
+                left_side_of_hole_in_back_bezel + volume_control_offset])
+          square([volume_control_depth, volume_control_width]);
 }
 
 module hole_for_tablet() {
