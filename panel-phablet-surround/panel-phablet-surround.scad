@@ -172,7 +172,7 @@ module front_bezel() {
 }
 
 solid = false;
-squat = false;
+squat = true;
 
 exploded_diagram_spacing = -25;
 
