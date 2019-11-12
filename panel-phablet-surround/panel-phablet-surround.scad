@@ -171,6 +171,7 @@ module threaded_holes() {
 }
 
 module hole_for_usb() {
+     /* todo: USB cable is right-angled, so needs a bit leading off it, but I don't know which way up that will be */
      translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_length]) square([usb_width, usb_length]);
 }
 
