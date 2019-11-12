@@ -94,12 +94,12 @@ module button(y, x) {
 }
 
 module buttons() {
-	  button(left_bottom_button_y, left_button_x);
-	  button(middle_button_y, left_button_x);
-	  button(left_top_button_y, left_button_x);
+	  button(left_bottom_button_y, left_button_x-2);
+	  button(middle_button_y, left_button_x-3);
+	  button(left_top_button_y, left_button_x-2);
 
 	  button(right_bottom_button_y, right_button_x);
-	  button(middle_button_y, right_button_x);
+	  button(middle_button_y, right_button_x-2);
 	  button(right_top_button_y, right_button_x);
 }
 
