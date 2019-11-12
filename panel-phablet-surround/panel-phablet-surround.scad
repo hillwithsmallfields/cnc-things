@@ -87,14 +87,14 @@ volume_control_depth = 5;
 /* Connections */
 
 usb_bottom = bottom_of_hole_in_back_bezel + 22;
-usb_height = 18;
+usb_width = 10;
 usb_right = left_side_of_hole_in_back_bezel;
-usb_width = 16;
+usb_length = 13;
 
 audio_top = top_of_hole_in_back_bezel - 28;
-audio_height = 10;              /* mayneed to be wider */
-audio_bottom = audio_top - audio_height;
-audio_width = 20;               /* probably needs to be longer */
+audio_width = 13;               /* todo: get a cable with a narrower plug */
+audio_bottom = audio_top - audio_width;
+audio_length = 31;
 
 /* Shapes */
 
@@ -171,11 +171,11 @@ module threaded_holes() {
 }
 
 module hole_for_usb() {
-     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_width]) square([usb_height, usb_width]);
+     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_length]) square([usb_width, usb_length]);
 }
 
 module hole_for_audio() {
-     translate([audio_bottom, left_side_of_hole_in_back_bezel - audio_width]) square([audio_height, audio_width]);
+     translate([audio_bottom, left_side_of_hole_in_back_bezel - audio_length]) square([audio_width, audio_length]);
 }
 
 module hole_for_screen() {
