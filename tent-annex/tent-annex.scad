@@ -30,6 +30,11 @@ overlap_proportion = 2.0 / 3.0;
 x_overlap_end = x_tent_hinge + (xd_tent_board_length - xd_tent_front_to_tent_chine) * overlap_proportion;
 y_overlap_end = y_tent_chine + (y_tent_top - y_tent_chine) * (1.0 - overlap_proportion);
 
+echo("x_overlap_end=", x_overlap_end - x_cover_front, " y_overlap_end=", y_overlap_end);
+echo("x_tent_hinge=", x_tent_hinge - x_cover_front, " y_tent_top=", y_tent_top);
+echo("x_tent_gable=", x_tent_gable - x_cover_front, " y_tent_gable=",  y_tent_gable);
+echo("x_tent_chine=", x_tent_chine - x_cover_front);
+
 roofrack_tray_depth = 15;
 
 module roofrack() {

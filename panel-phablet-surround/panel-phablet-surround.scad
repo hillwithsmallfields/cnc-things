@@ -1,5 +1,10 @@
 /* sizes all in mm */
 
+/* todo: threaded insert holes */
+
+/* Configuration */
+with_buttons = true;
+
 /* Overall dimensions */
 
 overall_width = 268;
@@ -52,13 +57,23 @@ meter_diameter = 52;
 meter_radius = meter_diameter / 2;
 meter_offset = meter_radius - 8;
 
-/* Solenoids */
+/* Solenoid to operate power button */
+
+power_control_assembly_offset = 50;
+
+power_lever_height = 12;
+power_lever_width = 16;
 
 solenoid_height = 12;
-solenoid_width = 16;
-left_solenoid_offset = 18;
-middle_solenoid_offset = 30;
-right_solenoid_offset = 47;
+solenoid_width = 36;
+solenoid_x_offset = 10;
+solenoid_y_offset = 10;
+
+/* Gap for volume control */
+
+volume_control_offset = 20;
+volume_control_width = 22;
+volume_control_depth = 5;
 
 /* Connections */
 
@@ -100,15 +115,25 @@ module rounded_square(height, width, corner_radius) {
      }
 }
 
+module hole_for_power_control_assembly() {
+     translate([top_of_hole_in_back_bezel - 1,
+                left_side_of_hole_in_back_bezel + power_control_assembly_offset]) {
+          square([power_lever_height, power_lever_width]);
+          translate([solenoid_y_offset, solenoid_x_offset]) square([solenoid_height, solenoid_width]);
+     }
+     translate([top_of_hole_in_back_bezel - 1,
+                left_side_of_hole_in_back_bezel + volume_control_offset])
+          square([volume_control_depth, volume_control_width]);
+}
+
 module hole_for_tablet() {
-     translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
-	  rounded_square(tablet_height, tablet_width, tablet_corner_radius);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + left_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + middle_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
-     translate([top_of_hole_in_back_bezel - 1, left_side_of_hole_in_back_bezel + right_solenoid_offset])
-	  square([solenoid_height, solenoid_width]);
+     union() {
+          translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
+               rounded_square(tablet_height, tablet_width, tablet_corner_radius);
+          hole_for_power_control_assembly();
+	  hole_for_usb();
+	  hole_for_audio();
+     }
 }
 
 module adjacent_meter_cutout() {
@@ -132,10 +157,8 @@ module back_bezel() {
      difference() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
-	  buttons();
+          if (with_buttons) buttons();
 	  adjacent_meter_cutout();
-	  hole_for_usb();
-	  hole_for_audio();
      }
 }
 
@@ -143,13 +166,13 @@ module front_bezel() {
      difference() {
 	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
 	  hole_for_screen();
-	  buttons();
+	  if (with_buttons) buttons();
 	  adjacent_meter_cutout();
      }
 }
 
 solid = false;
-squat = false;
+squat = true;
 
 exploded_diagram_spacing = -25;
 
