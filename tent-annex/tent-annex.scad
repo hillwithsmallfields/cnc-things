@@ -117,7 +117,7 @@ module cover_roof() {
      color("grey") translate([xd_start + xd_front_leg_base_to_cover_front, y_cover_front_height]) rotate([angle-90,-90,0]) square([z_annex_width, xs_roof_length]);
 }
 
-if (false) {
+if (true) {
     color("black", 0.25) roofrack();
     translate([x_tent_front, 2]) tent_baseboards();
     cover_roof();
