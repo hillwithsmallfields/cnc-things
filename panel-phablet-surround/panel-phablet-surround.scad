@@ -64,8 +64,10 @@ power_control_assembly_offset = 50;
 power_lever_height = 12;
 power_lever_width = 16;
 
-solenoid_height = 12;
-solenoid_width = 36;
+solenoid_body_width = 12;
+solenoid_body_length = 20;          /* todo: re-measure this */
+solenoid_plunger_space_length = 18; /* todo: measure this */
+solenoid_plunger_space_width = 6;   /* todo: measure this */
 solenoid_x_offset = 10;
 solenoid_y_offset = 10;
 
@@ -83,9 +85,9 @@ usb_right = left_side_of_hole_in_back_bezel;
 usb_width = 16;
 
 audio_top = top_of_hole_in_back_bezel - 28;
-audio_height = 10;
+audio_height = 10;              /* mayneed to be wider */
 audio_bottom = audio_top - audio_height;
-audio_width = 20;
+audio_width = 20;               /* probably needs to be longer */
 
 /* Shapes */
 
@@ -119,7 +121,10 @@ module hole_for_power_control_assembly() {
      translate([top_of_hole_in_back_bezel - 1,
                 left_side_of_hole_in_back_bezel + power_control_assembly_offset]) {
           square([power_lever_height, power_lever_width]);
-          translate([solenoid_y_offset, solenoid_x_offset]) square([solenoid_height, solenoid_width]);
+          translate([solenoid_y_offset, solenoid_x_offset]) {
+               square([solenoid_body_width, solenoid_body_length]);
+               translate([solenoid_body_width/2 - solenoid_plunger_space_width/2, solenoid_body_length]) square([solenoid_plunger_space_width, solenoid_plunger_space_length]);
+          }
      }
      translate([top_of_hole_in_back_bezel - 1,
                 left_side_of_hole_in_back_bezel + volume_control_offset])
@@ -167,7 +172,7 @@ module front_bezel() {
 	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
 	  hole_for_screen();
 	  if (with_buttons) buttons();
-	  adjacent_meter_cutout();
+	  adjacent_meter_cutout(); /* might not be needed, but probably best left in */
      }
 }
 
