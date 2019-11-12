@@ -38,6 +38,13 @@ height_of_front_bezel = 150;
 screen_offset_from_bottom_of_front_bezel = bottom_of_hole_in_back_bezel + 10;
 screen_offset_from_side_of_front_bezel = 56;
 
+/* Threaded inserts for mounting */
+
+threaded_insert_hole_diameter = 10; /* todo: find and measure these */
+insert_offset_from_side = 12;
+insert_offset_from_bottom = 72;
+insert_offset_from_screen = 12;
+
 /* Buttons */
 
 button_radius = 7.5;
@@ -47,7 +54,7 @@ left_bottom_button_y = middle_button_y - 22;
 left_top_button_y = middle_button_y + 19;
 right_bottom_button_y = middle_button_y - 21;
 right_top_button_y = middle_button_y + 18;
-     
+
 left_button_x = 30;
 right_button_x = overall_width - 26;
 
@@ -142,9 +149,27 @@ module hole_for_tablet() {
 }
 
 module adjacent_meter_cutout() {
-     translate([middle_button_y, overall_width + meter_offset]) circle(r=meter_radius, center=true);
+     translate([middle_button_y, overall_width + meter_offset])
+          circle(r=meter_radius, center=true);
 }
-	  
+
+module threaded_holes() {
+     translate([insert_offset_from_bottom, insert_offset_from_side])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+     translate([insert_offset_from_bottom, overall_width - insert_offset_from_side])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+     translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
+                left_side_of_hole_in_back_bezel + insert_offset_from_screen])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+     translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
+                right_side_of_hole_in_back_bezel - insert_offset_from_screen])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+     if (false)                 /* upper central hole */
+          translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
+                     (left_side_of_hole_in_back_bezel + right_side_of_hole_in_back_bezel) / 2])
+               circle(r=threaded_insert_hole_diameter/2, center=true);
+}
+
 module hole_for_usb() {
      translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_width]) square([usb_height, usb_width]);
 }
@@ -162,9 +187,10 @@ module back_bezel() {
      difference() {
 	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
 	  hole_for_tablet();
+          threaded_holes();
           if (with_buttons) buttons();
 	  adjacent_meter_cutout();
-     }
+    }
 }
 
 module front_bezel() {
@@ -193,4 +219,3 @@ if (solid) {
 	  translate([0, overall_width + 8]) front_bezel();
      }
 }
-
