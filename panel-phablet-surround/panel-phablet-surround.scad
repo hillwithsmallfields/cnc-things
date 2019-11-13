@@ -40,7 +40,9 @@ screen_offset_from_side_of_front_bezel = 56;
 
 /* Threaded inserts for mounting */
 
-threaded_insert_hole_diameter = 10; /* todo: find and measure these */
+/* https://www.ebay.co.uk/itm/THREADED-BRASS-INSERTS-SLOTTED-SELF-TAPPING-KNURLED-PRESS-FIT-M3-M4-M5-M6-M8-M10/202304125116 M5 are 10mm long and M8 external */
+
+threaded_insert_hole_diameter = 8; /* todo: find and measure these */
 insert_offset_from_side = 12;
 insert_offset_from_bottom = 72;
 insert_offset_from_screen = 12;
