@@ -9,7 +9,7 @@ with_buttons = true;
 
 overall_width = 268;
 x_centre = 134;
-legal_corner_radius = 3;
+outside_corner_radius = 6;
 minimum_cutting_radius = 3;
 
 /* The tablet */
@@ -24,18 +24,22 @@ tablet_corner_radius = 9;
 
 /* Back bezel */
 
-height_of_back_bezel = 145;
-total_back_bezel_side_margins = overall_width - tablet_width;
-total_top_and_bottom_margins_of_back_bezel = height_of_back_bezel - tablet_height;
-left_side_of_hole_in_back_bezel = total_back_bezel_side_margins / 2;
-right_side_of_hole_in_back_bezel = left_side_of_hole_in_back_bezel + tablet_width;
-bottom_of_hole_in_back_bezel = 10;
-top_of_hole_in_back_bezel = bottom_of_hole_in_back_bezel + tablet_height;
+height_of_back_bezel = 60;
+
+/* Middle bezel */
+
+height_of_middle_bezel = 145;
+total_middle_bezel_side_margins = overall_width - tablet_width;
+total_top_and_bottom_margins_of_middle_bezel = height_of_middle_bezel - tablet_height;
+left_side_of_hole_in_middle_bezel = total_middle_bezel_side_margins / 2;
+right_side_of_hole_in_middle_bezel = left_side_of_hole_in_middle_bezel + tablet_width;
+bottom_of_hole_in_middle_bezel = 10;
+top_of_hole_in_middle_bezel = bottom_of_hole_in_middle_bezel + tablet_height;
 
 /* Front bezel */
 
 height_of_front_bezel = 150;
-screen_offset_from_bottom_of_front_bezel = bottom_of_hole_in_back_bezel + 10;
+screen_offset_from_bottom_of_front_bezel = bottom_of_hole_in_middle_bezel + 10;
 screen_offset_from_side_of_front_bezel = 56;
 
 /* Threaded inserts for mounting */
@@ -88,14 +92,14 @@ volume_control_depth = 5;
 
 /* Connections */
 
-usb_bottom = bottom_of_hole_in_back_bezel + 28;
+usb_bottom = bottom_of_hole_in_middle_bezel + 28;
 usb_width = 10;
-usb_right = left_side_of_hole_in_back_bezel;
+usb_right = left_side_of_hole_in_middle_bezel;
 usb_length = 13;
-usb_lead_length = 13;
+usb_lead_length = 19;
 usb_lead_width = 8;
 
-audio_top = top_of_hole_in_back_bezel - 28;
+audio_top = top_of_hole_in_middle_bezel - 28;
 audio_width = 13;               /* todo: get a cable with a narrower plug */
 audio_bottom = audio_top - audio_width;
 audio_length = 31;
@@ -130,22 +134,22 @@ module rounded_square(height, width, corner_radius) {
 }
 
 module hole_for_power_control_assembly() {
-     translate([top_of_hole_in_back_bezel - 1,
-                left_side_of_hole_in_back_bezel + power_control_assembly_offset]) {
+     translate([top_of_hole_in_middle_bezel - 1,
+                left_side_of_hole_in_middle_bezel + power_control_assembly_offset]) {
           square([power_lever_height, power_lever_width]);
           translate([solenoid_y_offset, solenoid_x_offset]) {
                square([solenoid_body_width, solenoid_body_length]);
                translate([solenoid_body_width/2 - solenoid_plunger_space_width/2, solenoid_body_length]) square([solenoid_plunger_space_width, solenoid_plunger_space_length]);
           }
      }
-     translate([top_of_hole_in_back_bezel - 1,
-                left_side_of_hole_in_back_bezel + volume_control_offset])
+     translate([top_of_hole_in_middle_bezel - 1,
+                left_side_of_hole_in_middle_bezel + volume_control_offset])
           square([volume_control_depth, volume_control_width]);
 }
 
 module hole_for_tablet() {
      union() {
-          translate([bottom_of_hole_in_back_bezel, left_side_of_hole_in_back_bezel])
+          translate([bottom_of_hole_in_middle_bezel, left_side_of_hole_in_middle_bezel])
                rounded_square(tablet_height, tablet_width, tablet_corner_radius);
           hole_for_power_control_assembly();
 	  hole_for_usb();
@@ -163,21 +167,21 @@ module threaded_holes() {
           circle(r=threaded_insert_hole_diameter/2, center=true);
      translate([insert_offset_from_bottom, overall_width - insert_offset_from_side])
           circle(r=threaded_insert_hole_diameter/2, center=true);
-     translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
-                left_side_of_hole_in_back_bezel + insert_offset_from_screen])
+     translate([top_of_hole_in_middle_bezel + insert_offset_from_screen,
+                left_side_of_hole_in_middle_bezel + insert_offset_from_screen])
           circle(r=threaded_insert_hole_diameter/2, center=true);
-     translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
-                right_side_of_hole_in_back_bezel - insert_offset_from_screen])
+     translate([top_of_hole_in_middle_bezel + insert_offset_from_screen,
+                right_side_of_hole_in_middle_bezel - insert_offset_from_screen])
           circle(r=threaded_insert_hole_diameter/2, center=true);
      if (false)                 /* upper central hole */
-          translate([top_of_hole_in_back_bezel + insert_offset_from_screen,
-                     (left_side_of_hole_in_back_bezel + right_side_of_hole_in_back_bezel) / 2])
+          translate([top_of_hole_in_middle_bezel + insert_offset_from_screen,
+                     (left_side_of_hole_in_middle_bezel + right_side_of_hole_in_middle_bezel) / 2])
                circle(r=threaded_insert_hole_diameter/2, center=true);
 }
 
 module hole_for_usb() {
      /* todo: USB cable is right-angled, so needs a bit leading off it, but I don't know which way up that will be */
-     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_length]) {
+     translate([usb_bottom, left_side_of_hole_in_middle_bezel - usb_length]) {
           square([usb_width, usb_length]);
           translate([usb_width, 0])
                square([usb_lead_length, usb_lead_width]);
@@ -185,7 +189,7 @@ module hole_for_usb() {
 }
 
 module hole_for_audio() {
-     translate([audio_bottom, left_side_of_hole_in_back_bezel - audio_length]) square([audio_width, audio_length]);
+     translate([audio_bottom, left_side_of_hole_in_middle_bezel - audio_length]) square([audio_width, audio_length]);
 }
 
 module hole_for_screen() {
@@ -194,8 +198,17 @@ module hole_for_screen() {
 }
 
 module back_bezel() {
+     intersection() {
+          rounded_square(height_of_back_bezel * outside_corner_radius,
+                         overall_width,
+                         outside_corner_radius);
+          square([height_of_back_bezel, overall_width]);
+     }
+}
+
+module middle_bezel() {
      difference() {
-	  rounded_square(height_of_back_bezel, overall_width, legal_corner_radius);
+	  rounded_square(height_of_middle_bezel, overall_width, outside_corner_radius);
 	  hole_for_tablet();
           threaded_holes();
           if (with_buttons) buttons();
@@ -205,27 +218,30 @@ module back_bezel() {
 
 module front_bezel() {
      difference() {
-	  rounded_square(height_of_front_bezel, overall_width, legal_corner_radius);
+	  rounded_square(height_of_front_bezel, overall_width, outside_corner_radius);
 	  hole_for_screen();
 	  if (with_buttons) buttons();
 	  adjacent_meter_cutout(); /* might not be needed, but probably best left in */
      }
 }
 
-solid = false;
+solid = true;
 squat = true;
 
 exploded_diagram_spacing = -25;
 
 if (solid) {
      linear_extrude(height=10) back_bezel();
-     translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) front_bezel();
+     translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) middle_bezel();
+     translate([0, 0, exploded_diagram_spacing*2]) linear_extrude(height=10) front_bezel();
 } else {
      if (squat) {
-	  back_bezel();
-	  translate([height_of_back_bezel + 1, 0]) front_bezel();
+          back_bezel();
+	  translate([height_of_back_bezel + 1, 0]) middle_bezel();
+	  translate([height_of_back_bezel + height_of_middle_bezel + 2, 0]) front_bezel();
      } else {			/* elongated form */
-	  back_bezel();
-	  translate([0, overall_width + 8]) front_bezel();
+          back_bezel();
+	  translate([0, overall_width + 8]) middle_bezel();
+	  translate([0, (overall_width + 8) * 2]) front_bezel();
      }
 }
