@@ -74,24 +74,26 @@ power_lever_height = 12;
 power_lever_width = 16;
 
 solenoid_body_width = 12;
-solenoid_body_length = 20;          /* todo: re-measure this */
-solenoid_plunger_space_length = 18; /* todo: measure this */
-solenoid_plunger_space_width = 6;   /* todo: measure this */
+solenoid_body_length = 22 + 10;
+solenoid_plunger_space_length = 10; /* todo: measure this */
+solenoid_plunger_space_width = 8;   /* todo: measure this */
 solenoid_x_offset = 10;
 solenoid_y_offset = 10;
 
 /* Gap for volume control */
 
 volume_control_offset = 20;
-volume_control_width = 22;
+volume_control_width = 24;
 volume_control_depth = 5;
 
 /* Connections */
 
-usb_bottom = bottom_of_hole_in_back_bezel + 22;
+usb_bottom = bottom_of_hole_in_back_bezel + 28;
 usb_width = 10;
 usb_right = left_side_of_hole_in_back_bezel;
 usb_length = 13;
+usb_lead_length = 13;
+usb_lead_width = 8;
 
 audio_top = top_of_hole_in_back_bezel - 28;
 audio_width = 13;               /* todo: get a cable with a narrower plug */
@@ -101,6 +103,7 @@ audio_length = 31;
 /* Shapes */
 
 module button(y, x) {
+     /* todo: make the buttons into rounded squares? */
      translate([y,x]) circle(r=button_radius, center=true);
 }
 
@@ -174,7 +177,11 @@ module threaded_holes() {
 
 module hole_for_usb() {
      /* todo: USB cable is right-angled, so needs a bit leading off it, but I don't know which way up that will be */
-     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_length]) square([usb_width, usb_length]);
+     translate([usb_bottom, left_side_of_hole_in_back_bezel - usb_length]) {
+          square([usb_width, usb_length]);
+          translate([usb_width, 0])
+               square([usb_lead_length, usb_lead_width]);
+     }
 }
 
 module hole_for_audio() {
@@ -216,7 +223,7 @@ if (solid) {
 } else {
      if (squat) {
 	  back_bezel();
-	  translate([height_of_back_bezel + 8, 0]) front_bezel();
+	  translate([height_of_back_bezel + 1, 0]) front_bezel();
      } else {			/* elongated form */
 	  back_bezel();
 	  translate([0, overall_width + 8]) front_bezel();
