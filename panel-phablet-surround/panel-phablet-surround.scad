@@ -225,23 +225,21 @@ module front_bezel() {
      }
 }
 
-solid = true;
-squat = true;
+solid = false;
 
 exploded_diagram_spacing = -25;
+
+cutting_gap = 3;
 
 if (solid) {
      linear_extrude(height=10) back_bezel();
      translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) middle_bezel();
      translate([0, 0, exploded_diagram_spacing*2]) linear_extrude(height=10) front_bezel();
 } else {
-     if (squat) {
-          back_bezel();
-	  translate([height_of_back_bezel + 1, 0]) middle_bezel();
-	  translate([height_of_back_bezel + height_of_middle_bezel + 2, 0]) front_bezel();
-     } else {			/* elongated form */
-          back_bezel();
-	  translate([0, overall_width + 8]) middle_bezel();
-	  translate([0, (overall_width + 8) * 2]) front_bezel();
-     }
+     back_bezel();
+     translate([height_of_back_bezel + cutting_gap, 0]) middle_bezel();
+     translate([height_of_back_bezel + height_of_middle_bezel + 2 * cutting_gap, 0]) front_bezel();
+     echo("Overall height",
+          height_of_back_bezel + height_of_middle_bezel + height_of_front_bezel + 2 * cutting_gap);
+     echo("Overall width", overall_width);
 }
