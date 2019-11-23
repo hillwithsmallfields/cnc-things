@@ -1,9 +1,10 @@
 /* sizes all in mm */
 
-/* todo: threaded insert holes */
+/* overall size 361 x 268 as at 2019-11-23 */
 
 /* Configuration */
 with_buttons = true;
+square_buttons = true;
 
 /* Overall dimensions */
 
@@ -53,7 +54,6 @@ insert_offset_from_screen = 12;
 
 /* Buttons */
 
-square_buttons = true;
 button_radius = 7.5;
 button_width = 15;
 
