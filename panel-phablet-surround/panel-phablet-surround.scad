@@ -53,7 +53,9 @@ insert_offset_from_screen = 12;
 
 /* Buttons */
 
+square_buttons = true;
 button_radius = 7.5;
+button_width = 15;
 
 middle_button_y = 100;
 left_bottom_button_y = middle_button_y - 22;
@@ -107,8 +109,13 @@ audio_length = 31;
 /* Shapes */
 
 module button(y, x) {
-     /* todo: make the buttons into rounded squares? */
-     translate([y,x]) circle(r=button_radius, center=true);
+     if (square_buttons) {
+          translate([y-button_width/2,x-button_width/2])
+               square([button_width, button_width]);
+     } else {
+          translate([y,x])
+               circle(r=button_radius, center=true);
+     }
 }
 
 module buttons() {
