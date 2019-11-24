@@ -99,17 +99,17 @@ volume_control_depth = 5;
 
 /* Connections */
 
-usb_bottom = bottom_of_hole_in_middle_bezel + 28;
-usb_width = 10;
+usb_bottom = bottom_of_hole_in_middle_bezel + 25;
+usb_width = 13;
 usb_right = left_side_of_hole_in_middle_bezel;
 usb_length = 13;
 usb_lead_length = 19;
 usb_lead_width = 8;
 
 audio_top = top_of_hole_in_middle_bezel - 28;
-audio_width = 13;               /* todo: get a cable with a narrower plug */
+audio_width = 10;               /* todo: get a cable with a narrower plug */
 audio_bottom = audio_top - audio_width;
-audio_length = 31;
+audio_length = 33;
 
 /* Shapes */
 
@@ -251,21 +251,33 @@ module front_bezel() {
      }
 }
 
+all_parts = true;
+part = 1;
 solid = false;
 
 exploded_diagram_spacing = -25;
 
 cutting_gap = 3;
 
-if (solid) {
-     linear_extrude(height=10) back_bezel();
-     translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) middle_bezel();
-     translate([0, 0, exploded_diagram_spacing*2]) linear_extrude(height=10) front_bezel();
+if (all_parts) {
+     if (solid) {
+          linear_extrude(height=10) back_bezel();
+          translate([0, 0, exploded_diagram_spacing]) linear_extrude(height=10) middle_bezel();
+          translate([0, 0, exploded_diagram_spacing*2]) linear_extrude(height=10) front_bezel();
+     } else {
+          back_bezel();
+          translate([height_of_back_bezel + cutting_gap, 0]) middle_bezel();
+          translate([height_of_back_bezel + height_of_middle_bezel + 2 * cutting_gap, 0]) front_bezel();
+          echo("Overall height",
+               height_of_back_bezel + height_of_middle_bezel + height_of_front_bezel + 2 * cutting_gap);
+          echo("Overall width", overall_width);
+     }
 } else {
-     back_bezel();
-     translate([height_of_back_bezel + cutting_gap, 0]) middle_bezel();
-     translate([height_of_back_bezel + height_of_middle_bezel + 2 * cutting_gap, 0]) front_bezel();
-     echo("Overall height",
-          height_of_back_bezel + height_of_middle_bezel + height_of_front_bezel + 2 * cutting_gap);
-     echo("Overall width", overall_width);
+     if (part == 0) {
+          back_bezel();
+     } else if (part == 1) {
+          middle_bezel();
+     } else {
+          front_bezel();
+     }
 }
