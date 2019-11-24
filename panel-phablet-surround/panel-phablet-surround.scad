@@ -47,10 +47,15 @@ screen_offset_from_side_of_front_bezel = 56;
 
 /* https://www.ebay.co.uk/itm/THREADED-BRASS-INSERTS-SLOTTED-SELF-TAPPING-KNURLED-PRESS-FIT-M3-M4-M5-M6-M8-M10/202304125116 M5 are 10mm long and M8 external */
 
-threaded_insert_hole_diameter = 8; /* todo: find and measure these */
+threaded_insert_hole_diameter = 6.8; /* size of pilot drill for M8 threaded holes */
 insert_offset_from_side = 12;
 insert_offset_from_bottom = 72;
 insert_offset_from_screen = 12;
+
+bolt_hole_diameter = 5;       /* M5 */
+
+back_mounting_offset_from_bottom = 25;
+back_mounting_offset_from_side = 20;
 
 /* Buttons */
 
@@ -184,6 +189,17 @@ module threaded_holes() {
           translate([top_of_hole_in_middle_bezel + insert_offset_from_screen,
                      (left_side_of_hole_in_middle_bezel + right_side_of_hole_in_middle_bezel) / 2])
                circle(r=threaded_insert_hole_diameter/2, center=true);
+     translate([back_mounting_offset_from_bottom, back_mounting_offset_from_side])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+     translate([back_mounting_offset_from_bottom, overall_width - back_mounting_offset_from_side])
+          circle(r=threaded_insert_hole_diameter/2, center=true);
+}
+
+module back_bolt_holes() {
+     translate([back_mounting_offset_from_bottom, back_mounting_offset_from_side])
+          circle(r=bolt_hole_diameter/2, center=true);
+     translate([back_mounting_offset_from_bottom, overall_width - back_mounting_offset_from_side])
+          circle(r=bolt_hole_diameter/2, center=true);
 }
 
 module hole_for_usb() {
@@ -205,11 +221,14 @@ module hole_for_screen() {
 }
 
 module back_bezel() {
-     intersection() {
-          rounded_square(height_of_back_bezel * outside_corner_radius,
-                         overall_width,
-                         outside_corner_radius);
-          square([height_of_back_bezel, overall_width]);
+     difference() {
+          intersection() {
+               rounded_square(height_of_back_bezel * outside_corner_radius,
+                              overall_width,
+                              outside_corner_radius);
+               square([height_of_back_bezel, overall_width]);
+          }
+          back_bolt_holes();
      }
 }
 
