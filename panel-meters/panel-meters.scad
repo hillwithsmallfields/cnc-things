@@ -8,13 +8,16 @@ spacing = bezel * 2;
 columns = 2;
 rows = 3;
 
-whole_width = (meter_width + spacing) * columns;
-whole_height = (meter_height + spacing) * rows;
+one_width = meter_width + spacing;
+one_height = meter_height + spacing;
+
+whole_width = one_width * columns;
+whole_height = one_height * rows;
 
 module meter_holes() {
-     for (row = [1:rows]) {
-          for (column = [1:columns]) {
-               translate() {
+     for (row = [0:rows-1]) {
+          for (column = [0:columns-1]) {
+               translate([column * one_width + bezel, row * one_height + bezel]) {
                     square([meter_width, meter_height]);
                }
           }
@@ -31,3 +34,5 @@ module meter_panel() {
           meter_holes();
      }
 }
+
+meter_panel();
