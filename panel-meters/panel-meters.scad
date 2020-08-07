@@ -1,5 +1,5 @@
 /* modified version of box.scad */
-include <box.scad>
+include <meterbox.scad>
 
 meter_width = 45;
 meter_height = 26;
@@ -46,5 +46,11 @@ module meter_panel() {
 }
 
 // meter_panel();
-box(width=whole_width, depth=whole_height, height=25, thickness=3, open_bottom=true, assemble=true, cutouts=meter_holes);
+box(width=whole_width,
+    depth=whole_height,
+    height=25,
+    thickness=3,
+    // open_bottom=true,
+    // assemble=true,
+    cutouts=meter_holes);
 
