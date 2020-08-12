@@ -195,7 +195,7 @@ module box(width, height, depth, thickness,
   module box2d() {
     compkerf() front();
     x1 = w + kc * 2 + e + spacing;
-    translate([x1,0]) compkerf() back();
+    // translate([x1,0]) compkerf() back();
     x2 = x1 + w + 2 * kc + e + ears_radius + spacing;
     /* translate([x2,0]) compkerf() left(); */
     x3 = x2 + d + 2 * kc + e + spacing;
@@ -206,7 +206,7 @@ module box(width, height, depth, thickness,
       translate([x4,y1]) compkerf() bottom();
     }
     if (keep_top) {
-      x5 = w + 2 * kc + e + spacing;
+      x5 = 0;
       translate([x5,y1]) compkerf() top();
     }
     x6 = w + 2 * kc + (keep_top ? w+e : 0) + e + spacing;
@@ -214,9 +214,11 @@ module box(width, height, depth, thickness,
     translate([x6+kerf,y1 + (dividers[0] > 0 ? y1 : 0)]) compkerf() h_dividers();
     y2 = h + d + kc * 3 + e + ears_radius + spacing * 3 + t;
     x4 = 0;
-    x5 = x1;
+    x5 = x1/2;
     translate([x4,y2]) compkerf() left();
     translate([x5,y2]) compkerf() right();
+    y3 = y2 + h + kc * 2 + e + ears_radius + spacing;
+    translate([0,y3 + t]) compkerf() back();
   }
 
   // Assembled box in 3D

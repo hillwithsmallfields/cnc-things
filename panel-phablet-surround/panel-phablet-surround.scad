@@ -251,8 +251,8 @@ module front_bezel() {
      }
 }
 
-all_parts = true;
-part = 1;
+all_parts = false;
+part = 10;
 solid = false;
 
 exploded_diagram_spacing = -25;
@@ -273,10 +273,18 @@ if (all_parts) {
           echo("Overall width", overall_width);
      }
 } else {
-     if (part == 0) {
+     if (part == -1) {
+          back_bezel();
+          translate([height_of_back_bezel + cutting_gap, 0]) back_bezel();
+          translate([(height_of_back_bezel + cutting_gap) * 2, 0]) back_bezel();
+     } else if (part == 0) {
           back_bezel();
      } else if (part == 1) {
           middle_bezel();
+     } else if (part == 10) {
+          translate([(height_of_back_bezel + cutting_gap) * 2, 0]) middle_bezel();
+          translate([height_of_back_bezel + cutting_gap, 0]) back_bezel();
+          back_bezel();
      } else {
           front_bezel();
      }

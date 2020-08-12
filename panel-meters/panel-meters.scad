@@ -50,7 +50,7 @@ box(width=whole_width,
     depth=whole_height,
     height=25,
     thickness=3,
-    // open_bottom=true,
+    open_bottom=true,
     // assemble=true,
     cutouts=meter_holes);
 
