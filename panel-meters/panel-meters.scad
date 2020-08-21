@@ -1,8 +1,8 @@
 /* modified version of box.scad */
 include <meterbox.scad>
 
-meter_width = 45;
-meter_height = 26;
+meter_width = 45.5;
+meter_height = 26.5;
 
 clip_notch_depth = 1;
 clip_notch_width = 11;
@@ -15,7 +15,8 @@ spacing = bezel * 2;
 h_edging = 6;
 v_edging = 6;
 button_area_width = 18;
-button_diameter = 4;
+small_button_diameter = 4;
+large_button_diameter = 12;
 mounting_bolt_diameter = 5;
 mounting_area_width = 20;
 
@@ -46,7 +47,8 @@ module meter_holes() {
                }
           }
      }
-     translate([whole_width - h_edging - button_area_width/2, one_height/2]) { circle(d=button_diameter, center=true);}
+     translate([whole_width - h_edging - button_area_width/2, one_height/2]) { circle(d=small_button_diameter, center=true);}
+     translate([whole_width - h_edging - button_area_width/2, whole_height - one_height/2]) { circle(d=large_button_diameter, center=true);}
      translate([mounting_area_width / 2, whole_height / 2]) { circle(d=mounting_bolt_diameter, center=true); }
      translate([whole_width - mounting_area_width / 2, whole_height / 2]) { circle(d=mounting_bolt_diameter, center=true); }
 }
