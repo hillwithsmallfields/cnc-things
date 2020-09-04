@@ -1,7 +1,7 @@
 
-total_width = 300;
-total_depth = 300;
-total_height = 150;
+total_width = 270;
+total_depth = 270;
+total_height = 135;
 
 outer_thickness = 3;
 inner_thickness = 6;
@@ -13,6 +13,11 @@ switch_width = 10.4;
 
 meter_width = 48;
 meter_height = 29;
+
+meter_switch_gap = 12;
+
+meter_and_switch_height = max(meter_height, switch_height);
+meter_and_switch_width = meter_width + meter_switch_gap + switch_width;
 
 mains_inlet_width = 31;
 mains_inlet_height = 27;
@@ -47,3 +52,13 @@ module binding_post_hole_pair(diameter, spacing, join) {
          translate([-spacing/2, -diameter/2) square([spacing, diameter]);
      }
 }
+
+module meter_and_switch() {
+    translate([-meter_and_switch_width/2, -meter_and_switch_height/2]) {
+        square([switch_width, switch_height]);
+        translate([switch_width + meter_switch_gap, (switch_height - meter_height)/2]) {
+            square([meter_width, meter_height]);
+        }
+    }
+}
+
