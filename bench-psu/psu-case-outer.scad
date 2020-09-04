@@ -29,6 +29,14 @@ module top_outer_cutouts() {
      }
 }
 
+module top_dividers() {
+     for (i=[1:sections-1]) {
+          translate([i * section_width, margin]) {
+               square([3,total_depth - margin*2]);
+          }
+     }
+}
+
 module front_outer_cutouts() {
      for (i=[0:sections]) {
           translate([i * section_width, 0]) {
@@ -37,10 +45,19 @@ module front_outer_cutouts() {
      }
 }
 
+module front_dividers() {
+     for (i=[1:sections-1]) {
+          translate([i * section_width, margin]) {
+               square([3,total_height - margin*2]);
+          }
+     }
+}
+
 module front_top() {
      difference() {
           square([total_width, total_depth]);
           top_outer_cutouts();
+          top_dividers();
      }
 }
 
@@ -48,6 +65,7 @@ module front_outer() {
      difference() {
           square([total_width, total_height]);
           front_outer_cutouts();
+          front_dividers();
      }
 }
 
