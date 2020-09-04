@@ -8,7 +8,9 @@ inner_thickness = 6;
 margin = 15;
 cutting_space = 5;
 
-sections = 3;
+voltages = ["5V", "3--36V", "12V"];
+
+sections = len(voltages);
 
 section_width = (total_width - 2 * outer_thickness) / 3;
 
@@ -40,7 +42,7 @@ adjuster_y_offset = 25;
 
 binding_post_hole_inner_diameter = 15;
 binding_post_hole_outer_diameter = 3;
-binding_post_rows = 4;
+binding_post_rows = 6;
 binding_post_spacing = 20;
 binding_post_row_spacing = 25;
 binding_post_offset = binding_post_row_spacing;

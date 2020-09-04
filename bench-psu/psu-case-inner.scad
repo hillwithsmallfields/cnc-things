@@ -6,8 +6,12 @@ module one_front_inner_cutout() {
 }
 
 module one_top_inner_cutout() {
-     for (i=[1:binding_post_rows]) {
-          translate([half_section_width, i * binding_post_row_spacing]) binding_post_hole_pair(binding_post_hole_inner_diameter, binding_post_spacing, true);
+     translate([0, binding_post_offset]) {
+          for (i=[1:binding_post_rows]) {
+               if (i != binding_post_rows-2) {          
+                    translate([half_section_width, i * binding_post_row_spacing]) binding_post_hole_pair(binding_post_hole_inner_diameter, binding_post_spacing, true);
+               }
+          }
      }
 }
 
