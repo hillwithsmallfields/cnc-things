@@ -1,8 +1,7 @@
 include <psu-dimensions.scad>
 
 module one_front_outer_cutout() {
-     translate([half_section_width - switch_width/2, switch_offset]) square([switch_width, switch_height]);
-     translate([half_section_width - meter_width/2, meter_offset]) square([meter_width, meter_height]);
+     translate([half_section_width, total_height-(meter_and_switch_height + margin)]) meter_and_switch();
 }
 
 module one_top_outer_cutout() {

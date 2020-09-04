@@ -46,8 +46,8 @@ module box(width, height, depth, thickness,
   module compkerf() { offset(delta = kc) children(); }
 
   // 2D panels with finger cuts
-  module left() { cut_left() panel2d(d, h); }
-  module right() { cut_right() panel2d(d, h); }
+  module left() { cut_left() difference() { panel2d(d, h); children();} }
+  module right() { cut_right() difference() { panel2d(d, h); children(); } }
   module top() { 
     if (ears_radius > 0) {
       difference() {
@@ -114,9 +114,7 @@ module box(width, height, depth, thickness,
     translate([0,t-explode,0])
       rotate(90, [1,0,0])
       panelize(w,h, "Front", front_color)
-      front() {
-         children();
-    };
+      front() { children(); };
   }
 
   module back3d() {
@@ -124,16 +122,14 @@ module box(width, height, depth, thickness,
       rotate(-90, [1,0,0])
       rotate(180,[0,0,1])
       panelize(w, h, "Back", back_color)
-      back() {
-         children();
-    };
+      back() { children(); };
   }
 
   module bottom3d() {
     translate([w,0,t-explode])
       rotate(180,[0,1,0])
       panelize(w, d, "Bottom", bottom_color)
-      bottom();
+      bottom() { children(); };
   }
 
   module top3d() {
@@ -147,7 +143,7 @@ module box(width, height, depth, thickness,
       rotate(-90,[0,1,0])
       rotate(-90,[0,0,1])
       panelize(d, h, "Left", left_color)
-      left();
+      left() { children(); };
   }
 
   module right3d() {
@@ -155,7 +151,7 @@ module box(width, height, depth, thickness,
       rotate(90,[0,1,0])
       rotate(90,[0,0,1])
       panelize(d, h, "Right", right_color)
-      right();
+      right() { children(); };
   }
 
   module w_divider3d() {
@@ -206,9 +202,9 @@ module box(width, height, depth, thickness,
     x1 = w + kc * 2 + e + spacing;
     translate([x1,0]) compkerf() back() { children(2); };
     x2 = x1 + w + 2 * kc + e + ears_radius + spacing;
-    translate([x2,0]) compkerf() left();
+    translate([x2,0]) compkerf() left() { children(3); };
     x3 = x2 + d + 2 * kc + e + spacing;
-    translate([x3,0]) compkerf() right();
+    translate([x3,0]) compkerf() right() { children(4); };
     y1 = h + kc * 2 + e + ears_radius + spacing;
     if (keep_bottom) {
       x4 = 0;
@@ -231,8 +227,8 @@ module box(width, height, depth, thickness,
       translate([0,0,inset]) bottom3d();
     if (keep_top)
       top3d() { { children(1); }};
-    left3d();
-    right3d();
+    left3d() { children(3); };
+    right3d() { children(4); };
     w_divider3d();
     h_divider3d();
   }
@@ -413,11 +409,15 @@ module box(width, height, depth, thickness,
          children(0);
          children(1);
          children(2);
+         children(3);
+         children(4);
     }
   else
     box2d() {
          children(0);
          children(1);
          children(2);
+         children(3);
+         children(4);
     };
 }
