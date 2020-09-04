@@ -7,7 +7,7 @@ module one_front_outer_cutout() {
 
 module one_top_outer_cutout() {
      for (i=[1:binding_post_rows]) {
-          translate([half_section_width, i * binding_post_row_spacing]) binding_post_hole_pair(binding_post_hole_outer_diameter, binding_post_spacing);
+          translate([half_section_width, i * binding_post_row_spacing]) binding_post_hole_pair(binding_post_hole_outer_diameter, binding_post_spacing, false);
      }
 }
 
