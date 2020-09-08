@@ -58,6 +58,23 @@ side_ventilation_area_length = total_depth/3;
 side_ventilation_holes_per_row = side_ventilation_area_length / ventilation_hole_spacing;
 side_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
 
+/* some internal parts so I can experiment with layout */
+
+psu12v_length = 215;
+psu12v_width = 113;
+psu12v_height = 49;
+
+psu5v_length = 160;
+psu5v_width = 100;
+psu5v_height = 42;
+
+psu36v_length = 115;
+psu36v_width = 65;
+psu36v_height = 40;
+
+clamp_connector_length = 20;
+clamp_connector_width = 18;
+
 module binding_post_hole_pair(diameter, spacing, join) {
      translate([-spacing/2, 0]) circle(d=diameter);
      translate([spacing/2, 0]) circle(d=diameter);
