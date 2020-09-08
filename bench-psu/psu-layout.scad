@@ -3,8 +3,8 @@ include <psu-case-parts.scad>
 include <psu-components.scad>
 
 module components_on_base() {
-     base();
      internal_components();
+     base();
 }
 
 components_on_base();

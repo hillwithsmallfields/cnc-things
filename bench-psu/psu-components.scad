@@ -65,7 +65,7 @@ module internal_components() {
      psu12v_offset_from_front = total_depth - gap_around_components - psu12v_width;
      psu5v_offset_from_12v = - (psu5v_width + gap_around_components);
      psu36v_offset_from_12v = - (psu36v_width + gap_around_components);
-     translate([0, 0, top_of_lower_base]) {
+     translate([0, 0, top_of_base]) {
           translate([gap_around_components, psu12v_offset_from_front]) {
                psu12v();
                translate([0, psu5v_offset_from_12v]) {
@@ -75,6 +75,8 @@ module internal_components() {
                     psu36v();
                }
           }
+     }
+     translate([0, 0, top_of_lower_base]) {
           front_components();
      }
 }

@@ -17,8 +17,8 @@ module upper_base() {
 }
 
 module base() {
-     color("red") lower_base();
-     color("green") translate([0, 0, outer_thickness]) upper_base();
+     color("green", 2/3) translate([0, 0, outer_thickness]) upper_base();
+     color("red", 1/3) lower_base();
 }
 
 module binding_post_hole_pair(diameter, spacing, join) {

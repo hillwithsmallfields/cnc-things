@@ -387,7 +387,7 @@ module box(width, height, depth, thickness,
 
   // Turn 2D Panel into 3D
   module panelize(x, y, name, cl) {
-    color(cl)
+    color(cl, 2/3)
       linear_extrude(height = t)
       children();
     if (labels) {
