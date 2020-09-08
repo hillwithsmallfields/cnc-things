@@ -1,7 +1,7 @@
 include <psu-dimensions.scad>
 
 module one_front_outer_cutout(volt_label) {
-     translate([half_section_width, total_height-(meter_and_switch_height + margin)]) meter_and_switch();
+     translate([half_section_width, total_height-(meter_and_switch_height + margin)]) meter_and_switch_cutout();
      translate([12, 12]) text(volt_label);
 }
 

@@ -5,6 +5,9 @@ total_height = 135;
 outer_thickness = 3;
 inner_thickness = 6;
 
+top_of_lower_base = outer_thickness;
+top_of_base = top_of_lower_base + inner_thickness;
+
 margin = 15;
 cutting_space = 5;
 
@@ -18,16 +21,26 @@ half_section_width = section_width / 2;
 
 inner_depth = total_depth - outer_thickness;
 
+panel_lip_width = 3;
+panel_lip_depth = 3;
+
 switch_height = 27.2;
 switch_width = 10.4;
+switch_depth = 25;               /* TODO: measure this */
 
 meter_width = 48;
 meter_height = 29;
+meter_depth = 25;               /* TODO: measure this */
+
+rocker_width = switch_width - 3;
+rocker_depth = 6;
+rocker_height = switch_height - 3;
 
 meter_switch_gap = 12;
 
 meter_and_switch_height = max(meter_height, switch_height);
 meter_and_switch_width = meter_width + meter_switch_gap + switch_width;
+meter_and_switch_offset_from_base = 45;
 
 mains_inlet_width = 31;
 mains_inlet_height = 27;
@@ -38,9 +51,11 @@ meter_offset = 100;
 adjuster_width = 79;
 adjuster_height = 42;
 adjuster_depth = 42;
-adjuster_y_offset = 25;
+adjuster_y_offset = meter_and_switch_offset_from_base + meter_and_switch_height + 8;
 
-wire_clamp_depth = 50;
+clamp_connector_length = 20;
+clamp_connector_width = 18;
+wire_clamp_depth = clamp_connector_length + 15;
 
 binding_post_hole_inner_diameter = 15;
 binding_post_hole_outer_diameter = 3;
@@ -68,27 +83,10 @@ psu5v_length = 160;
 psu5v_width = 100;
 psu5v_height = 42;
 
-psu36v_length = 115;
-psu36v_width = 65;
+psu36v_length = 65;
+psu36v_width = 115;
 psu36v_height = 40;
 
-clamp_connector_length = 20;
-clamp_connector_width = 18;
+/* layout */
 
-module binding_post_hole_pair(diameter, spacing, join) {
-     translate([-spacing/2, 0]) circle(d=diameter);
-     translate([spacing/2, 0]) circle(d=diameter);
-     if (join) {
-         translate([-spacing/2, -diameter/2]) square([spacing, diameter]);
-     }
-}
-
-module meter_and_switch() {
-    translate([-meter_and_switch_width/2, -meter_and_switch_height/2]) {
-        square([switch_width, switch_height]);
-        translate([switch_width + meter_switch_gap, (switch_height - meter_height)/2]) {
-            square([meter_width, meter_height]);
-        }
-    }
-}
-
+gap_around_components = 10;
