@@ -40,12 +40,14 @@ adjuster_height = 42;
 adjuster_depth = 42;
 adjuster_y_offset = 25;
 
+wire_clamp_depth = 50;
+
 binding_post_hole_inner_diameter = 15;
 binding_post_hole_outer_diameter = 3;
 binding_post_rows = 6;
 binding_post_spacing = 20;
 binding_post_row_spacing = 25;
-binding_post_offset = binding_post_row_spacing;
+binding_post_offset = binding_post_row_spacing + wire_clamp_depth;
 
 ventilation_panel_start = mains_inlet_width + margin * 3;
 ventilation_hole_diameter = 10;
