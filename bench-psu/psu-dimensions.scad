@@ -4,6 +4,7 @@ total_height = 135;
 
 outer_thickness = 3;
 inner_thickness = 6;
+veneer_thickness = 1;
 
 top_of_lower_base = outer_thickness;
 top_of_base = top_of_lower_base + inner_thickness;

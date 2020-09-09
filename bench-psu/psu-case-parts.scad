@@ -44,6 +44,34 @@ module base() {
      color("red", 1/3) lower_base();
 }
 
+module ventilation_hole_row(columns) {
+     for (i=[0:columns]) {
+          translate([i * ventilation_hole_spacing, 0]) circle(d=ventilation_hole_diameter);
+     }
+}
+
+module ventilation_hole_grid(columns, rows) {
+     for (i=[0:rows]) {
+          offset = i % 2 == 0 ? 0 : ventilation_hole_spacing/2;
+          translate([offset, i * ventilation_hole_spacing]) ventilation_hole_row(columns);
+     }
+}
+
+module back_cutouts() {
+     translate([margin*2, total_height - margin*2 - mains_inlet_height]) square([mains_inlet_width, mains_inlet_height]);
+     difference() {
+          translate([ventilation_panel_start, margin]) ventilation_hole_grid(rear_ventilation_holes_per_row, rear_ventilation_hole_rows);
+     }
+}
+
+module left_cutouts() {
+     translate([margin, margin]) ventilation_hole_grid(side_ventilation_holes_per_row, side_ventilation_hole_rows);
+}
+
+module right_cutouts() {
+     translate([total_depth - (margin*2 + side_ventilation_area_length), margin]) ventilation_hole_grid(side_ventilation_holes_per_row, side_ventilation_hole_rows);
+}
+
 module binding_post_hole_pair(diameter, spacing, join) {
      translate([-spacing/2, 0]) circle(d=diameter);
      translate([spacing/2, 0]) circle(d=diameter);
@@ -61,12 +89,14 @@ module meter_and_switch_cutout() {
     }
 }
 
-module one_outer_front_cutout(volt_label) {
+module one_outer_front_cutout(with_text, volt_label) {
      translate([half_section_width, total_height-(meter_and_switch_height + margin)]) meter_and_switch_cutout();
-     translate([12, 12]) text(volt_label);
+     if (with_text) {
+          translate([12, 12]) text(volt_label);
+     }
 }
 
-module one_outer_top_cutout(volt_label) {
+module one_outer_top_cutout(with_text, volt_label) {
      translate([0, binding_post_offset]) {
           for (i=[1:binding_post_rows]) {
                translate([half_section_width, (i + 1) * binding_post_row_spacing]) {
@@ -75,16 +105,18 @@ module one_outer_top_cutout(volt_label) {
                     }
                }
           }
-          translate([12,binding_post_row_spacing]) text(volt_label);
-          translate([12,binding_post_row_spacing * (binding_post_rows + 1.5)]) text(volt_label);
+          if (with_text) {
+               translate([12,binding_post_row_spacing]) text(volt_label);
+               translate([12,binding_post_row_spacing * (binding_post_rows + 1.5)]) text(volt_label);
+          }
      }
 }
 
-module outer_top_cutouts() {
+module outer_top_cutouts(with_text) {
      translate([0, outer_thickness]) {
           for (i=[0:sections]) {
                translate([i * section_width, 0]) {
-                    one_outer_top_cutout(voltages[i]);
+                    one_outer_top_cutout(with_text, voltages[i]);
                }
           }
      }
@@ -93,15 +125,15 @@ module outer_top_cutouts() {
 module top_dividers() {
      for (i=[1:sections-1]) {
           translate([i * section_width, margin]) {
-               cube([3,total_depth - margin*2, outer_thickness]);
+               square([3,total_depth - margin*2]);
           }
      }
 }
 
-module outer_front_cutouts() {
+module outer_front_cutouts(with_text) {
      for (i=[0:sections]) {
           translate([i * section_width, 0]) {
-               one_outer_front_cutout(voltages[i]);
+               one_outer_front_cutout(with_text, voltages[i]);
           }
      }
 }
@@ -109,23 +141,82 @@ module outer_front_cutouts() {
 module front_dividers() {
      for (i=[1:sections-1]) {
           translate([i * section_width, margin]) {
-               cube([3, total_height - margin*2, outer_thickness]);
+               square([3, total_height - margin*2]);
           }
      }
 }
 
 module outer_top() {
-     difference() {
-          cube([total_width, total_depth, outer_thickness]);
-          outer_top_cutouts();
-          top_dividers();
+     linear_extrude(height=outer_thickness) {
+          difference() {
+               square([total_width, total_depth + outer_thickness]);
+               outer_top_cutouts(false);
+          }
      }
 }
 
 module outer_front() {
-     difference() {
-          cube([total_width, total_height, outer_thickness]);
-          outer_front_cutouts();
-          front_dividers();
+     linear_extrude(height=outer_thickness) {
+          difference() {
+               square([total_width, total_height]);
+               outer_front_cutouts(false);
+          }
+     }
+}
+
+module veneer_top() {
+     color("brown", 0.25) {
+          linear_extrude(height=veneer_thickness) {
+               difference() {
+                    square([total_width, total_depth + outer_thickness + veneer_thickness]);
+                    outer_top_cutouts(true);
+                    top_dividers();
+               }
+          }
+     }
+}
+
+module veneer_front() {
+     color("brown", 0.25) {
+          linear_extrude(height=veneer_thickness) {
+               difference() {
+                    square([total_width, total_height]);
+                    outer_front_cutouts(true);
+                    front_dividers();
+               }
+          }
+     }
+}
+
+module veneer_back() {
+     color("brown", 0.25) {
+          linear_extrude(height=veneer_thickness) {
+               difference() {
+                    square([total_width, total_height]);
+                    back_cutouts();
+               }
+          }
+     }
+}
+
+module veneer_left() {
+     color("brown", 0.25) {
+          linear_extrude(height=veneer_thickness) {
+               difference() {
+                    square([total_depth, total_height]);
+                    left_cutouts();
+               }
+          }
+     }
+}
+
+module veneer_right() {
+     color("brown", 0.25) {
+          linear_extrude(height=veneer_thickness) {
+               difference() {
+                    square([total_depth, total_height]);
+                    right_cutouts();
+               }
+          }
      }
 }
