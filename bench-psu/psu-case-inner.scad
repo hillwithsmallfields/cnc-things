@@ -81,12 +81,12 @@ module psu_case_inner() {
      }
 }
 
-module psu_case_inner_with_components() {
+module psu_case_inner_with_components(three_d) {
      if (three_d) {
           internal_components();
      }
      psu_case_inner();
-     base();
+     if (three_d) {
+	  base();
+     }	  
 }
-
-psu_case_inner_with_components();

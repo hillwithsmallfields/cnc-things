@@ -23,6 +23,7 @@ module box(width, height, depth, thickness,
            hole_dia = 0,
            ears = 0,
            assemble = false,
+           cut_parts = false,
            hole_width = false,
            kerf = 0.0,
            labels = false,
@@ -233,6 +234,18 @@ module box(width, height, depth, thickness,
     h_divider3d();
   }
 
+  module layout_cut_top() {
+       top() { children(0); };
+  }
+
+  module layout_cut_sides() {
+       block_height = total_height + cutting_space;
+       front() { children(0); };
+       translate([0,block_height]) compkerf() back() { children(1); };
+       translate([0,block_height*2]) compkerf() left() { children(2); };
+       translate([0,block_height*3]) compkerf() right() { children(3); };
+  }
+  
   // Finger cutting operators
   module cut_front() {
     difference() {
@@ -412,12 +425,23 @@ module box(width, height, depth, thickness,
          children(3);
          children(4);
     }
-  else
+  else if (cut_parts == false)
     box2d() {
          children(0);
          children(1);
          children(2);
          children(3);
          children(4);
-    };
+    }
+  else if (cut_parts == "sides")
+       layout_cut_sides() {
+         children(0);           /* front */
+         children(2);           /* back */
+         children(3);           /* left */
+         children(4);           /* right */
+       }
+  else if (cut_parts == "top")
+       layout_cut_top() {
+         children(1);           /* top */
+       }
 }

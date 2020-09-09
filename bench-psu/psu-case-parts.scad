@@ -1,10 +1,33 @@
 include <psu-dimensions.scad>
 
+corner_length = total_width / 4;
+corner_depth = corner_length / 3;
+
+module lower_base_corner() {
+     union() {
+          cube([corner_length,
+                corner_depth,
+                outer_thickness],
+               center=false);
+          cube([corner_depth,
+                corner_length,
+                outer_thickness],
+               center=false);
+     }
+}
+
 module lower_base() {
-     cube([total_width,
-           total_depth,
-           outer_thickness],
-          center=false);
+     lower_base_corner();
+     translate([total_width, 0]) rotate(90) lower_base_corner();
+     translate([0, total_depth]) rotate(-90) lower_base_corner();
+     translate([total_width, total_depth]) rotate(180) lower_base_corner();
+}
+
+module lower_base_parts() {
+     lower_base_corner();
+     translate([corner_length + corner_depth + cutting_space, corner_length]) rotate(180) lower_base_corner();
+     translate([corner_length + corner_depth + cutting_space * 2, 0]) lower_base_corner();
+     translate([(corner_length + corner_depth) * 2 + cutting_space * 3, corner_length]) rotate(180) lower_base_corner();
 }
 
 module upper_base() {
