@@ -238,6 +238,26 @@ module box(width, height, depth, thickness,
        top() { children(0); };
   }
 
+  module layout_cut_bottom() {
+       bottom() { children(0); };
+  }
+
+  module layout_cut_front() {
+       front() { children(0); };
+  }
+
+  module layout_cut_back() {
+       back() { children(0); };
+  }
+
+  module layout_cut_left() {
+       left() { children(0); };
+  }
+
+  module layout_cut_right() {
+       right() { children(0); };
+  }
+
   module layout_cut_sides() {
        block_height = total_height + cutting_space;
        front() { children(0); };
@@ -424,6 +444,7 @@ module box(width, height, depth, thickness,
          children(2);
          children(3);
          children(4);
+         children(5);
     }
   else if (cut_parts == false)
     box2d() {
@@ -432,6 +453,7 @@ module box(width, height, depth, thickness,
          children(2);
          children(3);
          children(4);
+         children(5);
     }
   else if (cut_parts == "sides")
        layout_cut_sides() {
@@ -443,5 +465,25 @@ module box(width, height, depth, thickness,
   else if (cut_parts == "top")
        layout_cut_top() {
          children(1);           /* top */
+       }
+  else if (cut_parts == "bottom")
+       layout_cut_bottom() {
+         children(5);           /* bottom */
+       }
+  else if (cut_parts == "front")
+       layout_cut_front() {
+         children(0);           /*  ront*/
+       }
+  else if (cut_parts == "back")
+       layout_cut_back() {
+         children(2);           /* back */
+       }
+  else if (cut_parts == "left")
+       layout_cut_left() {
+         children(3);           /* left */
+       }
+  else if (cut_parts == "right")
+       layout_cut_right() {
+         children(4);           /* right */
        }
 }
