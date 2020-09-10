@@ -13,7 +13,7 @@ module cut_top_base() {
           right_inner_cutouts();
      }
 
-     translate([0, total_depth]) { upper_base(); }
+     translate([0, total_depth + cutting_space]) { upper_base_flat(); }
 }
 
 cut_top_base();

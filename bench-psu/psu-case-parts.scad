@@ -3,16 +3,20 @@ include <psu-dimensions.scad>
 corner_length = total_width / 4;
 corner_depth = corner_length / 3;
 
-module lower_base_corner() {
+module lower_base_corner_flat() {
      union() {
-          cube([corner_length,
-                corner_depth,
-                outer_thickness],
-               center=false);
-          cube([corner_depth,
-                corner_length,
-                outer_thickness],
-               center=false);
+          square([corner_length,
+                  corner_depth],
+                 center=false);
+          square([corner_depth,
+                  corner_length],
+                 center=false);
+     }
+}
+
+module lower_base_corner() {
+     linear_extrude(height=outer_thickness) {
+          lower_base_corner_flat();
      }
 }
 
@@ -24,18 +28,23 @@ module lower_base() {
 }
 
 module lower_base_parts() {
-     lower_base_corner();
-     translate([corner_length + corner_depth + cutting_space, corner_length]) rotate(180) lower_base_corner();
-     translate([corner_length + corner_depth + cutting_space * 2, 0]) lower_base_corner();
-     translate([(corner_length + corner_depth) * 2 + cutting_space * 3, corner_length]) rotate(180) lower_base_corner();
+     lower_base_corner_flat();
+     translate([corner_length + corner_depth + cutting_space, corner_length]) rotate(180) lower_base_corner_flat();
+     translate([corner_length + corner_depth + cutting_space * 2, 0]) lower_base_corner_flat();
+     translate([(corner_length + corner_depth) * 2 + cutting_space * 3, corner_length]) rotate(180) lower_base_corner_flat();
+}
+
+module upper_base_flat() {
+     square([total_width-2*inner_thickness,
+                total_depth-2*inner_thickness],
+          center=false);
 }
 
 module upper_base() {
      translate([outer_thickness, outer_thickness]) {
-          cube([total_width-2*inner_thickness,
-                total_depth-2*inner_thickness,
-                inner_thickness],
-               center=false);
+          linear_extrude(height=inner_thickness) {
+               upper_base_flat();
+          }
      }
 }
 
@@ -146,77 +155,105 @@ module front_dividers() {
      }
 }
 
+module outer_top_flat() {
+     difference() {
+          square([total_width, total_depth + outer_thickness]);
+          outer_top_cutouts(false);
+     }
+}
+
 module outer_top() {
      linear_extrude(height=outer_thickness) {
-          difference() {
-               square([total_width, total_depth + outer_thickness]);
-               outer_top_cutouts(false);
-          }
+          outer_top_flat();
+     }
+}
+
+module outer_front_flat() {
+     difference() {
+          square([total_width, total_height]);
+          outer_front_cutouts(false);
      }
 }
 
 module outer_front() {
      linear_extrude(height=outer_thickness) {
-          difference() {
-               square([total_width, total_height]);
-               outer_front_cutouts(false);
-          }
+          outer_front_flat();
+     }
+}
+
+module veneer_top_flat() {
+     difference() {
+          square([total_width, total_depth + outer_thickness + veneer_thickness]);
+          outer_top_cutouts(true);
+          top_dividers();
      }
 }
 
 module veneer_top() {
      color("brown", 0.25) {
           linear_extrude(height=veneer_thickness) {
-               difference() {
-                    square([total_width, total_depth + outer_thickness + veneer_thickness]);
-                    outer_top_cutouts(true);
-                    top_dividers();
-               }
+               veneer_top_flat();
           }
+     }
+}
+
+module veneer_front_flat() {
+     difference() {
+          square([total_width, total_height]);
+          outer_front_cutouts(true);
+          front_dividers();
      }
 }
 
 module veneer_front() {
      color("brown", 0.25) {
           linear_extrude(height=veneer_thickness) {
-               difference() {
-                    square([total_width, total_height]);
-                    outer_front_cutouts(true);
-                    front_dividers();
-               }
+               veneer_front_flat();
           }
+     }
+}
+
+module veneer_back_flat() {
+     difference() {
+          square([total_width, total_height]);
+          back_cutouts();
      }
 }
 
 module veneer_back() {
      color("brown", 0.25) {
           linear_extrude(height=veneer_thickness) {
-               difference() {
-                    square([total_width, total_height]);
-                    back_cutouts();
-               }
+               veneer_back_flat();
           }
+     }
+}
+
+module veneer_left_flat() {
+     difference() {
+          square([total_depth, total_height]);
+          left_cutouts();
      }
 }
 
 module veneer_left() {
      color("brown", 0.25) {
           linear_extrude(height=veneer_thickness) {
-               difference() {
-                    square([total_depth, total_height]);
-                    left_cutouts();
-               }
+               veneer_left_flat();
           }
+     }
+}
+
+module veneer_right_flat() {
+     difference() {
+          square([total_depth, total_height]);
+          right_cutouts();
      }
 }
 
 module veneer_right() {
      color("brown", 0.25) {
           linear_extrude(height=veneer_thickness) {
-               difference() {
-                    square([total_depth, total_height]);
-                    right_cutouts();
-               }
+               veneer_right_flat();
           }
      }
 }
