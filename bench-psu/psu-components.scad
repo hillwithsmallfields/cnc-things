@@ -2,18 +2,23 @@ include <psu-dimensions.scad>
 
 module psu12v() {
      color("cyan") cube([psu12v_length, psu12v_width, psu12v_height]);
+     translate([psu12v_length/2, psu12v_width/2, psu12v_height]) text("12v switching PSU", halign="center", valign="center");
 }
 
 module psu5v() {
      color("magenta") cube([psu5v_length, psu5v_width, psu5v_height]);
+     translate([psu5v_length/2, psu5v_width/2, psu5v_height]) text("5v switching PSU", halign="center", valign="center");
 }
 
 module psu36v() {
      color("yellow") cube([psu36v_length, psu36v_width, psu36v_height]);
+     translate([psu36v_length/2, psu36v_width/2, psu36v_height]) text("36v PSU", halign="center", valign="center");
 }
 
 module adjuster() {
-     color("green") cube([adjuster_width, adjuster_depth, adjuster_height]);
+     translate([-adjuster_width_inner/2, 0, -adjuster_height_inner/2]) {
+          color("green") cube([adjuster_width_inner, adjuster_depth, adjuster_height_inner]);
+     }
 }
 
 module mains_switch() {
@@ -58,7 +63,7 @@ module front_components() {
                one_front_components();
           }
      }
-     translate([(total_width - adjuster_width)/2, 0, adjuster_y_offset]) adjuster();
+     translate([total_width/2, 0, adjuster_y_centre]) adjuster();
 }
 
 module internal_components() {

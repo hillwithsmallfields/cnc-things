@@ -3,6 +3,9 @@ include <psu-dimensions.scad>
 corner_length = total_width / 4;
 corner_depth = corner_length / 3;
 
+veneer_alpha = 1/8;
+outer_alpha = 1/4;
+
 module lower_base_corner_flat() {
      union() {
           square([corner_length,
@@ -89,9 +92,9 @@ module binding_post_hole_pair(diameter, spacing, join) {
      }
 }
 
-module meter_and_switch_cutout() {
+module meter_and_switch_cutout(is_outer) {
     translate([-meter_and_switch_width/2, -meter_and_switch_height/2]) {
-        square([switch_width, switch_height]);
+        square([switch_width, is_outer ? switch_height : switch_backing_height]);
         translate([switch_width + meter_switch_gap, (switch_height - meter_height)/2]) {
             square([meter_width, meter_height]);
         }
@@ -99,24 +102,26 @@ module meter_and_switch_cutout() {
 }
 
 module one_outer_front_cutout(with_text, volt_label) {
-     translate([half_section_width, total_height-(meter_and_switch_height + margin)]) meter_and_switch_cutout();
+     translate([half_section_width, meter_and_switch_offset_from_base + meter_and_switch_height/2]) {
+          meter_and_switch_cutout(true);
+     }
      if (with_text) {
-          translate([12, 12]) text(volt_label);
+          translate([half_section_width, 12]) text(volt_label, halign="center");
      }
 }
 
 module one_outer_top_cutout(with_text, volt_label) {
      translate([0, binding_post_offset]) {
           for (i=[1:binding_post_rows]) {
-               translate([half_section_width, (i + 1) * binding_post_row_spacing]) {
-                    if (i != binding_post_rows-2) {
+               if (i != binding_post_rows-2) {
+                    translate([half_section_width, i * binding_post_row_spacing]) {
                          binding_post_hole_pair(binding_post_hole_outer_diameter, binding_post_spacing, false);
                     }
                }
           }
           if (with_text) {
-               translate([12,binding_post_row_spacing]) text(volt_label);
-               translate([12,binding_post_row_spacing * (binding_post_rows + 1.5)]) text(volt_label);
+               translate([half_section_width,0]) text(volt_label, halign="center");
+               translate([half_section_width,binding_post_row_spacing * (binding_post_rows + 1)]) text(volt_label, halign="center");
           }
      }
 }
@@ -145,6 +150,9 @@ module outer_front_cutouts(with_text) {
                one_outer_front_cutout(with_text, voltages[i]);
           }
      }
+     translate([(total_width - adjuster_width_outer)/2, adjuster_y_centre - adjuster_height_outer/2]) {
+          square([adjuster_width_inner, adjuster_height_inner]);
+     }
 }
 
 module front_dividers() {
@@ -163,8 +171,10 @@ module outer_top_flat() {
 }
 
 module outer_top() {
-     linear_extrude(height=outer_thickness) {
-          outer_top_flat();
+     color("cyan", outer_alpha) {
+          linear_extrude(height=outer_thickness) {
+               outer_top_flat();
+          }
      }
 }
 
@@ -176,8 +186,10 @@ module outer_front_flat() {
 }
 
 module outer_front() {
-     linear_extrude(height=outer_thickness) {
-          outer_front_flat();
+     color("cyan", outer_alpha) {
+          linear_extrude(height=outer_thickness) {
+               outer_front_flat();
+          }
      }
 }
 
@@ -190,7 +202,7 @@ module veneer_top_flat() {
 }
 
 module veneer_top() {
-     color("brown", 0.25) {
+     color("brown", veneer_alpha) {
           linear_extrude(height=veneer_thickness) {
                veneer_top_flat();
           }
@@ -206,7 +218,7 @@ module veneer_front_flat() {
 }
 
 module veneer_front() {
-     color("brown", 0.25) {
+     color("brown", veneer_alpha) {
           linear_extrude(height=veneer_thickness) {
                veneer_front_flat();
           }
@@ -221,7 +233,7 @@ module veneer_back_flat() {
 }
 
 module veneer_back() {
-     color("brown", 0.25) {
+     color("brown", veneer_alpha) {
           linear_extrude(height=veneer_thickness) {
                veneer_back_flat();
           }
@@ -236,7 +248,7 @@ module veneer_left_flat() {
 }
 
 module veneer_left() {
-     color("brown", 0.25) {
+     color("brown", veneer_alpha) {
           linear_extrude(height=veneer_thickness) {
                veneer_left_flat();
           }
@@ -251,7 +263,7 @@ module veneer_right_flat() {
 }
 
 module veneer_right() {
-     color("brown", 0.25) {
+     color("brown", veneer_alpha) {
           linear_extrude(height=veneer_thickness) {
                veneer_right_flat();
           }

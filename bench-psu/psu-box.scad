@@ -1,3 +1,5 @@
+panel_alpha = 1/3;
+
 w_divider_color = "CadetBlue";
 h_divider_color = "CornflowerBlue";
 front_color = "RoyalBlue";
@@ -420,7 +422,7 @@ module box(width, height, depth, thickness,
 
   // Turn 2D Panel into 3D
   module panelize(x, y, name, cl) {
-    color(cl, 2/3)
+    color(cl, panel_alpha)
       linear_extrude(height = t)
       children();
     if (labels) {

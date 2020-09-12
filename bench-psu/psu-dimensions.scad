@@ -26,6 +26,7 @@ panel_lip_width = 3;
 panel_lip_depth = 3;
 
 switch_height = 27.2;
+switch_backing_height = switch_height + 6;
 switch_width = 10.4;
 switch_depth = 25;               /* TODO: measure this */
 
@@ -49,10 +50,12 @@ mains_inlet_height = 27;
 switch_offset = 30;
 meter_offset = 100;
 
-adjuster_width = 79;
-adjuster_height = 42;
+adjuster_width_outer = 71;
+adjuster_width_inner = 79;
+adjuster_height_outer = 38;
+adjuster_height_inner = 42;
 adjuster_depth = 42;
-adjuster_y_offset = meter_and_switch_offset_from_base + meter_and_switch_height + 8;
+adjuster_y_centre = meter_and_switch_offset_from_base + meter_and_switch_height + adjuster_height_inner/2 + 8;
 
 clamp_connector_length = 20;
 clamp_connector_width = 18;

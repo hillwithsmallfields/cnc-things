@@ -3,11 +3,13 @@ include <psu-dimensions.scad>
 include <psu-case-parts.scad>
 include <psu-components.scad>
 
-module one_front_inner_cutout() {
-     translate([half_section_width, meter_and_switch_offset_from_base + meter_and_switch_height/2]) meter_and_switch_cutout();
+module one_inner_front_cutout() {
+     translate([half_section_width, meter_and_switch_offset_from_base + meter_and_switch_height/2]) {
+          meter_and_switch_cutout(false);
+     }
 }
 
-module one_top_inner_cutout() {
+module one_inner_top_cutout() {
      translate([0, binding_post_offset]) {
           for (i=[1:binding_post_rows]) {
                if (i != binding_post_rows-2) {          
@@ -19,32 +21,34 @@ module one_top_inner_cutout() {
      }
 }
 
-module front_inner_cutouts() {
+module inner_front_cutouts() {
      for (i=[0:sections-1]) {
           translate([i * section_width, 0]) {
-               one_front_inner_cutout();
+               one_inner_front_cutout();
           }
      }
-     translate([(total_width - adjuster_width)/2, adjuster_y_offset]) square([adjuster_width, adjuster_height]);
+     translate([(total_width - adjuster_width_inner)/2, adjuster_y_centre - adjuster_height_inner/2]) {
+          square([adjuster_width_inner, adjuster_height_inner]);
+     }
 }
 
-module back_inner_cutouts() {
+module inner_back_cutouts() {
      back_cutouts();
 }
 
-module top_inner_cutouts() {
+module inner_top_cutouts() {
      for (i=[0:sections-1]) {
           translate([i * section_width, 0]) {
-               one_top_inner_cutout();
+               one_inner_top_cutout();
           }
      }
 }
 
-module left_inner_cutouts() {
+module inner_left_cutouts() {
      left_cutouts();
 }
 
-module right_inner_cutouts() {
+module inner_right_cutouts() {
      right_cutouts();
 }
 
@@ -56,11 +60,11 @@ module psu_case_inner() {
               assemble=three_d,
               labels=true,
               open_bottom=true) {
-               front_inner_cutouts();
-               top_inner_cutouts();
-               back_inner_cutouts();
-               left_inner_cutouts();
-               right_inner_cutouts();
+               inner_front_cutouts();
+               inner_top_cutouts();
+               inner_back_cutouts();
+               inner_left_cutouts();
+               inner_right_cutouts();
           }
      }
 }
