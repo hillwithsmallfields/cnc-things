@@ -1,19 +1,22 @@
 include <psu-dimensions.scad>
 
-corner_length = total_width / 4;
-corner_depth = corner_length / 3;
-
 veneer_alpha = 1/8;
 outer_alpha = 1/4;
 
 module lower_base_corner_flat() {
-     union() {
-          square([corner_length,
-                  corner_depth],
-                 center=false);
-          square([corner_depth,
-                  corner_length],
-                 center=false);
+     difference() {
+          union() {
+               square([corner_length,
+                       corner_depth],
+                      center=false);
+               square([corner_depth,
+                       corner_length],
+                      center=false);
+          }
+          translate([corner_fixing_hole_offset + outer_thickness,
+                     corner_fixing_hole_offset + outer_thickness]) {
+               circle(d=corner_fixing_bolt_hole_diameter);
+          }
      }
 }
 
@@ -38,15 +41,20 @@ module lower_base_parts() {
 }
 
 module upper_base_flat() {
+     base_width = total_width-2*outer_thickness;
+     base_depth = total_depth-2*outer_thickness;
      difference() {
-          square([total_width-2*inner_thickness,
-                  total_depth-2*inner_thickness],
+          square([base_width, base_depth],
                  center=false);
-               base_mounting_component_positioning() {
-                    psu12v_boltholes();
-                    psu5v_boltholes();
-                    psu36v_boltholes();
-               }
+          base_mounting_component_positioning() {
+               psu12v_boltholes();
+               psu5v_boltholes();
+               psu36v_boltholes();
+          }
+          translate([corner_fixing_hole_offset, corner_fixing_hole_offset]) circle(d=corner_fixing_bolt_hole_diameter);
+          translate([base_width - corner_fixing_hole_offset, corner_fixing_hole_offset]) circle(d=corner_fixing_bolt_hole_diameter);
+          translate([corner_fixing_hole_offset, base_depth - corner_fixing_hole_offset]) circle(d=corner_fixing_bolt_hole_diameter);
+          translate([base_width - corner_fixing_hole_offset, base_depth - corner_fixing_hole_offset]) circle(d=corner_fixing_bolt_hole_diameter);
      }
 }
 

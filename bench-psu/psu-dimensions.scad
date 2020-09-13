@@ -77,6 +77,13 @@ side_ventilation_area_length = total_depth/3;
 side_ventilation_holes_per_row = side_ventilation_area_length / ventilation_hole_spacing;
 side_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
 
+corner_length = total_width / 4;
+corner_depth = corner_length / 3;
+
+corner_fixing_hole_offset = corner_depth / 2;
+corner_fixing_bolt_hole_diameter = 5;
+corner_fixing_insert_hole_diameter = 8;
+
 /* some internal parts so I can experiment with layout */
 
 psu12v_length = 215;
