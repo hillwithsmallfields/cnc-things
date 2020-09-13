@@ -121,7 +121,7 @@ module one_outer_front_cutout(with_text, volt_label) {
           meter_and_switch_cutout(true);
      }
      if (with_text) {
-          translate([half_section_width, 12]) text(volt_label, halign="center");
+          translate([half_section_width, 12]) text(volt_label, halign="center", size=18);
      }
 }
 
@@ -135,8 +135,8 @@ module one_outer_top_cutout(with_text, volt_label) {
                }
           }
           if (with_text) {
-               translate([half_section_width,0]) text(volt_label, halign="center");
-               translate([half_section_width,binding_post_row_spacing * (binding_post_rows + 1)]) text(volt_label, halign="center");
+               translate([half_section_width,-binding_post_row_spacing]) text(volt_label, halign="center", size=18);
+               translate([half_section_width,binding_post_row_spacing * (binding_post_rows + 1)]) text(volt_label, halign="center", size=18);
           }
      }
 }
