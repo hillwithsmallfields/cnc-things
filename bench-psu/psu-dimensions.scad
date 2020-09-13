@@ -64,7 +64,7 @@ wire_clamp_depth = clamp_connector_length + 15;
 binding_post_hole_inner_diameter = 15;
 binding_post_hole_outer_diameter = 3;
 binding_post_rows = 6;
-binding_post_spacing = 20;
+binding_post_spacing = 25.4 * 3 / 4;
 binding_post_row_spacing = 25;
 binding_post_offset = binding_post_row_spacing + wire_clamp_depth;
 
