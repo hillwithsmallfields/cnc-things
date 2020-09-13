@@ -1,17 +1,45 @@
 include <psu-dimensions.scad>
 
+module psu12v_flat() {
+     difference() {
+	  square([psu12v_length, psu12v_width]);
+	  translate([32, 32]) circle(r=2, center=true);
+	  translate([psu12v_length-32, 32]) circle(r=2, center=true);
+	  translate([32, psu12v_width-32]) circle(r=2, center=true);
+	  translate([psu12v_length-32, psu12v_width-32]) circle(r=2, center=true);
+     }
+}
+
 module psu12v() {
-     color("cyan") cube([psu12v_length, psu12v_width, psu12v_height]);
+     color("cyan") linear_extrude(height=psu12v_height) psu12v_flat();
      translate([psu12v_length/2, psu12v_width/2, psu12v_height]) text("12v switching PSU", halign="center", valign="center");
 }
 
+module psu5v_flat() {
+     difference() {
+	  square([psu5v_length, psu5v_width]);
+	  translate([2, 7.5]) circle(r=2, center=true);
+	  translate([psu5v_length-4, psu5v_width-7]) circle(r=2, center=true);
+     }
+}
+
 module psu5v() {
-     color("magenta") cube([psu5v_length, psu5v_width, psu5v_height]);
+     color("magenta") linear_extrude(height=psu5v_height) psu5v_flat();
      translate([psu5v_length/2, psu5v_width/2, psu5v_height]) text("5v switching PSU", halign="center", valign="center");
 }
 
+module psu36v_flat() {
+     difference() {
+	  square([psu36v_length, psu36v_width]);
+	  translate([4, 4]) circle(r=2, center=true);
+	  translate([psu36v_length-4, 4]) circle(r=2, center=true);
+	  translate([4, psu36v_width-4]) circle(r=2, center=true);
+	  translate([psu36v_length-4, psu36v_width-4]) circle(r=2, center=true);
+     }
+}
+
 module psu36v() {
-     color("yellow") cube([psu36v_length, psu36v_width, psu36v_height]);
+     color("yellow") linear_extrude(height=psu36v_height) psu36v_flat();
      translate([psu36v_length/2, psu36v_width/2, psu36v_height]) text("36v PSU", halign="center", valign="center");
 }
 
