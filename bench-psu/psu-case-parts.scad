@@ -38,9 +38,16 @@ module lower_base_parts() {
 }
 
 module upper_base_flat() {
-     square([total_width-2*inner_thickness,
-                total_depth-2*inner_thickness],
-          center=false);
+     difference() {
+          square([total_width-2*inner_thickness,
+                  total_depth-2*inner_thickness],
+                 center=false);
+               base_mounting_component_positioning() {
+                    psu12v_boltholes();
+                    psu5v_boltholes();
+                    psu36v_boltholes();
+               }
+     }
 }
 
 module upper_base() {

@@ -1,45 +1,57 @@
 include <psu-dimensions.scad>
 
+module psu12v_boltholes() {
+     translate([32, 32]) circle(r=2);
+     translate([psu12v_length-32, 32]) circle(r=2);
+     translate([32, psu12v_width-32]) circle(r=2);
+     translate([psu12v_length-32, psu12v_width-32]) circle(r=2);
+}
+
 module psu12v_flat() {
      difference() {
 	  square([psu12v_length, psu12v_width]);
-	  translate([32, 32]) circle(r=2, center=true);
-	  translate([psu12v_length-32, 32]) circle(r=2, center=true);
-	  translate([32, psu12v_width-32]) circle(r=2, center=true);
-	  translate([psu12v_length-32, psu12v_width-32]) circle(r=2, center=true);
+          psu12v_boltholes();
      }
 }
 
 module psu12v() {
-     color("cyan") linear_extrude(height=psu12v_height) psu12v_flat();
+     color("cyan", 0.5) linear_extrude(height=psu12v_height) psu12v_flat();
      translate([psu12v_length/2, psu12v_width/2, psu12v_height]) text("12v switching PSU", halign="center", valign="center");
 }
 
+module psu5v_boltholes() {
+     translate([2, 7.5]) circle(r=2);
+     translate([psu5v_length-4, psu5v_width-7]) circle(r=2);
+}
+     
 module psu5v_flat() {
      difference() {
 	  square([psu5v_length, psu5v_width]);
-	  translate([2, 7.5]) circle(r=2, center=true);
-	  translate([psu5v_length-4, psu5v_width-7]) circle(r=2, center=true);
+          psu5v_boltholes();
      }
 }
 
 module psu5v() {
-     color("magenta") linear_extrude(height=psu5v_height) psu5v_flat();
+     color("magenta", 0.5) linear_extrude(height=psu5v_height) psu5v_flat();
      translate([psu5v_length/2, psu5v_width/2, psu5v_height]) text("5v switching PSU", halign="center", valign="center");
+}
+
+module psu36v_boltholes() {
+     translate([4, 4]) circle(r=2);
+     translate([psu36v_length-4, 4]) circle(r=2);
+     translate([4, psu36v_width-4]) circle(r=2);
+     translate([psu36v_length-4, psu36v_width-4]) circle(r=2);
 }
 
 module psu36v_flat() {
      difference() {
 	  square([psu36v_length, psu36v_width]);
-	  translate([4, 4]) circle(r=2, center=true);
-	  translate([psu36v_length-4, 4]) circle(r=2, center=true);
-	  translate([4, psu36v_width-4]) circle(r=2, center=true);
-	  translate([psu36v_length-4, psu36v_width-4]) circle(r=2, center=true);
+          psu36v_boltholes();
      }
 }
 
 module psu36v() {
-     color("yellow") linear_extrude(height=psu36v_height) psu36v_flat();
+     color("yellow", 0.5) linear_extrude(height=psu36v_height) psu36v_flat();
      translate([psu36v_length/2, psu36v_width/2, psu36v_height]) text("36v PSU", halign="center", valign="center");
 }
 
@@ -94,17 +106,27 @@ module front_components() {
      translate([total_width/2, 0, adjuster_y_centre]) adjuster();
 }
 
-module internal_components() {
-     psu12v_offset_from_front = total_depth - gap_around_components - psu12v_width;
+module base_mounting_component_positioning() {
      psu5v_offset_from_12v = - (psu5v_width + gap_around_components);
      psu36v_offset_from_12v = - (psu36v_width + gap_around_components);
+     translate([((total_width - psu12v_length - inner_thickness) / 2),
+                total_depth - inner_thickness - gap_around_components - psu12v_width]) {
+          children(0);
+          translate([-inner_thickness, psu5v_offset_from_12v]) {
+               children(1);
+          }
+          translate([psu5v_length + gap_around_components - inner_thickness, psu36v_offset_from_12v]) {
+               children(2);
+          }
+     }
+}
+
+module internal_components() {
      translate([0, 0, top_of_base]) {
-          translate([gap_around_components, psu12v_offset_from_front]) {
-               psu12v();
-               translate([0, psu5v_offset_from_12v]) {
+          translate([outer_thickness, outer_thickness]) {
+               base_mounting_component_positioning() {
+                    psu12v();
                     psu5v();
-               }
-               translate([psu5v_length + gap_around_components, psu36v_offset_from_12v]) {
                     psu36v();
                }
           }
