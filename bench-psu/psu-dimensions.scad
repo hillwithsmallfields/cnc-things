@@ -76,13 +76,17 @@ rear_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_s
 side_ventilation_area_length = total_depth/3;
 side_ventilation_holes_per_row = side_ventilation_area_length / ventilation_hole_spacing;
 side_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
-
 corner_length = total_width / 4;
 corner_depth = corner_length / 3;
 
 corner_fixing_hole_offset = corner_depth / 2;
 corner_fixing_bolt_hole_diameter = 5;
 corner_fixing_insert_hole_diameter = 8;
+
+assembly_bracket_size = corner_fixing_hole_offset * 2;
+assembly_bracket_hole_diameter = 8;
+assembly_bracket_tab_offset = 10;
+assembly_bracket_tab_length = 10;
 
 /* some internal parts so I can experiment with layout */
 

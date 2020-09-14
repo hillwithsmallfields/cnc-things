@@ -23,11 +23,15 @@ module lower_base_corner() {
      }
 }
 
+module base_corners() {
+     children();
+     translate([total_width, 0]) rotate(90) children();
+     translate([0, total_depth]) rotate(-90) children();
+     translate([total_width, total_depth]) rotate(180) children();
+}
+
 module lower_base() {
-     lower_base_corner();
-     translate([total_width, 0]) rotate(90) lower_base_corner();
-     translate([0, total_depth]) rotate(-90) lower_base_corner();
-     translate([total_width, total_depth]) rotate(180) lower_base_corner();
+     base_corners() { lower_base_corner(); }
 }
 
 module lower_base_parts() {
@@ -63,7 +67,45 @@ module upper_base() {
      }
 }
 
+module assembly_bracket_flat(tabbed) {
+     union() {
+          difference() {
+               intersection() {
+                    circle(r=assembly_bracket_size);
+                    square([assembly_bracket_size, assembly_bracket_size]);
+               }
+               translate([corner_fixing_hole_offset, corner_fixing_hole_offset]) {
+                    circle(d=assembly_bracket_hole_diameter);
+               }
+          }
+          if (tabbed) {
+               translate([assembly_bracket_tab_offset, -inner_thickness]) square([assembly_bracket_tab_length, inner_thickness]);
+               translate([-inner_thickness, assembly_bracket_tab_offset]) square([inner_thickness, assembly_bracket_tab_length]);
+          }
+     }
+}
+
+module assembly_bracket(tabbed) {
+     linear_extrude(height=inner_thickness) assembly_bracket_flat(tabbed);
+}
+
+module assembly_brackets(tabbed) {
+     base_corners() { translate([outer_thickness, outer_thickness, 0]) assembly_bracket(tabbed); }
+}
+
+module assembly_brackets_parts(tabbed) {
+     translate([inner_thickness, 0]) {
+          translate([0, inner_thickness]) assembly_bracket_flat(tabbed);
+          translate([assembly_bracket_size + corner_depth, assembly_bracket_size]) rotate(180) assembly_bracket_flat(tabbed);
+          translate([assembly_bracket_size + corner_depth + inner_thickness + cutting_space, 0]) {
+               translate([0, inner_thickness]) assembly_bracket_flat(tabbed);
+               translate([assembly_bracket_size + corner_depth, assembly_bracket_size]) rotate(180) assembly_bracket_flat(tabbed);
+          }
+     }
+}
+
 module base() {
+     translate([0, 0, outer_thickness + inner_thickness*2]) color("yellow") assembly_brackets();
      color("green", 2/3) translate([0, 0, outer_thickness]) upper_base();
      color("red", 1/3) lower_base();
 }

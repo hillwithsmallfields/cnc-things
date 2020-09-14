@@ -61,6 +61,8 @@ module outer_front_cutouts(with_text) {
      translate([(total_width - adjuster_width_outer)/2, adjuster_y_centre - adjuster_height_outer/2]) {
           square([adjuster_width_inner, adjuster_height_inner]);
      }
+     translate([assembly_bracket_tab_offset+outer_thickness, inner_thickness*2]) square([assembly_bracket_tab_length, inner_thickness]);
+     translate([total_width - (assembly_bracket_tab_offset+outer_thickness+assembly_bracket_tab_length), inner_thickness*2]) square([assembly_bracket_tab_length, inner_thickness]);
 }
 
 module front_dividers() {
