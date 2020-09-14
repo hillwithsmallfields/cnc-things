@@ -39,6 +39,23 @@ module front_dividers() {
      }
 }
 
+module one_inner_front_cutout() {
+     translate([half_section_width, meter_and_switch_offset_from_base + meter_and_switch_height/2]) {
+          meter_and_switch_cutout(false);
+     }
+}
+
+module inner_front_cutouts() {
+     for (i=[0:sections-1]) {
+          translate([i * section_width, 0]) {
+               one_inner_front_cutout();
+          }
+     }
+     translate([(total_width - adjuster_width_inner)/2, adjuster_y_centre - adjuster_height_inner/2]) {
+          square([adjuster_width_inner, adjuster_height_inner]);
+     }
+}
+
 module outer_front_flat() {
      difference() {
           square([total_width, total_height]);

@@ -47,6 +47,9 @@ meter_and_switch_offset_from_base = 45;
 mains_inlet_width = 31;
 mains_inlet_height = 27;
 
+din_power_socket_hole_diameter = 18;
+lighter_socket_hole_diameter = 28;
+
 switch_offset = 30;
 meter_offset = 100;
 
@@ -63,10 +66,10 @@ wire_clamp_depth = clamp_connector_length + 15;
 
 binding_post_hole_inner_diameter = 15;
 binding_post_hole_outer_diameter = 3;
-binding_post_rows = 6;
+binding_post_rows = 8;
 binding_post_spacing = 25.4 * 3 / 4;
 binding_post_row_spacing = 25;
-binding_post_offset = binding_post_row_spacing + wire_clamp_depth;
+binding_post_offset = binding_post_row_spacing;
 
 ventilation_panel_start = mains_inlet_width + margin * 3;
 ventilation_hole_diameter = 10;
