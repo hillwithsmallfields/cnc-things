@@ -105,7 +105,8 @@ module assembly_brackets_parts(tabbed) {
 }
 
 module base() {
-     translate([0, 0, outer_thickness + inner_thickness*2]) color("yellow") assembly_brackets();
+     translate([0, 0, outer_thickness + inner_thickness*2]) color("yellow") assembly_brackets(true);
+     translate([0, 0, outer_thickness + inner_thickness]) color("cyan") assembly_brackets(false);
      color("green", 2/3) translate([0, 0, outer_thickness]) upper_base();
      color("red", 1/3) lower_base();
 }

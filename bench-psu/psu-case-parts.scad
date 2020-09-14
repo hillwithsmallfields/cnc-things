@@ -1,5 +1,6 @@
 include <psu-dimensions.scad>
 include <psu-case-parts-front.scad>
+include <psu-case-parts-top.scad>
 include <psu-case-parts-base.scad>
 include <psu-case-parts-back-sides.scad>
 include <psu-case-veneer.scad>

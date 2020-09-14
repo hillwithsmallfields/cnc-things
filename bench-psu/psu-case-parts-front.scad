@@ -18,40 +18,6 @@ module one_outer_front_cutout(with_text, volt_label) {
      }
 }
 
-module one_outer_top_cutout(with_text, volt_label) {
-     translate([0, binding_post_offset]) {
-          for (i=[1:binding_post_rows]) {
-               if (i != binding_post_rows-2) {
-                    translate([half_section_width, i * binding_post_row_spacing]) {
-                         binding_post_hole_pair(binding_post_hole_outer_diameter, binding_post_spacing, false);
-                    }
-               }
-          }
-          if (with_text) {
-               translate([half_section_width,-binding_post_row_spacing]) text(volt_label, halign="center", size=18);
-               translate([half_section_width,binding_post_row_spacing * (binding_post_rows + 1)]) text(volt_label, halign="center", size=18);
-          }
-     }
-}
-
-module outer_top_cutouts(with_text) {
-     translate([0, outer_thickness]) {
-          for (i=[0:sections]) {
-               translate([i * section_width, 0]) {
-                    one_outer_top_cutout(with_text, voltages[i]);
-               }
-          }
-     }
-}
-
-module top_dividers() {
-     for (i=[1:sections-1]) {
-          translate([i * section_width, margin]) {
-               square([3,total_depth - margin*2]);
-          }
-     }
-}
-
 module outer_front_cutouts(with_text) {
      for (i=[0:sections]) {
           translate([i * section_width, 0]) {
@@ -69,21 +35,6 @@ module front_dividers() {
      for (i=[1:sections-1]) {
           translate([i * section_width, margin]) {
                square([3, total_height - margin*2]);
-          }
-     }
-}
-
-module outer_top_flat() {
-     difference() {
-          square([total_width, total_depth + outer_thickness]);
-          outer_top_cutouts(false);
-     }
-}
-
-module outer_top() {
-     color("cyan", outer_alpha) {
-          linear_extrude(height=outer_thickness) {
-               outer_top_flat();
           }
      }
 }
