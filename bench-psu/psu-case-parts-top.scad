@@ -28,6 +28,11 @@ module one_inner_top_cutout() {
      }
 }
 
+module automotive_sockets_cutout() {
+     translate([half_section_width - din_power_socket_hole_diameter, 0]) circle(d=din_power_socket_hole_diameter);
+     translate([half_section_width + lighter_socket_hole_diameter, 0]) circle(d=lighter_socket_hole_diameter);
+}
+
 module outer_top_cutouts(with_text) {
      translate([0, outer_thickness]) {
           for (i=[0:sections]) {
@@ -36,8 +41,12 @@ module outer_top_cutouts(with_text) {
                }
           }
      }
-     translate([total_width/2, binding_post_row_spacing*4.75]) text("METERED", halign="center", size=18);
-     translate([total_width/2, binding_post_row_spacing*6.75]) text("UNMETERED", halign="center", size=18);
+     if (with_text) {
+          translate([total_width/2, binding_post_row_spacing*4.75]) text("METERED", halign="center", size=18);
+          translate([total_width/2, binding_post_row_spacing*6.75]) text("UNMETERED", halign="center", size=18);
+     }
+
+     translate([section_width * 2, binding_post_row_spacing*6]) automotive_sockets_cutout();
 }
 
 module inner_top_cutouts() {
@@ -46,6 +55,7 @@ module inner_top_cutouts() {
                one_inner_top_cutout();
           }
      }
+     translate([section_width * 2, binding_post_row_spacing*6-outer_thickness]) automotive_sockets_cutout();
 }
 
 module top_dividers() {

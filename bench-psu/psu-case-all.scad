@@ -1,5 +1,5 @@
-include <psu-case-inner.scad>
 include <psu-case-parts.scad>
+include <psu-case-inner.scad>
 
 module psu_case_all() {
      psu_case_inner_with_components(true);
