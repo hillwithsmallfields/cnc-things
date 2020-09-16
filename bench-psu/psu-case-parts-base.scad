@@ -90,7 +90,7 @@ module assembly_bracket(tabbed) {
 }
 
 module assembly_brackets(tabbed) {
-     base_corners() { translate([outer_thickness, outer_thickness, 0]) assembly_bracket(tabbed); }
+     base_corners() { translate([inner_thickness, inner_thickness, 0]) assembly_bracket(tabbed); }
 }
 
 module assembly_brackets_parts(tabbed) {

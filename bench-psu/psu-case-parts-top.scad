@@ -1,5 +1,13 @@
 include <psu-dimensions.scad>
 
+module binding_post_hole_pair(diameter, spacing, join) {
+     translate([-spacing/2, 0]) circle(d=diameter);
+     translate([spacing/2, 0]) circle(d=diameter);
+     if (join) {
+         translate([-spacing/2, -diameter/2]) square([spacing, diameter]);
+     }
+}
+
 module one_outer_top_cutout(with_text, volt_label) {
      translate([0, binding_post_offset]) {
           for (i=[1:binding_post_rows]) {
@@ -28,6 +36,8 @@ module one_inner_top_cutout() {
      }
 }
 
+automotive_sockets_x_offset = -6;
+
 module automotive_sockets_cutout() {
      translate([half_section_width - din_power_socket_hole_diameter, 0]) circle(d=din_power_socket_hole_diameter);
      translate([half_section_width + lighter_socket_hole_diameter, 0]) circle(d=lighter_socket_hole_diameter);
@@ -46,7 +56,7 @@ module outer_top_cutouts(with_text) {
           translate([total_width/2, binding_post_row_spacing*6.75]) text("UNMETERED", halign="center", size=18);
      }
 
-     translate([section_width * 2, binding_post_row_spacing*6]) automotive_sockets_cutout();
+     translate([section_width * 2 + automotive_sockets_x_offset, binding_post_row_spacing*6]) automotive_sockets_cutout();
 }
 
 module inner_top_cutouts() {
@@ -55,7 +65,7 @@ module inner_top_cutouts() {
                one_inner_top_cutout();
           }
      }
-     translate([section_width * 2, binding_post_row_spacing*6-outer_thickness]) automotive_sockets_cutout();
+     translate([section_width * 2 + automotive_sockets_x_offset, binding_post_row_spacing*6-outer_thickness]) automotive_sockets_cutout();
 }
 
 module top_dividers() {

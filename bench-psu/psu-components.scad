@@ -62,6 +62,7 @@ module adjuster() {
 }
 
 module mains_switch() {
+     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
      color("grey") union() {
           cube([switch_width, switch_depth, switch_height]);
           translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
@@ -76,6 +77,7 @@ module mains_switch() {
 }
 
 module panel_meter() {
+     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
      color("grey") union() {
           cube([meter_width, meter_depth, meter_height]);
           translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
@@ -85,6 +87,7 @@ module panel_meter() {
 }
 
 module meter_and_switch() {
+     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
     translate([-meter_and_switch_width/2, 0, -meter_and_switch_height/2]) {
         mains_switch();
         translate([switch_width + meter_switch_gap, (switch_height - meter_height)/2]) {

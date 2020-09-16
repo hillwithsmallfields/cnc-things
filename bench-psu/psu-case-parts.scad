@@ -8,10 +8,7 @@ include <psu-case-veneer.scad>
 veneer_alpha = 1/8;
 outer_alpha = 1/4;
 
-module binding_post_hole_pair(diameter, spacing, join) {
-     translate([-spacing/2, 0]) circle(d=diameter);
-     translate([spacing/2, 0]) circle(d=diameter);
-     if (join) {
-         translate([-spacing/2, -diameter/2]) square([spacing, diameter]);
-     }
+module assembly_bracket_slots(panel_width) {
+     translate([assembly_bracket_tab_offset+inner_thickness, inner_thickness*2]) square([assembly_bracket_tab_length, inner_thickness]);
+     translate([panel_width - (assembly_bracket_tab_offset+inner_thickness+assembly_bracket_tab_length), inner_thickness*2]) square([assembly_bracket_tab_length, inner_thickness]);
 }

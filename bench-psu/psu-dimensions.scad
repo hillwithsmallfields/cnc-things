@@ -31,7 +31,9 @@ switch_width = 10.4;
 switch_depth = 25;               /* TODO: measure this */
 
 meter_width = 48;
+meter_backing_width = meter_width + 6;
 meter_height = 29;
+meter_backing_height = meter_height + 6;
 meter_depth = 25;               /* TODO: measure this */
 
 rocker_width = switch_width - 3;
