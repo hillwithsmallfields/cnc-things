@@ -16,7 +16,8 @@ module psu12v_flat() {
 
 module psu12v() {
      color("cyan", 0.5) linear_extrude(height=psu12v_height) psu12v_flat();
-     translate([psu12v_length/2, psu12v_width/2, psu12v_height]) text("12v switching PSU", halign="center", valign="center");
+     translate([psu12v_length/2, psu12v_width/2, psu12v_height])
+          text("12v switching PSU", halign="center", valign="center");
 }
 
 module psu5v_boltholes() {
@@ -33,14 +34,19 @@ module psu5v_flat() {
 
 module psu5v() {
      color("magenta", 0.5) linear_extrude(height=psu5v_height) psu5v_flat();
-     translate([psu5v_length/2, psu5v_width/2, psu5v_height]) text("5v switching PSU", halign="center", valign="center");
+     translate([psu5v_length/2, psu5v_width/2, psu5v_height])
+          text("5v switching PSU", halign="center", valign="center");
 }
 
 module psu36v_boltholes() {
-     translate([4, 4]) circle(r=2);
-     translate([psu36v_length-4, 4]) circle(r=2);
-     translate([4, psu36v_width-4]) circle(r=2);
-     translate([psu36v_length-4, psu36v_width-4]) circle(r=2);
+     translate([psu36v_hole_offset_shorter_side,
+                psu36v_hole_offset_longer_side]) circle(r=2);
+     translate([psu36v_length-psu36v_hole_offset_shorter_side,
+                psu36v_hole_offset_longer_side]) circle(r=2);
+     translate([psu36v_hole_offset_shorter_side,
+                psu36v_width-psu36v_hole_offset_longer_side]) circle(r=2);
+     translate([psu36v_length-psu36v_hole_offset_shorter_side,
+                psu36v_width-psu36v_hole_offset_longer_side]) circle(r=2);
 }
 
 module psu36v_flat() {
@@ -62,42 +68,42 @@ module adjuster() {
 }
 
 module mains_switch() {
-     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
-     color("grey") union() {
-          cube([switch_width, switch_depth, switch_height]);
-          translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
-               cube([switch_width + panel_lip_width * 2, panel_lip_depth, switch_height + panel_lip_width * 2]);
+     translate([-switch_width/2, -switch_height/2]) {
+          color("grey") union() {
+               cube([switch_width, switch_depth, switch_height]);
+               translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
+                    cube([switch_width + panel_lip_width * 2, panel_lip_depth, switch_height + panel_lip_width * 2]);
+               }
           }
-     }
-     translate([(switch_width - rocker_width) / 2, -rocker_depth, (switch_height - rocker_height) / 2]) {
-          color("red") {
-               cube([rocker_width, rocker_depth, rocker_height]);
+          translate([(switch_width - rocker_width) / 2, -rocker_depth, (switch_height - rocker_height) / 2]) {
+               color("red") {
+                    cube([rocker_width, rocker_depth, rocker_height]);
+               }
           }
      }
 }
 
 module panel_meter() {
-     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
-     color("grey") union() {
-          cube([meter_width, meter_depth, meter_height]);
-          translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
-               cube([meter_width + panel_lip_width * 2, panel_lip_depth, meter_height + panel_lip_width * 2]);
+     translate([-meter_width/2, -meter_height/2]) {
+          color("grey") union() {
+               cube([meter_width, meter_depth, meter_height]);
+               translate([-panel_lip_width, -panel_lip_depth, -panel_lip_width]) {
+                    cube([meter_width + panel_lip_width * 2, panel_lip_depth, meter_height + panel_lip_width * 2]);
+               }
           }
      }
 }
 
 module meter_and_switch() {
-     /* TODO: make this centred, and use common framework with psu-case-parts-front.scad */
-    translate([-meter_and_switch_width/2, 0, -meter_and_switch_height/2]) {
-        mains_switch();
-        translate([switch_width + meter_switch_gap, (switch_height - meter_height)/2]) {
-            panel_meter();
-        }
-    }
+     meter_and_switch_layout() {
+          mains_switch();
+          panel_meter();
+     }
 }
 
 module one_front_components() {
-     translate([half_section_width, 0, meter_and_switch_offset_from_base + meter_and_switch_height/2]) meter_and_switch();
+     translate([half_section_width, 0, meter_and_switch_offset_from_base])
+          meter_and_switch();
 }
 
 module front_components() {

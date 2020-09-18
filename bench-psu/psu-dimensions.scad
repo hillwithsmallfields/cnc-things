@@ -45,6 +45,14 @@ meter_switch_gap = 12;
 meter_and_switch_height = max(meter_height, switch_height);
 meter_and_switch_width = meter_width + meter_switch_gap + switch_width;
 meter_and_switch_offset_from_base = 45;
+meter_and_switch_offset_from_side = 6;
+
+module meter_and_switch_layout() {
+     translate([-meter_and_switch_width/2+meter_and_switch_offset_from_side, 0]) {
+          translate([switch_width/2, 0]) children(0);
+          translate([meter_and_switch_width - meter_backing_width/2, 0]) children(1);
+     }
+}
 
 mains_inlet_width = 31;
 mains_inlet_height = 27;
@@ -106,6 +114,8 @@ psu5v_height = 42;
 psu36v_length = 65;
 psu36v_width = 115;
 psu36v_height = 40;
+psu36v_hole_offset_shorter_side = 5;
+psu36v_hole_offset_longer_side = 4;
 
 /* layout */
 

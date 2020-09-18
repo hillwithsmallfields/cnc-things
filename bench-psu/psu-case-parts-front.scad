@@ -12,10 +12,10 @@ module meter_centred(is_outer) {
 }
 
 module meter_and_switch_cutout(is_outer) {
-     /* TODO: make this use switch_centred */
-     translate([-meter_and_switch_width/2, -sw_h/2]) square([switch_width, sw_h]);
-     /* TODO: make this use meter_centred */
-     translate([meter_and_switch_width/2 - mt_w, -mt_h/2]) square([mt_w, mt_h]);
+     meter_and_switch_layout() {
+           switch_centred(is_outer);
+           meter_centred(is_outer);
+     }
 }
 
 module one_outer_front_cutout(with_text, volt_label) {
