@@ -54,6 +54,20 @@ module meter_and_switch_layout() {
      }
 }
 
+module upper_front_layout(is_outer) {
+     adj_w = is_outer ? adjuster_width_outer : adjuster_width_inner;
+     adj_h = is_outer ? adjuster_height_outer : adjuster_height_inner;
+     translate([(total_width - adj_w)/2, adjuster_y_centre - adj_h/2]) {
+          children(0);
+     }
+     translate([half_section_width, adjuster_y_centre]) {
+          children(1);
+     }
+     translate([total_width - half_section_width, adjuster_y_centre]) {
+          children(1);
+     }
+}
+
 mains_inlet_width = 31;
 mains_inlet_height = 27;
 

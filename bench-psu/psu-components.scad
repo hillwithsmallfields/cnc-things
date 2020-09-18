@@ -113,6 +113,8 @@ module front_components() {
           }
      }
      translate([total_width/2, 0, adjuster_y_centre]) adjuster();
+     translate([half_section_width, 0, adjuster_y_centre]) panel_meter();
+     translate([total_width-half_section_width, 0, adjuster_y_centre]) panel_meter();
 }
 
 module base_mounting_component_positioning() {

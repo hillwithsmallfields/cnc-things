@@ -27,17 +27,16 @@ module one_outer_front_cutout(with_text, volt_label) {
      }
 }
 
-/* TODO: add upper cutouts for thermometer and mains meter */
-
 module outer_front_cutouts(with_text) {
      for (i=[0:sections]) {
           translate([i * section_width, 0]) {
                one_outer_front_cutout(with_text, voltages[i]);
           }
      }
-     translate([(total_width - adjuster_width_outer)/2, adjuster_y_centre - adjuster_height_outer/2]) {
-          square([adjuster_width_inner, adjuster_height_inner]);
-     }
+     upper_front_layout(true) {
+              square([adjuster_width_outer, adjuster_height_outer]);
+              meter_centred(true);
+     };
 }
 
 module front_dividers() {
@@ -60,8 +59,11 @@ module inner_front_cutouts() {
                one_inner_front_cutout();
           }
      }
-     translate([(total_width - adjuster_width_inner)/2, adjuster_y_centre - adjuster_height_inner/2]) {
+     upper_front_layout(false) {
           square([adjuster_width_inner, adjuster_height_inner]);
+          meter_centred(false);
+     };
+     translate([(total_width - adjuster_width_inner)/2, adjuster_y_centre - adjuster_height_inner/2]) {
      }
      assembly_bracket_slots(total_width);
 }
