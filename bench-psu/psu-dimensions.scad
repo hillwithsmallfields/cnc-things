@@ -74,6 +74,11 @@ mains_inlet_height = 27;
 din_power_socket_hole_diameter = 18;
 lighter_socket_hole_diameter = 28;
 
+usb_length = 15;
+usb_width = 7.5;
+MC4_length = 22;
+MC4_width = 16.5;
+
 switch_offset = 30;
 meter_offset = 100;
 
@@ -95,14 +100,6 @@ binding_post_spacing = 25.4 * 3 / 4;
 binding_post_row_spacing = 25;
 binding_post_offset = binding_post_row_spacing;
 
-ventilation_panel_start = mains_inlet_width + margin * 3;
-ventilation_hole_diameter = 10;
-ventilation_hole_spacing = ventilation_hole_diameter * 1.5;
-rear_ventilation_holes_per_row = (total_width - (ventilation_panel_start + margin * 2)) / ventilation_hole_spacing;
-rear_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
-side_ventilation_area_length = total_depth/3;
-side_ventilation_holes_per_row = side_ventilation_area_length / ventilation_hole_spacing;
-side_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
 corner_length = total_width / 4;
 corner_depth = corner_length / 3;
 
@@ -114,6 +111,16 @@ assembly_bracket_size = corner_fixing_hole_offset * 2;
 assembly_bracket_hole_diameter = 8;
 assembly_bracket_tab_offset = 10;
 assembly_bracket_tab_length = 10;
+
+rear_ventilation_panel_start = mains_inlet_width + margin * 2 + inner_thickness;
+rear_ventilation_panel_end = total_width - assembly_bracket_tab_offset;
+ventilation_hole_diameter = 10;
+ventilation_hole_spacing = ventilation_hole_diameter * 1.5;
+rear_ventilation_holes_per_row = (total_width - (rear_ventilation_panel_start + margin * 2)) / ventilation_hole_spacing;
+rear_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
+side_ventilation_area_length = total_depth/3;
+side_ventilation_holes_per_row = side_ventilation_area_length / ventilation_hole_spacing;
+side_ventilation_hole_rows = (total_height  - (margin * 2)) / ventilation_hole_spacing;
 
 /* some internal parts so I can experiment with layout */
 

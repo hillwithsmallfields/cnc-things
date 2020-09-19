@@ -14,8 +14,9 @@ module ventilation_hole_grid(columns, rows) {
 }
 
 module back_cutouts() {
-     translate([margin*2, total_height - margin*2 - mains_inlet_height]) square([mains_inlet_width, mains_inlet_height]);
-     translate([ventilation_panel_start, margin]) ventilation_hole_grid(rear_ventilation_holes_per_row, rear_ventilation_hole_rows);
+     translate([margin, psu36v_height]) square([mains_inlet_width, mains_inlet_height]);
+     translate([margin, total_height - margin - MC4_width - inner_thickness]) square([MC4_length, MC4_width]);
+     translate([rear_ventilation_panel_start, margin]) ventilation_hole_grid(rear_ventilation_holes_per_row, rear_ventilation_hole_rows);
      assembly_bracket_slots(total_width);
 }
 
