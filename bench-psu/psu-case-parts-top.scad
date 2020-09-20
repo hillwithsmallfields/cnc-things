@@ -1,5 +1,17 @@
 include <psu-dimensions.scad>
 
+module usb_inner_panel() {
+     translate([-usb_inner_panel_width/2, -usb_inner_panel_depth/2]) {
+          square([usb_inner_panel_width, usb_inner_panel_depth]);
+     }
+}
+
+module usb_outer_panel() {
+     translate([-usb_outer_panel_width/2, -usb_outer_panel_depth/2]) {
+          square([usb_outer_panel_width, usb_outer_panel_depth]);
+     }
+}
+
 module binding_post_hole_pair(diameter, spacing, join) {
      translate([-spacing/2, 0]) circle(d=diameter);
      translate([spacing/2, 0]) circle(d=diameter);
@@ -57,6 +69,8 @@ module outer_top_cutouts(with_text) {
      }
 
      translate([section_width * 2 + automotive_sockets_x_offset, binding_post_row_spacing*6]) automotive_sockets_cutout();
+
+     translate([usb_panel_from_side, binding_post_row_spacing*6]) usb_outer_panel();
 }
 
 module inner_top_cutouts() {
@@ -66,6 +80,8 @@ module inner_top_cutouts() {
           }
      }
      translate([section_width * 2 + automotive_sockets_x_offset, binding_post_row_spacing*6-outer_thickness]) automotive_sockets_cutout();
+
+     translate([usb_panel_from_side, binding_post_row_spacing*6]) usb_inner_panel();
 }
 
 module top_dividers() {
@@ -77,17 +93,33 @@ module top_dividers() {
      }
 }
 
+module usb_x_1() {
+     translate([-usb_length/2, -usb_width/2]) square([usb_length, usb_width]);
+}
+
+module usb_x_4() {
+     half_usb_h_spacing = usb_length*2/3;
+     half_usb_v_spacing = usb_width;
+     translate([-half_usb_h_spacing, -half_usb_v_spacing]) usb_x_1();
+     translate([-half_usb_h_spacing, half_usb_v_spacing]) usb_x_1();
+     translate([half_usb_h_spacing, -half_usb_v_spacing]) usb_x_1();
+     translate([half_usb_h_spacing, half_usb_v_spacing]) usb_x_1();
+}
+
 module outer_top_flat() {
-     difference() {
-          square([total_width, total_depth + outer_thickness]);
-          outer_top_cutouts(false);
+     union() {
+          difference() {
+               square([total_width, total_depth + outer_thickness]);
+               outer_top_cutouts(false);
+          }
+          color("red") translate([usb_panel_from_side, binding_post_row_spacing*6]) usb_x_4();
      }
 }
 
 module outer_top() {
-     color("cyan", outer_alpha) {
+//     color("cyan", outer_alpha) {
           linear_extrude(height=outer_thickness) {
                outer_top_flat();
           }
-     }
+//     }
 }

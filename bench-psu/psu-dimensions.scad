@@ -76,6 +76,13 @@ lighter_socket_hole_diameter = 28;
 
 usb_length = 15;
 usb_width = 7.5;
+
+usb_inner_panel_width = usb_length * 3;
+usb_inner_panel_depth = usb_width * 3;
+usb_outer_panel_width = usb_inner_panel_width + 12;
+usb_outer_panel_depth = usb_inner_panel_depth + 12;
+usb_panel_from_side = usb_outer_panel_width*3/4;
+usb_panel_from_front = total_depth / 2;
 MC4_length = 22;
 MC4_width = 16.5;
 

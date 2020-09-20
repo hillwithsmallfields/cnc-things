@@ -1,10 +1,13 @@
 include <psu-dimensions.scad>
 
 module veneer_top_flat() {
-     difference() {
-          square([total_width, total_depth + outer_thickness + veneer_thickness]);
-          outer_top_cutouts(true);
-          top_dividers();
+     union() {
+          difference() {
+               square([total_width, total_depth + outer_thickness + veneer_thickness]);
+               outer_top_cutouts(true);
+               top_dividers();
+          }
+          color("red") translate([usb_panel_from_side, binding_post_row_spacing*6]) usb_x_4();
      }
 }
 
