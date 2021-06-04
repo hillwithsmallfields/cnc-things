@@ -1,5 +1,5 @@
 
-cover_length = 9 * 25.4;
+cover_length = 8.5 * 25.4;
 cover_height = 3 * 25.4;
 
 nholes = 12;
