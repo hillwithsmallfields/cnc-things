@@ -1,5 +1,9 @@
 plate_length = 280;
-plate_height = 28;
+gap_height = 28;
+overlap = 18;
+plate_height = gap_height + overlap;
+
+half_height = gap_height / 2;
 
 module motor_socket() {
      circle(d=15);
