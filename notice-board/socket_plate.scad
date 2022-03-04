@@ -1,9 +1,17 @@
-plate_length = 280;
+plate_length = 350;
 gap_height = 28;
 overlap = 18;
 plate_height = gap_height + overlap;
 
 half_height = gap_height / 2;
+
+fixing_height = gap_height + overlap/2;
+
+top_plate_length = 420;
+
+module screw_hole() {
+     circle(d=4);
+}
 
 module motor_socket() {
      circle(d=15);
@@ -48,9 +56,24 @@ module din_socket() {
      }
 }
 
+module cooling_fan() {
+     /* "Ultra-miniature Brushless Fan Electric DC 5V 6V 2507 Mini Micro Tiny Cooling NI" has 3mm holes in a 21mm square, and is 25mm overall */
+     union() {
+          circle(d=22);
+          hole_place = 21/2;
+          translate([hole_place, hole_place]) circle(d=3);
+          translate([hole_place, -hole_place]) circle(d=3);
+          translate([-hole_place, -hole_place]) circle(d=3);
+          translate([-hole_place, hole_place]) circle(d=3);
+     }
+}
+
 module socket_plate() {
      difference() {
           square([plate_length, plate_height]);
+          translate([15, fixing_height]) screw_hole();
+          translate([plate_length/2, fixing_height]) screw_hole();
+          translate([plate_length-15, fixing_height]) screw_hole();
           translate([18, 14]) motor_socket();
           translate([35, 0]) ethernet_socket();
           translate([90, 14]) mains_inlet();
@@ -60,4 +83,19 @@ module socket_plate() {
      }
 }
 
+module top_plate() {
+     difference() {
+          square([top_plate_length, plate_height]);
+          translate([15, fixing_height]) screw_hole();
+          translate([top_plate_length/2, fixing_height]) screw_hole();
+          translate([top_plate_length-15, fixing_height]) screw_hole();
+          translate([20, 10]) circle(d=10);
+          translate([top_plate_length/2, 10]) circle(d=10);
+          translate([top_plate_length*.25, half_height]) cooling_fan();
+          translate([top_plate_length*.75, half_height]) cooling_fan();
+     }
+}
+
 socket_plate();
+
+translate([0, plate_height + 3]) top_plate();
