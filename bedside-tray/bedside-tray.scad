@@ -6,6 +6,8 @@ spacing = 10;
 cards_length = 110;
 cards_width = 75;
 
+charger_cable_width = 15;
+
 coaster_edge = 115;
 
 emergency_torch_length = 117;
@@ -117,7 +119,10 @@ module penknife() {
 }
 
 module sanitiser_bottle() {
-     centred_rectangle(sanitiser_bottle_width, sanitiser_bottle_height);
+     centred(sanitiser_bottle_width, sanitiser_bottle_height) {
+          scale([sanitiser_bottle_width/sanitiser_bottle_height, 1])
+               circle(d=sanitiser_bottle_height);
+     }
 }
 
 module wallet() {
@@ -132,22 +137,33 @@ module watch() {
 }
 
 module phone() {
-     centred_rectangle(phone_width, phone_height);
+     centred(phone_width, phone_height) {
+          square([phone_width, phone_height]);
+          translate([phone_width/2 - charger_cable_width/2, -40]) square([charger_cable_width, 40]);
+     }
 }
 
 module vaseline() {
      circle(d=vaseline_diameter);
 }
 
+module layer() {
+     square([width, height]);
+}
+
+module lower_layer() {
+     layer();
+}
+
 module upper_layer() {
      difference() {
-          square([width, height]);
+          layer();
           translate([spacing+pen_holder_edge/2, height-spacing-pen_holder_edge/2]) {
                beside(pen_holder_edge) {
                     below(pen_holder_edge) {
                          pen_holder();
                          beside(sanitiser_bottle_width) {
-                              sanitiser_bottle();
+                              translate([spacing*2, 0]) sanitiser_bottle();
                               down(20) vaseline();
                          }
                     }
@@ -156,8 +172,8 @@ module upper_layer() {
                          beside(watch_body_diameter) {
                               down(100) watch();
                               beside(wallet_width) {
-                                   below(wallet_width) {
-                                        wallet();
+                                   below(wallet_width+spacing) {
+                                        down(spacing) wallet();
                                         below(cards_width) {
                                              cards();
                                              nail_file();
@@ -174,7 +190,7 @@ module upper_layer() {
           }
           translate([spacing+phone_width/2, spacing+phone_height/2]) {
                beside(phone_width+20) {
-                    phone();
+                    up(20) phone();
                     beside(80) {
                          down(40) emergency_torch();
                          inhaler();
