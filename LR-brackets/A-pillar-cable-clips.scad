@@ -14,9 +14,14 @@ cable_tie_depth = 2;
 
 module cable_clip() {
      difference() {
+          /* the clip body */
           linear_extrude(length) {
                difference() {
                     intersection() {
+                         union() {
+                              circle(d=cross_section);
+                              translate([-3*cross_section/4, -3*cross_section/4]) square(cross_section);
+                         }
                          rotate([0, 0, 45]) {
                               difference() {
                                    square(cross_section, center=true);
@@ -28,11 +33,13 @@ module cable_clip() {
                     square(cross_section);
                }
           }
+          /* the screw hole */
           translate([0, 0, length/2]) rotate([135, 90, 0]) {
                cylinder(d=screw_size, h=cross_section);
                cylinder(d=screw_head_size, h=cable_diameter/2 + screw_head_depth);
           }
-     
+
+          /* the cable tie channel */
           translate([0, 0, (length-cable_tie_width)/2]) {
                linear_extrude(cable_tie_width) {
                     difference() {
