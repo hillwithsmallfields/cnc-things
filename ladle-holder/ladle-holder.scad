@@ -8,6 +8,12 @@ side_tab_height = height / (2 * side_tabs);
 base_tabs = 4;
 base_tab_length = width / (2 * base_tabs);
 
+vent_hole_base = 30;
+vent_hole_rows = 12;
+vent_hole_size = 12;
+vent_hole_columns = 7;
+vent_hole_column_spacing = ((width - (2 * thickness)) / ((vent_hole_columns / 2) - 1) / 2);
+echo(vent_hole_column_spacing);
 module side(angle) {
      rotate([0, 0, angle])
           translate([-width/2, width/2, 0])
@@ -21,6 +27,19 @@ module side(angle) {
                }
                for (i = [0: base_tabs - 1]) {
                     translate([base_tab_length + i * base_tab_length *2, 0]) square([base_tab_length, thickness]);
+               }
+               for (i = [0: vent_hole_rows - 1]) {
+                    for (j = [0: vent_hole_columns/2]) {
+                         for (k = [-1 : 1: 1]) {
+                              /* echo(i, j, k); */
+                              translate([
+                                             width/2 + k * vent_hole_column_spacing
+                                             ,
+                                             vent_hole_base + 2 * i * vent_hole_size
+                                             ])
+                                   circle(d=vent_hole_size);
+                         }
+                    }
                }
           }
      }
