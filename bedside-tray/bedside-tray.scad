@@ -10,8 +10,7 @@ charger_cable_width = 15;
 
 coaster_edge = 115;
 
-emergency_torch_length = 117;
-emergency_torch_width = 40;
+emergency_torch_diameter = 28;
 
 flood_torch_length = 150;
 flood_torch_width = 15;
@@ -29,6 +28,9 @@ penknife_width = 35;
 
 phone_height = 165;
 phone_width = 80;
+
+flipper_length = 105;
+flipper_width = 45;
 
 inhaler_length = 70;
 inhaler_width = 30;
@@ -91,7 +93,7 @@ module coaster() {
 }
 
 module emergency_torch() {
-     centred_rectangle(emergency_torch_length, emergency_torch_width);
+     circle(d=emergency_torch_diameter);
 }
 
 module flood_torch() {
@@ -141,6 +143,10 @@ module phone() {
           square([phone_width, phone_height]);
           translate([phone_width/2 - charger_cable_width/2, -40]) square([charger_cable_width, 40]);
      }
+}
+
+module flipper() {
+     centred_rectangle(flipper_width, flipper_length);
 }
 
 module vaseline() {

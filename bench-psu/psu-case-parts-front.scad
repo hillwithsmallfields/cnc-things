@@ -18,6 +18,12 @@ module meter_and_switch_cutout(is_outer) {
      }
 }
 
+module mains_meter_centred(is_outer) {
+     mt_h = is_outer ? mains_meter_height : mains_meter_backing_height;
+     mt_w = is_outer ? mains_meter_width : mains_meter_backing_width;
+     translate([-mt_w/2, -mt_h/2]) square([mt_w, mt_h]);
+}
+
 module one_outer_front_cutout(with_text, volt_label) {
      translate([half_section_width, meter_and_switch_offset_from_base + meter_and_switch_height/2]) {
           meter_and_switch_cutout(true);
@@ -36,6 +42,7 @@ module outer_front_cutouts(with_text) {
      upper_front_layout(true) {
               square([adjuster_width_outer, adjuster_height_outer]);
               meter_centred(true);
+              mains_meter_centred();
      };
 }
 
@@ -62,6 +69,7 @@ module inner_front_cutouts() {
      upper_front_layout(false) {
           square([adjuster_width_inner, adjuster_height_inner]);
           meter_centred(false);
+          mains_meter_centred();
      };
      translate([(total_width - adjuster_width_inner)/2, adjuster_y_centre - adjuster_height_inner/2]) {
      }

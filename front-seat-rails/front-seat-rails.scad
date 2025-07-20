@@ -112,6 +112,7 @@ module lower_frame() {
                           -tube_outer_diameter*1.4])
                     flat(rail_length);
           }
+     color("red") translate([rail_length, lengthways_mounting_spacing/2, 0]) rotate([0, 180, 90]) angle(lengthways_mounting_spacing);
 }
 
 module rods() {
