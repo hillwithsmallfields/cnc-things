@@ -2,8 +2,11 @@ height = 400;
 width = 100;
 thickness = 10;
 
-tabs = 8;
-tab_height = height / (2 * tabs);
+side_tabs = 8;
+side_tab_height = height / (2 * side_tabs);
+
+base_tabs = 4;
+base_tab_length = width / (2 * base_tabs);
 
 module side(angle) {
      rotate([0, 0, angle])
@@ -12,20 +15,33 @@ module side(angle) {
           linear_extrude(thickness) {
           difference() {
                square([width, height]);
-               for (i = [0: tabs - 1]) {
-                    translate([0, i * tab_height * 2]) square([thickness, tab_height]);
-                    translate([width - thickness, tab_height + i * tab_height * 2, ]) square([thickness, tab_height]);
+               for (i = [0: side_tabs - 1]) {
+                    translate([0, i * side_tab_height * 2]) square([thickness, side_tab_height]);
+                    translate([width - thickness, side_tab_height + i * side_tab_height * 2, ]) square([thickness, side_tab_height]);
+               }
+               for (i = [0: base_tabs - 1]) {
+                    translate([base_tab_length + i * base_tab_length *2, 0]) square([base_tab_length, thickness]);
                }
           }
      }
 }
 
 module base() {
-     linear_extrude(thickness) translate([-width/2, -width/2]) square([width, width]);
+     linear_extrude(thickness) {
+          difference() {
+               translate([-width/2, -width/2]) square([width, width]);
+               for (angle = [0: 90: 270]) {
+                    rotate(angle) translate([-width/2, -width/2])
+                         for (i = [0: base_tabs - 1]) {
+                              translate([0, i * 2 * base_tab_length]) square([base_tab_length, thickness]);
+                         }
+               }
+          }
+     }
 }
 
 module ladle_holder() {
-     base();
+     color("purple") base();
      color("red") side(0);
      color("green") side(90);
      color("blue") side(180);
