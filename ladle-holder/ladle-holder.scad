@@ -3,14 +3,20 @@ width = 100;
 thickness = 10;
 
 tabs = 8;
-tab_height = height / tabs;
+tab_height = height / (2 * tabs);
 
 module side(angle) {
      rotate([0, 0, angle])
           translate([-width/2, width/2, 0])
           rotate([90, 0, 0])
           linear_extrude(thickness) {
-          square([width, height]);
+          difference() {
+               square([width, height]);
+               for (i = [0: tabs - 1]) {
+                    translate([0, i * tab_height * 2]) square([thickness, tab_height]);
+                    translate([width - thickness, tab_height + i * tab_height * 2, ]) square([thickness, tab_height]);
+               }
+          }
      }
 }
 
