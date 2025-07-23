@@ -1,14 +1,14 @@
 
 cut_width = 25 * 25.4;
-cut_height = 4 * 25.4;
+cut_height = 90;
 
 shelf_width = 18 * 25.4;
 
-tb_margin = .8 * 25.4;
+tb_margin = 1 * 25.4;
 lr_margin = 3 * 25.4;
 
-ventilation_hole_diameter = 10;
-ventilation_hole_spacing = ventilation_hole_diameter * 1.75;
+ventilation_hole_diameter = 8.5;
+ventilation_hole_spacing = ventilation_hole_diameter * 1.5;
 
 panel_width = cut_width - lr_margin*2;
 panel_height = cut_height - tb_margin*2;
@@ -55,5 +55,11 @@ module shelf() {
      }
 }
 
-/* rotate([0, 0, 90]) cover_panel(); */
-rotate([0, 0, 90]) shelf();
+module some_holes() {
+    ventilation_hole_grid((panel_width*1) / ventilation_hole_spacing, panel_height / ventilation_hole_spacing);
+}
+
+/* rotate([0, 0, 0]) cover_panel(); */
+/* rotate([0, 0, 0]) shelf(); */
+
+some_holes();
