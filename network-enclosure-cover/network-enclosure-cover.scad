@@ -46,11 +46,11 @@ module cover_panel() {
 module shelf() {
     difference() {
           shelf_panel_outline();
-          translate([lr_margin, tb_margin]) {
-               ventilation_hole_grid(7*25.4 / ventilation_hole_spacing, panel_height / ventilation_hole_spacing);
+          translate([2*25.4, tb_margin]) {
+               ventilation_hole_grid(9*25.4 / ventilation_hole_spacing, panel_height / ventilation_hole_spacing);
           }
-          translate([13*25.4, tb_margin]) {
-               ventilation_hole_grid(3*25.4 / ventilation_hole_spacing, panel_height / ventilation_hole_spacing);
+          translate([13.5*25.4, tb_margin]) {
+               ventilation_hole_grid(2.5*25.4 / ventilation_hole_spacing, panel_height / ventilation_hole_spacing);
           }
      }
 }

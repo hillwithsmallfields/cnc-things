@@ -7,7 +7,7 @@ hole_spacing = 10;
 
 hole_size = 5;
 screw_hole_size = 4;
-screw_hole_offset = 8;
+screw_hole_offset = 6;
 
 module rounded_rect(w, h, r) {
      union() {

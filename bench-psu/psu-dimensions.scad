@@ -36,6 +36,11 @@ meter_height = 29;
 meter_backing_height = meter_height + 6;
 meter_depth = 25;               /* TODO: measure this */
 
+mains_meter_width = 62;
+mains_meter_backing_width = mains_meter_width + 6;
+mains_meter_height = 37;
+mains_meter_backing_height = mains_meter_height;
+
 rocker_width = switch_width - 3;
 rocker_depth = 6;
 rocker_height = switch_height - 3;
@@ -64,7 +69,7 @@ module upper_front_layout(is_outer) {
           children(1);
      }
      translate([total_width - half_section_width, adjuster_y_centre]) {
-          children(1);
+          children(2);
      }
 }
 
@@ -100,7 +105,7 @@ clamp_connector_length = 20;
 clamp_connector_width = 18;
 wire_clamp_depth = clamp_connector_length + 15;
 
-binding_post_hole_inner_diameter = 15;
+binding_post_hole_inner_diameter = 16;
 binding_post_hole_outer_diameter = 5.25;
 binding_post_rows = 8;
 binding_post_spacing = 25.4 * 3 / 4;

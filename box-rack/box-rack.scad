@@ -25,7 +25,8 @@ levels = floor(height / level_offset);
 
 trimmed_height = (levels - 0.5) * level_offset;
 
-with_shelves = true;
+with_shelves = false;
+with_boxes = false;
 
 flat_used = with_shelves ? shelf_thickness : 0;
 
@@ -61,15 +62,15 @@ for (i=[0:levels-1]) {
                     translate([beam_width+beam_depth, 0, beam_width+beam_depth])
                     cube([width - 2 * (beam_width+beam_depth), depth, shelf_thickness]);
      }
-     
-     translate([beam_width + beam_depth, 0, flat_used + beam_width + beam_depth + i * level_offset])
-          for (j=[0:boxes-1])
-               translate([j*box_offset, 0, 0])
-                    if (i % 2 == 0) {
-                         box(i, j);
-                    } else {
-                         crate(i, j);
-                    }
+     if (with_boxes)
+          translate([beam_width + beam_depth, 0, flat_used + beam_width + beam_depth + i * level_offset])
+               for (j=[0:boxes-1])
+                    translate([j*box_offset, 0, 0])
+                         if (i % 2 == 0) {
+                              box(i, j);
+                         } else {
+                              crate(i, j);
+                         }
                                      
 }
 
