@@ -1,6 +1,9 @@
-height = 400;
-width = 100;
-thickness = 10;
+blank_length = 1000;
+blank_width = 145;
+
+width = blank_width;
+height = (blank_length - blank_width) / 4;
+thickness = 12;
 
 side_tabs = 8;
 side_tab_height = height / (2 * side_tabs);
