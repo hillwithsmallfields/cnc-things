@@ -14,7 +14,7 @@ side_tabs = height / side_tab_height;
 /* base_tab_length = width / (2 * base_tabs); */
 
 base_tab_length = thickness;
-base_tabs = width/ base_tab_length;
+base_tabs = (width / base_tab_length) / 2;
 
 vent_hole_base = 30;
 vent_hole_rows = 12;
