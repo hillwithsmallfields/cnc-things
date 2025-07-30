@@ -8,10 +8,7 @@ width = blank_width;
 height = (blank_length - blank_width) / 4;
 
 side_tab_height = thickness;
-side_tabs = height / side_tab_height;
-
-/* base_tabs = 4; */
-/* base_tab_length = width / (2 * base_tabs); */
+side_tabs = (height / side_tab_height) / 2;
 
 base_tab_length = thickness;
 base_tabs = (width / base_tab_length) / 2;
@@ -29,10 +26,10 @@ module side(angle) {
           linear_extrude(thickness) {
           difference() {
                square([width, height]);
-               for (i = [0: side_tabs - 1]) {
+               for (i = [0: side_tabs]) {
                     translate([0, i * side_tab_height * 2]) square([thickness, side_tab_height]);
                }
-               for (i = [0: side_tabs - 1]) {
+               for (i = [0: side_tabs]) {
                     translate([width - thickness, side_tab_height + i * side_tab_height * 2, ]) square([thickness, side_tab_height]);
                }
                for (i = [0: base_tabs - 1]) {
