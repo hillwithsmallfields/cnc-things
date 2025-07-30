@@ -18,7 +18,7 @@ base_tabs = width/ base_tab_length;
 
 vent_hole_base = 30;
 vent_hole_rows = 12;
-vent_hole_size = 12;
+vent_hole_size = thickness;
 vent_hole_columns = 7;
 vent_hole_column_spacing = ((width - (2 * thickness)) / ((vent_hole_columns / 2) - 1) / 2);
 echo(vent_hole_column_spacing);
@@ -61,7 +61,7 @@ module base() {
                translate([-width/2, -width/2]) square([width, width]);
                for (angle = [0: 90: 270]) {
                     rotate(angle) translate([-width/2, -width/2])
-                         for (i = [0: base_tabs - 1]) {
+                         for (i = [1: base_tabs - 1]) {
                               translate([0, 1 + i * 2 * base_tab_length]) square([thickness, base_tab_length]);
                          }
                }
