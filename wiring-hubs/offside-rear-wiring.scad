@@ -9,7 +9,8 @@ include <wiring-hubs.scad>
   5: to trailer socket
   6: to local
   7: to door
-  8: to cover box
+  8: to local electronics
+  9: to cover box
 
   Relays:
   1: rear demist
