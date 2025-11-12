@@ -17,4 +17,4 @@ include <wiring-hubs.scad>
   3: loading lights
  */
 
-socket_plate(5, 2, 4);
+socket_plate(5, 2, 4, 4);

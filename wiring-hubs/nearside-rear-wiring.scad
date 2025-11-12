@@ -8,4 +8,4 @@ include <wiring-hubs.scad>
   4: to cover box
  */
 
-socket_plate(3, 2, 0);
+socket_plate(3, 2, 0, 3);

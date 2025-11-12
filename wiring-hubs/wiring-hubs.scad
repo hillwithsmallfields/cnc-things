@@ -18,6 +18,8 @@ relay_width = 33;
 bolt_hole_diameter = 5;
 bolt_hole_spacing = 25;
 
+power_connector_bolt_diameter = 8;
+
 module socket_grid(x, y) {
      for (i=[0:y-1]) {
           for (j=[0:x-1]) {
@@ -41,17 +43,33 @@ module relay_row(n) {
              relay_height]);
 }             
 
-module socket_plate(x, y, n) {
+module power_connector_bolts(plate_width, n) {
+     /* don't put the connector bolts in the side margins --- that's
+      * where the mounting bolts go */
+     bolt_spacing = (plate_width - (side_margin/2)) / (n+1);
+
+     translate([side_margin + bolt_spacing/2, 0])
+          for (i=[0:n-1])
+               translate([i*bolt_spacing, 0]) circle(d=power_connector_bolt_diameter);
+}
+
+module socket_plate(x, y, n_relays, n_power_studs) {
      plate_width = x*connector_x_spacing + side_margin*2;
-     plate_height = y*connector_y_spacing + top_margin + bottom_margin + ((n>0) ? relay_height : 0);
+     plate_height = y*connector_y_spacing + top_margin + bottom_margin + ((n_relays>0) ? relay_height : 0);
+     echo("plate is", plate_width, "mm wide and", plate_height, "mm high");
+     echo("plate is", plate_width/25.4, "inches wide and", plate_height/25.4, "inches high");
      difference() {
           square([plate_width, plate_height]);
           translate([side_margin, bottom_margin]) socket_grid(x, y);
-          if (n > 0) {
-               translate([side_margin+((plate_width-side_margin*2 - n*relay_spacing) / 2)-(relay_width-relay_spacing),
-                          y*connector_y_spacing+2*bar_width]) relay_row(n);
+          if (n_relays > 0) {
+               translate([side_margin+((plate_width-side_margin*2 - n_relays*relay_spacing) / 2)-(relay_width-relay_spacing),
+                          y*connector_y_spacing+2*bar_width]) relay_row(n_relays);
           }
           mounting_holes(plate_width, plate_height);
+          if (n_power_studs > 0) {
+               translate([0, bottom_margin/2]) {
+                    power_connector_bolts(plate_width, n_power_studs);
+               }
+          }
      }
-     color("red") mounting_holes(plate_width, plate_height);
 }
