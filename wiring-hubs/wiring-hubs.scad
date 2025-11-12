@@ -28,11 +28,11 @@ module socket_grid(x, y) {
      }
 }
 
-module mounting_holes(plate_height, plate_width) {
+module mounting_holes(plate_width, plate_height) {
      translate([0, bolt_hole_spacing/2])
-          for (i=[0:plate_height/bolt_hole_spacing]) {
+          for (i=[0:plate_height/bolt_hole_spacing-1]) {
                translate([side_margin/2, i*bolt_hole_spacing]) circle(d=bolt_hole_diameter);
-               translate([plate_width  - side_margin*1.5, i*bolt_hole_spacing]) circle(d=bolt_hole_diameter);
+               translate([plate_width - (side_margin/2), i*bolt_hole_spacing]) circle(d=bolt_hole_diameter);
           }
 }
 

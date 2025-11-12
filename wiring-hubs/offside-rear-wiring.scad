@@ -14,6 +14,7 @@ include <wiring-hubs.scad>
   Relays:
   1: rear demist
   2: rear wiper
+  3: loading lights
  */
 
 socket_plate(5, 2, 4);
