@@ -1,5 +1,7 @@
 /* Carrier plate to glue MC8 connector shells and interlocking relay sockets into */
 
+/* large relay is 43mm wide and needs 70mm clearance from mounting hole */
+
 top_margin = 25;
 bottom_margin = 25;
 side_margin = 20;
