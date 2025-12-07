@@ -1,5 +1,9 @@
-blank_length = 1000;
-blank_width = 145;
+/* The actual dimensions */
+blank_real_length = 1000;
+blank_real_width = 145;
+/* leave a bit for inaccuracy of aligning it in the laser cutter */
+blank_length = blank_real_length - 4*5;
+blank_width = blank_real_width - 4;
 thickness = 12;
 
 edge = .1;                       /* to separate the sections, so they don't union together */
