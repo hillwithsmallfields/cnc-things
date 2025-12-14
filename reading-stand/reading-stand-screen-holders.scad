@@ -37,9 +37,9 @@ module extender() {
 
 lower();
 translate([0, 40]) upper();
-translate([0, 60]) for (i = [0: 5]) translate([i*25, 0]) pillar();
-translate([0, 85]) for (i = [0: 5]) translate([i*25, 0]) pillar();
-translate([0, 110]) for (i = [0: 3]) translate([i*35, 0]) extender();
+translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
 translate([170, 0]) backing();
-translate([340, 0]) strap();
-translate([370, 0]) strap();
+translate([340, 20]) rotate(-90) strap();
+translate([340, 50]) rotate(-90) strap();
+translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar();
+translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar();
