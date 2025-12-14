@@ -4,7 +4,7 @@
 
 top_margin = 25;
 bottom_margin = 25;
-side_margin = 20;
+side_margin = 18;
 bar_width = 12;
 
 connector_hole_height = 38;
