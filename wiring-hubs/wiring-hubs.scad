@@ -7,9 +7,9 @@ bottom_margin = 25;
 side_margin = 18;
 bar_width = 12;
 
-connector_hole_height = 38;
-connector_hole_width = 17;
-connector_x_spacing = 25;
+connector_hole_height = 37;
+connector_hole_width = 13;
+connector_x_spacing = 30;
 connector_y_spacing = connector_hole_height + bar_width;
 
 relay_height = 36;
