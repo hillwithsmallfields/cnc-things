@@ -96,4 +96,9 @@ module ladle_holder_3d() {
      color("yellow") side_3d(270);
 }
 
-ladle_holder_2d();
+/* ladle_holder_2d(); */
+
+/* translate([width, width]) base_2d(); */
+side_2d();
+/* base_2d(); */
+/* scale([0.25, 0.25]) side_2d(); */
