@@ -16,6 +16,13 @@ include <wiring-hubs.scad>
   1: rear demist
   2: rear wiper
   3: loading lights
+  4: for future expansion
+
+  Power studs:
+  1: Ground
+  2: Main battery
+  3: Ignition
+  4: Auxiliary battery
  */
 
 socket_plate(5, 2, 4, 4);
