@@ -21,12 +21,16 @@ keyboard_width = 150;
 keyboard_length = 440;
 keyboard_depth = 28;
 
+keyboard_tray_width = overall_width - 2 * thickness;
+
 /* MR16 lamp */
 lamp_diameter = 2 * 25.4;
 lamp_overhang = 60;
 
 overall_height = keyboard_length + thickness * 2;
 front_height = overall_height - lamp_overhang;
+
+base_depth = monitor_depth_with_stand + thickness * 2;
 
 module side_plate() {
 }
@@ -46,21 +50,27 @@ module lamp_plate() {
 }
 
 module top_plate() {
+     square([overall_width, base_depth]);
 }
 
 module base_plate() {
+     square([overall_width, base_depth]);
 }
 
 module back_plate() {
+     square([overall_width, overall_height]);
 }
 
 module keyboard_lid_front() {
+     square([keyboard_length, keyboard_depth]);
 }
 
 module keyboard_lid_side() {
+     square([keyboard_tray_width, keyboard_depth]);
 }
 
 module keyboard_lid_base() {
+     square([keyboard_length, keyboard_tray_width]);
 }
 
 module keyboard_lid_top() {
