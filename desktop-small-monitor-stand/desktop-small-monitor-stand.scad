@@ -37,51 +37,55 @@ overall_depth = monitor_depth_with_stand + face_plate_inset + thickness * 2;
 base_depth = overall_depth;
 
 module side_plate() {
-     square([overall_depth, overall_height]);
+     linear_extrude(height=thickness) square([overall_depth, overall_height]);
 }
 
 module face_plate() {
-     difference() {
-          square([overall_width, front_height]);
-          translate([monitor_side_margins, front_height-(monitor_height + monitor_top_margin)]) {
-               square([monitor_width, monitor_height]);
+     linear_extrude(height=thickness) {
+          difference() {
+               square([overall_width, front_height]);
+               translate([monitor_side_margins, front_height-(monitor_height + monitor_top_margin)]) {
+                    square([monitor_width, monitor_height]);
+               }
           }
      }
 }
 
 module slant_plate() {
-     square([overall_width, lamp_plate_size]);
+     linear_extrude(height=thickness) square([overall_width, lamp_plate_size]);
 }
 
 module lamp_plate() {
-     difference() {
-          square([overall_width, lamp_plate_size]);
-          translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+     linear_extrude(height=thickness)  {
+          difference() {
+               square([overall_width, lamp_plate_size]);
+               translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+          }
      }
 }
 
 module top_plate() {
-     square([overall_width, base_depth]);
+     linear_extrude(height=thickness) square([overall_width, base_depth]);
 }
 
 module base_plate() {
-     square([overall_width, base_depth]);
+     linear_extrude(height=thickness) square([overall_width, base_depth]);
 }
 
 module back_plate() {
-     square([overall_width, overall_height]);
+     linear_extrude(height=thickness) square([overall_width, overall_height]);
 }
 
 module keyboard_tray_long_edge() {
-     square([keyboard_length, keyboard_depth]);
+     linear_extrude(height=thickness) square([keyboard_length, keyboard_depth]);
 }
 
 module keyboard_tray_side() {
-     square([keyboard_tray_width, keyboard_depth]);
+     square([keyboard_tray_width-thickness*2, keyboard_depth]);
 }
 
 module keyboard_tray_base() {
-     square([keyboard_length, keyboard_tray_width]);
+     linear_extrude(height=thickness) square([keyboard_length, keyboard_tray_width-thickness*2]);
 }
 
 three_d = true;
@@ -90,13 +94,13 @@ gap = 5;
 module tower_assembly () {
      if (three_d) {
           base_plate();
-          rotate([90, 0, 90]) side_plate();
-          translate([overall_width, 0, 0]) rotate([90, 0, 90]) side_plate();
-          translate([0, face_plate_inset, 0]) rotate([90, 0, 0]) face_plate();
-          translate([0, base_depth, 0]) rotate([90, 0, 0]) back_plate();
+          color("red") rotate([90, 0, 90]) side_plate();
+          color("red") translate([overall_width-thickness, 0, 0]) rotate([90, 0, 90]) side_plate();
+          color("purple") translate([0, face_plate_inset, 0]) rotate([90, 0, 0]) face_plate();
+          color("purple") translate([0, base_depth, 0]) rotate([90, 0, 0]) back_plate();
           /* lamp in a 45 degree bay */
-          translate([0, face_plate_inset, overall_height - lamp_aperture_height]) rotate([45, 0, 0]) slant_plate();
-          translate([0, face_plate_inset, overall_height]) rotate([-45, 0, 0]) lamp_plate();
+          color("green") translate([0, face_plate_inset, overall_height - lamp_aperture_height]) rotate([45, 0, 0]) slant_plate();
+          color("green") translate([0, face_plate_inset, overall_height]) rotate([-45, 0, 0]) lamp_plate();
           translate([0, 0, overall_height]) top_plate();
      } else {
      }
@@ -105,7 +109,7 @@ module tower_assembly () {
 module keyboard_tray_assembly() {
      if (three_d) {
           keyboard_tray_base();
-          translate([0, keyboard_tray_width, 0]) rotate([90, 0]) keyboard_tray_long_edge();
+          translate([0, keyboard_tray_width-thickness, 0]) rotate([90, 0]) keyboard_tray_long_edge();
           rotate([90, 0]) keyboard_tray_long_edge();
           rotate([90, 0, 90]) keyboard_tray_side();
           translate([keyboard_length, 0, 0]) rotate([90, 0, 90]) keyboard_tray_side();
@@ -125,7 +129,7 @@ module keyboard_tray_assembly() {
 module assembly() { 
      if (three_d) {
           tower_assembly();
-          translate([0, -250, 0]) rotate([0, -90, -90]) keyboard_tray_assembly();
+          translate([thickness*2, -250, thickness]) rotate([0, -90, -90]) keyboard_tray_assembly();
      } else {
           tower_assembly();
           keyboard_tray_assembly();
