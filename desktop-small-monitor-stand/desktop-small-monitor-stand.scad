@@ -21,14 +21,14 @@ keyboard_width = 150;
 keyboard_length = 440;
 keyboard_depth = 28;
 
-keyboard_tray_width = overall_width - 2 * thickness;
+keyboard_tray_width = overall_width;
 
 face_plate_inset = keyboard_depth;
 
 /* MR16 lamp */
 lamp_diameter = 2 * 25.4;
 lamp_plate_size = lamp_diameter + 20;
-lamp_aperture_height = sqrt((lamp_plate_size * lamp_plate_size) / 2) * 2;
+lamp_aperture_height = (sqrt((lamp_plate_size * lamp_plate_size) / 2) + thickness) * 2;
 
 overall_height = keyboard_length + thickness * 2;
 front_height = overall_height - lamp_aperture_height;
@@ -73,7 +73,7 @@ module base_plate() {
 }
 
 module back_plate() {
-     linear_extrude(height=thickness) square([overall_width, overall_height]);
+     linear_extrude(height=thickness) square([overall_width, overall_height- 2 * thickness]);
 }
 
 module keyboard_tray_long_edge() {
@@ -81,11 +81,11 @@ module keyboard_tray_long_edge() {
 }
 
 module keyboard_tray_side() {
-     square([keyboard_tray_width-thickness*2, keyboard_depth]);
+     linear_extrude(height=thickness) square([keyboard_tray_width-thickness*2, keyboard_depth]);
 }
 
 module keyboard_tray_base() {
-     linear_extrude(height=thickness) square([keyboard_length, keyboard_tray_width-thickness*2]);
+     linear_extrude(height=thickness) square([keyboard_length-thickness*2, keyboard_tray_width-thickness*2]);
 }
 
 three_d = true;
@@ -94,25 +94,25 @@ gap = 5;
 module tower_assembly () {
      if (three_d) {
           base_plate();
-          color("red") rotate([90, 0, 90]) side_plate();
-          color("red") translate([overall_width-thickness, 0, 0]) rotate([90, 0, 90]) side_plate();
-          color("purple") translate([0, face_plate_inset, 0]) rotate([90, 0, 0]) face_plate();
-          color("purple") translate([0, base_depth, 0]) rotate([90, 0, 0]) back_plate();
+          color("red") translate([-thickness, 0, 0]) rotate([90, 0, 90]) side_plate();
+          color("red") translate([overall_width, 0, 0]) rotate([90, 0, 90]) side_plate();
+          color("purple") translate([0, face_plate_inset, thickness]) rotate([90, 0, 0]) face_plate();
+          color("purple") translate([0, base_depth, thickness]) rotate([90, 0, 0]) back_plate();
           /* lamp in a 45 degree bay */
-          color("green") translate([0, face_plate_inset, overall_height - lamp_aperture_height]) rotate([45, 0, 0]) slant_plate();
-          color("green") translate([0, face_plate_inset, overall_height]) rotate([-45, 0, 0]) lamp_plate();
-          translate([0, 0, overall_height]) top_plate();
+          color("green") translate([0, face_plate_inset, overall_height - (lamp_aperture_height - thickness)]) rotate([45, 0, 0]) slant_plate();
+          color("lime") translate([0, face_plate_inset, overall_height - thickness]) rotate([-45, 0, 0]) lamp_plate();
+          translate([0, 0, overall_height-thickness]) top_plate();
      } else {
      }
 }
 
 module keyboard_tray_assembly() {
      if (three_d) {
-          keyboard_tray_base();
-          translate([0, keyboard_tray_width-thickness, 0]) rotate([90, 0]) keyboard_tray_long_edge();
-          rotate([90, 0]) keyboard_tray_long_edge();
-          rotate([90, 0, 90]) keyboard_tray_side();
-          translate([keyboard_length, 0, 0]) rotate([90, 0, 90]) keyboard_tray_side();
+          color("green") translate([thickness, 0, 0]) keyboard_tray_base();
+          color("red") translate([0, keyboard_tray_width-thickness, 0]) rotate([90, 0]) keyboard_tray_long_edge();
+          color("red") rotate([90, 0]) keyboard_tray_long_edge();
+          color("blue") rotate([90, 0, 90]) keyboard_tray_side();
+          color("blue") translate([keyboard_length-thickness, 0, 0]) rotate([90, 0, 90]) keyboard_tray_side();
      } else {
           keyboard_tray_base();
           translate([keyboard_length + gap, 0]) {
@@ -129,7 +129,7 @@ module keyboard_tray_assembly() {
 module assembly() { 
      if (three_d) {
           tower_assembly();
-          translate([thickness*2, -250, thickness]) rotate([0, -90, -90]) keyboard_tray_assembly();
+          translate([thickness, -500, thickness]) rotate([0, -90, -90]) keyboard_tray_assembly();
      } else {
           tower_assembly();
           keyboard_tray_assembly();
