@@ -30,7 +30,8 @@ lamp_overhang = 60;
 overall_height = keyboard_length + thickness * 2;
 front_height = overall_height - lamp_overhang;
 
-base_depth = monitor_depth_with_stand + thickness * 2;
+overall_depth = monitor_depth_with_stand + thickness * 2;
+base_depth = overall_depth;
 
 module side_plate() {
 }
@@ -61,17 +62,27 @@ module back_plate() {
      square([overall_width, overall_height]);
 }
 
-module keyboard_lid_front() {
+module keyboard_tray_long_edge() {
      square([keyboard_length, keyboard_depth]);
 }
 
-module keyboard_lid_side() {
+module keyboard_tray_side() {
      square([keyboard_tray_width, keyboard_depth]);
 }
 
-module keyboard_lid_base() {
+module keyboard_tray_base() {
      square([keyboard_length, keyboard_tray_width]);
 }
 
-module keyboard_lid_top() {
+module keyboard_tray_top() {
 }
+
+module keyboard_tray_assembly() {
+     keyboard_tray_base();
+     translate([0, keyboard_tray_width, 0]) rotate([90, 0]) keyboard_tray_long_edge();
+     rotate([90, 0]) keyboard_tray_long_edge();
+     rotate([90, 0, 90]) keyboard_tray_side();
+     translate([keyboard_length, 0, 0]) rotate([90, 0, 90]) keyboard_tray_side();
+}
+
+keyboard_tray_assembly();
