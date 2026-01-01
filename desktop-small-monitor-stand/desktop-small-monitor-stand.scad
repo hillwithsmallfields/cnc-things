@@ -83,14 +83,22 @@ module face_plate() {
 }
 
 module slant_plate() {
-     linear_extrude(height=thickness) square([overall_width, lamp_plate_size]);
+     linear_extrude(height=thickness) union() {
+          square([overall_width, lamp_plate_size]);
+          translate([-thickness, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+          translate([overall_width, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+     }
 }
 
 module lamp_plate() {
      linear_extrude(height=thickness)  {
-          difference() {
-               square([overall_width, lamp_plate_size]);
-               translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+          union() {
+               difference() {
+                    square([overall_width, lamp_plate_size]);
+                    translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+               }
+               translate([-thickness, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+               translate([overall_width, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
           }
      }
 }
@@ -134,6 +142,10 @@ module tower_assembly () {
           color("lime") position_lamp_plate(flat=false) { lamp_plate(); }
           translate([0, 0, overall_height-thickness]) top_plate();
      } else {
+          translate([0, overall_width]) {
+               color("red") slant_plate();
+               color("red") translate([0, lamp_plate_size+gap]) lamp_plate();
+          }
      }
 }
 
