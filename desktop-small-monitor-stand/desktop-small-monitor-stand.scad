@@ -49,6 +49,40 @@ module thicken() {
 
 module side_plate() {
      thicken() square([overall_depth, overall_height]);
+
+module position_slant_plate(flat) {
+     far_in = face_plate_inset;
+     far_up = (overall_height - (lamp_aperture_height - thickness));
+     translate([flat ? far_in : 0,
+                flat ? far_up : far_in,
+                flat ? 0 : far_up]) rotate([flat ? 0 : 45,
+                                            0,
+                                            flat ? 45 : 0]) children();
+}
+
+module position_lamp_plate(flat) {
+     far_in = face_plate_inset;
+     far_up = (overall_height - thickness);
+     translate([flat ? far_in : 0,
+                flat ? far_up : far_in,
+                flat ? 0: far_up]) rotate([flat ? 0 : -45,
+                                           0,
+                                           flat ? -45 : 0]) children();
+}
+
+module side_plate() {
+     linear_extrude(height=thickness) {
+          difference() {
+               square([overall_depth, overall_height]);
+               /* translate([30, 30]) circle(r=10); */ /* debug to check which corner is which */
+               position_slant_plate(flat=true) {
+                    translate([lamp_plate_size/4, 0]) square([lamp_plate_size/2, thickness]);
+               }
+               position_lamp_plate(flat=true) {
+                    translate([lamp_plate_size/4, 0]) square([lamp_plate_size/2, thickness]);
+               }
+          }
+     }
 }
 
 module face_plate() {
@@ -63,14 +97,22 @@ module face_plate() {
 }
 
 module slant_plate() {
-     thicken() square([overall_width, lamp_plate_size]);
+     linear_extrude(height=thickness) union() {
+          square([overall_width, lamp_plate_size]);
+          translate([-thickness, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+          translate([overall_width, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+     }
 }
 
 module lamp_plate() {
-     thicken()  {
-          difference() {
-               square([overall_width, lamp_plate_size]);
-               translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+     linear_extrude(height=thickness)  {
+          union() {
+               difference() {
+                    square([overall_width, lamp_plate_size]);
+                    translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
+               }
+               translate([-thickness, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
+               translate([overall_width, lamp_plate_size/4]) square([thickness, lamp_plate_size/2]);
           }
      }
 }
@@ -107,8 +149,8 @@ module tower_assembly () {
           color("purple") translate([0, face_plate_inset, thickness]) rotate([90, 0, 0]) face_plate();
           color("purple") translate([0, base_depth, thickness]) rotate([90, 0, 0]) back_plate();
           /* lamp in a 45 degree bay */
-          color("green") translate([0, face_plate_inset, overall_height - (lamp_aperture_height - thickness)]) rotate([45, 0, 0]) slant_plate();
-          color("lime") translate([0, face_plate_inset, overall_height - thickness]) rotate([-45, 0, 0]) lamp_plate();
+          color("green") position_slant_plate(flat=false) { slant_plate(); }
+          color("lime") position_lamp_plate(flat=false) { lamp_plate(); }
           translate([0, 0, overall_height-thickness]) top_plate();
      } else {
           translate([0, overall_width]) rotate([0, 0, -90]) {
@@ -121,6 +163,9 @@ module tower_assembly () {
                          translate([0, overall_height + gap]) face_plate();
                     }
                }
+          translate([0, overall_width]) {
+               color("red") slant_plate();
+               color("red") translate([0, lamp_plate_size+gap]) lamp_plate();
           }
      }
 }

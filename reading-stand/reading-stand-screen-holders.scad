@@ -17,6 +17,13 @@ module backing() {
           square([164, 123]);
           translate([110, 0]) square([25, 30]);
           translate([0, 60]) square([15, 50]);
+          translate([40,40]) {
+               for (i=[0:5]) {
+                    for (j=[0:3]) {
+                         translate([i*20, j*20]) circle(d=10);
+                    }
+               }
+          }
      }
 }
 
@@ -38,8 +45,8 @@ module extender() {
 lower();
 translate([0, 40]) upper();
 translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
-translate([170, 0]) backing();
-translate([340, 20]) rotate(-90) strap();
-translate([340, 50]) rotate(-90) strap();
-translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar();
-translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar();
+translate([0, 80]) backing();
+translate([0, 225]) rotate(-90) strap();
+translate([0, 250]) rotate(-90) strap();
+/* translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
+/* translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
