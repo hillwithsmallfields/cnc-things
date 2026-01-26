@@ -4,6 +4,9 @@
 
 /* dimensions in mm */
 
+three_d = false;
+gap = 5;
+
 thickness = 8;
 
 /* Eyoyo 8" monitor */
@@ -36,12 +39,20 @@ front_height = overall_height - lamp_aperture_height;
 overall_depth = monitor_depth_with_stand + face_plate_inset + thickness * 2;
 base_depth = overall_depth;
 
+module thicken() {
+     if (three_d) {
+          linear_extrude(height=thickness) children();
+     } else {
+          children();
+     }
+}
+
 module side_plate() {
-     linear_extrude(height=thickness) square([overall_depth, overall_height]);
+     thicken() square([overall_depth, overall_height]);
 }
 
 module face_plate() {
-     linear_extrude(height=thickness) {
+     thicken() {
           difference() {
                square([overall_width, front_height]);
                translate([monitor_side_margins, front_height-(monitor_height + monitor_top_margin)]) {
@@ -52,11 +63,11 @@ module face_plate() {
 }
 
 module slant_plate() {
-     linear_extrude(height=thickness) square([overall_width, lamp_plate_size]);
+     thicken() square([overall_width, lamp_plate_size]);
 }
 
 module lamp_plate() {
-     linear_extrude(height=thickness)  {
+     thicken()  {
           difference() {
                square([overall_width, lamp_plate_size]);
                translate([overall_width/2, lamp_plate_size/2]) circle(d=lamp_diameter);
@@ -65,31 +76,28 @@ module lamp_plate() {
 }
 
 module top_plate() {
-     linear_extrude(height=thickness) square([overall_width, base_depth]);
+     thicken() square([overall_width, base_depth]);
 }
 
 module base_plate() {
-     linear_extrude(height=thickness) square([overall_width, base_depth]);
+     thicken() square([overall_width, base_depth]);
 }
 
 module back_plate() {
-     linear_extrude(height=thickness) square([overall_width, overall_height- 2 * thickness]);
+     thicken() square([overall_width, overall_height- 2 * thickness]);
 }
 
 module keyboard_tray_long_edge() {
-     linear_extrude(height=thickness) square([keyboard_length, keyboard_depth]);
+     thicken() square([keyboard_length, keyboard_depth]);
 }
 
 module keyboard_tray_side() {
-     linear_extrude(height=thickness) square([keyboard_tray_width-thickness*2, keyboard_depth]);
+     thicken() square([keyboard_tray_width-thickness*2, keyboard_depth]);
 }
 
 module keyboard_tray_base() {
-     linear_extrude(height=thickness) square([keyboard_length-thickness*2, keyboard_tray_width-thickness*2]);
+     thicken() square([keyboard_length-thickness*2, keyboard_tray_width-thickness*2]);
 }
-
-three_d = true;
-gap = 5;
 
 module tower_assembly () {
      if (three_d) {
@@ -103,6 +111,17 @@ module tower_assembly () {
           color("lime") translate([0, face_plate_inset, overall_height - thickness]) rotate([-45, 0, 0]) lamp_plate();
           translate([0, 0, overall_height-thickness]) top_plate();
      } else {
+          translate([0, overall_width]) rotate([0, 0, -90]) {
+               base_plate();
+               translate([0, base_depth+gap]) {
+                    top_plate();
+                    translate([0, base_depth+gap]) {
+                         side_plate();
+                         translate([base_depth+gap, 0]) side_plate();
+                         translate([0, overall_height + gap]) face_plate();
+                    }
+               }
+          }
      }
 }
 
@@ -132,7 +151,7 @@ module assembly() {
           translate([thickness, -500, thickness]) rotate([0, -90, -90]) keyboard_tray_assembly();
      } else {
           tower_assembly();
-          keyboard_tray_assembly();
+          /* keyboard_tray_assembly(); */
      }
 }
 
