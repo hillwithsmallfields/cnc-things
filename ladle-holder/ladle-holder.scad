@@ -103,6 +103,6 @@ module ladle_holder_3d() {
 /* ladle_holder_2d(); */
 
 /* translate([width, width]) base_2d(); */
-rotate(90) side_2d();
-/* base_2d(); */
+/* rotate(90) side_2d(); */
+base_2d();
 /* scale([0.25, 0.25]) side_2d(); */
