@@ -21,10 +21,10 @@ module backing() {
           square([164, 123]);
           cutout(110, 0, 25, 30); /* indent in lower edge for strut */
           cutout(0, 60, 15, 50); /* indent in left edge for connectors */
-          cutout(67, 22, 41, 35);  /* connector to actual screen */
-          cutout(21, 51, 26, 17);  /* lower left chip cluster */
-          cutout(18, 90, 28, 15);  /* upper left chip cluster */
-          cutout(50, 77, 20, 23);  /* large chip */
+          cutout(67, 22, 36, 40);  /* connector to actual screen */
+          cutout(21, 51, 26, 22);  /* lower left chip cluster */
+          cutout(18, 95, 28, 15);  /* upper left chip cluster */
+          cutout(50, 77, 25, 28);  /* large chip */
           cutout(104, 50, 25, 35); /* right component cluster */
           /* translate([40,40]) { */
           /*      for (i=[0:5]) { */
