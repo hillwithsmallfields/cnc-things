@@ -1,7 +1,7 @@
 /* end triangles for the reading stand */
 
 width = 250;
-height = 185;
+height = 178;
 peak_offset = 187;
 
 speaker_diameter = 50;
