@@ -15,24 +15,23 @@ module cutout(x, y, w, h) {
      translate([x, y]) square([w, h]);
 }
 
+module backplate() {
+     difference() {
+          square([164, 123]);
+          cutout(109, 0, 27, 30); /* indent in lower edge for strut */
+          cutout(0, 60, 22, 50); /* indent in left edge for connectors */
+     }
+}
+
 /* behind screen */
 module backing() {
      difference() {
-          square([164, 123]);
-          cutout(110, 0, 25, 30); /* indent in lower edge for strut */
-          cutout(0, 60, 22, 50); /* indent in left edge for connectors */
+          backplate();
           cutout(67, 22, 38, 40);  /* connector to actual screen */
-          cutout(21, 55, 26, 22);  /* lower left chip cluster */
-          cutout(18, 95, 28, 18);  /* upper left chip cluster */
-          cutout(50, 77, 30, 28);  /* large chip */
-          cutout(104, 50, 25, 35); /* right component cluster */
-          /* translate([40,40]) { */
-          /*      for (i=[0:5]) { */
-          /*           for (j=[0:3]) { */
-          /*                translate([i*20, j*20]) circle(d=10); */
-          /*           } */
-          /*      } */
-          /* } */
+          cutout(17, 55, 30, 22);  /* lower left chip cluster */
+          cutout(18, 95, 28, 16);  /* upper left chip cluster */
+          cutout(50, 75, 30, 30);  /* large chip */
+          cutout(104, 50, 28, 35); /* right component cluster */
      }
 }
 
@@ -57,5 +56,6 @@ translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
 translate([0, 80]) backing();
 translate([0, 225]) rotate(-90) strap();
 translate([0, 250]) rotate(-90) strap();
+translate([0, 255]) backplate();
 /* translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
 /* translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
