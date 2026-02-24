@@ -20,6 +20,9 @@ large_chalice_side_length = 65;;
 keys_length = 75;
 keys_width = 25;
 
+finger_hole_upper_diameter = 25;
+finger_hole_lower_diameter = 30;
+
 /* from https://www.reddit.com/r/openscad/comments/nmfsih/centred_multiline_text/ */
 module multiline(text,
                  lineheight=1.2,
@@ -149,13 +152,18 @@ module keys(upper) {
      }
 }
 
+module finger_holes(upper) {
+     translate([0, tray_height/2]) circle(upper ? finger_hole_upper_diameter : finger_hole_lower_diameter);
+     translate([tray_width, tray_height/2]) circle(upper ? finger_hole_upper_diameter : finger_hole_lower_diameter);
+}
+
 module layout(upper) {
      translate([hosts_box_size/2 + 40,
                 hosts_box_size/2 + 15]) hosts_box(upper);
      translate([230, 100]) chalice(upper);
      translate([380, 100]) lavabo(upper);
-     translate([50, 150]) main_pyx(upper);
-     translate([115, 150]) gf_pyx(upper);
+     translate([70, 160]) main_pyx(upper);
+     translate([130, 160]) gf_pyx(upper);
      translate([80, 250]) large_jug(upper, "water");
      translate([180, 250]) large_jug(upper, "wine");
      translate([300, 250]) gf_chalice(upper);
@@ -167,18 +175,34 @@ module layer(upper) {
      if (upper) {
           difference() {
                tray();
-               layout(upper);
+               layout(true);
+               finger_holes(true);
           }
      } else {
-          layout(upper);
+          layout(false);
      }
 }
 
-if (true) {
+show_both = true;
+top_layer = true;
+cut = false;
+
+if (show_both) {
      linear_extrude(6) layer(true);
-     translate([0, 0, -2]) linear_extrude(2) tray();
+     translate([0, 0, -2]) linear_extrude(2) difference() { tray(); finger_holes(false); }
      layer(false);
 } else {
-     layer(true);
+     if (top_layer) {
+          layer(true);
+     } else {
+          if (cut) {
+               difference() {
+                    tray();
+                         finger_holes(false);
+               }
+          } else {
+               layout(false);
+          }
+     }
 }
 
