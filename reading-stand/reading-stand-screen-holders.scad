@@ -50,12 +50,14 @@ module extender() {
      square([30, 15]);
 }
 
-lower();
-translate([0, 40]) upper();
-translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
-translate([0, 80]) backing();
-translate([0, 225]) rotate(-90) strap();
-translate([0, 250]) rotate(-90) strap();
-translate([0, 255]) backplate();
+scale([-1, 1]) rotate(90) {
+     lower();
+     translate([0, 40]) upper();
+     translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
+     translate([0, 80]) backing();
+     translate([0, 225]) rotate(-90) strap();
+     translate([0, 250]) rotate(-90) strap();
+     translate([0, 255]) backplate();
 /* translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
 /* translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
+}
