@@ -63,3 +63,5 @@ translate([0, 300]) square([30, 50]);
 translate([40, 300]) square([30, 50]);
 translate([80, 300]) square([30, 50]);
 translate([120, 300]) square([30, 50]);
+translate([0, 360]) square([120, 30]);
+translate([0, 400]) square([120, 30]);
