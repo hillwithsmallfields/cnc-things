@@ -17,7 +17,13 @@ module cutout(x, y, w, h) {
 
 module backplate() {
      difference() {
-          square([164, 123]);
+          union() {
+               square([164, 123]);
+               translate([-13, 0]) square([13, 13]);
+               translate([-13, 110]) square([13, 13]);
+               translate([164, 0]) square([13, 13]);
+               translate([164, 110]) square([13, 13]);
+          }
           cutout(109, 0, 27, 30); /* indent in lower edge for strut */
           cutout(0, 60, 22, 50); /* indent in left edge for connectors */
      }
@@ -50,14 +56,10 @@ module extender() {
      square([30, 15]);
 }
 
-scale([-1, 1]) rotate(90) {
-     lower();
-     translate([0, 40]) upper();
-     translate([0, 60]) for (i = [0: 3]) translate([i*35, 0]) extender();
-     translate([0, 80]) backing();
-     translate([0, 225]) rotate(-90) strap();
-     translate([0, 250]) rotate(-90) strap();
-     translate([0, 255]) backplate();
-/* translate([475, 0]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
-/* translate([475, 30]) for (i = [0: 5]) translate([i*25, 0]) pillar(); */
-}
+lower();
+translate([0, 40]) backing();
+translate([0, 170]) backplate();
+translate([0, 300]) square([30, 50]);
+translate([40, 300]) square([30, 50]);
+translate([80, 300]) square([30, 50]);
+translate([120, 300]) square([30, 50]);
