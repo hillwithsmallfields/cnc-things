@@ -23,6 +23,8 @@ keys_width = 25;
 finger_hole_upper_diameter = 25;
 finger_hole_lower_diameter = 30;
 
+sanitiser_dispenser_size = 65;
+
 /* from https://www.reddit.com/r/openscad/comments/nmfsih/centred_multiline_text/ */
 module multiline(text,
                  lineheight=1.2,
@@ -58,13 +60,22 @@ module square_base(base_size) {
      translate([-base_size/2, -base_size/2]) square([base_size, base_size]);
 }
 
+module sanitiser(upper) {
+     if (upper) {
+          square_base(sanitiser_dispenser_size);
+     } else {
+          multiline(["Sanitiser",
+                     "dispenser"]);
+     }
+}
+
 module small_jug(upper) {
      if (upper) {
           square_base(small_jug_size);
      } else {
           multiline(["Jug",
                      "for",
-                     "ablution"]);
+                     "ablution"], size=11);
      }
 }
 
@@ -74,7 +85,7 @@ module large_jug(upper, contents) {
      } else {
           multiline(["Jug",
                      "for",
-                     contents]);
+                     contents], size=12);
      }
 }
 
@@ -83,7 +94,7 @@ module hosts_box(upper) {
           square_base(hosts_box_size);
      } else {
           multiline(["Hosts",
-                     "box"]);
+                     "box"], size=12);
      }
 }
 
@@ -92,7 +103,7 @@ module main_pyx(upper) {
           circle(d=large_pyx_diameter);
      } else {
           multiline(["Main",
-                     "pyx"]);
+                     "pyx"], size=12);
      }
 }
 
@@ -113,7 +124,7 @@ module gf_chalice(upper) {
      } else {
           multiline(["Gluten-",
                      "free",
-                     "chalice"]);
+                     "chalice"], size=12);
      }
 }
 
@@ -121,7 +132,7 @@ module lavabo(upper) {
      if (upper) {
           circle(d=lavabo_base_diameter);
      } else {
-          multiline(["Lavabo"]);
+          multiline(["Lavabo"], size=12);
      }
 }
 
@@ -129,8 +140,12 @@ module chalice(upper) {
      if (upper) {
           circle(r=large_chalice_side_length, $fn=6);
      } else {
-          multiline(["Main",
-                     "chalice"],
+          multiline(["Chalice,",
+                     "purificator,",
+                     "paten,",
+                     "priest's wafer,",
+                     "pall,",
+                     "corporal"],
                size=12);
      }
 }
@@ -164,11 +179,12 @@ module layout(upper) {
      translate([380, 100]) lavabo(upper);
      translate([70, 160]) main_pyx(upper);
      translate([130, 160]) gf_pyx(upper);
-     translate([80, 250]) large_jug(upper, "water");
-     translate([180, 250]) large_jug(upper, "wine");
-     translate([300, 250]) gf_chalice(upper);
-     translate([400, 250]) small_jug(upper);
-     translate([330, 180]) keys(upper);
+     translate([60, 250]) large_jug(upper, "water");
+     translate([150, 250]) large_jug(upper, "wine");
+     translate([240, 250]) gf_chalice(upper);
+     translate([340, 250]) sanitiser(upper);
+     translate([430, 250]) small_jug(upper);
+     translate([330, 170]) keys(upper);
 }
 
 module layer(upper) {
