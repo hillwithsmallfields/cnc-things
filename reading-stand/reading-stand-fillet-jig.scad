@@ -1,5 +1,5 @@
 wedge_length = 60;
-wedge_height = 20;
+wedge_height = 15;
 
 module fillet_jig() {
      polygon([[0, 0], [wedge_length, 0], [wedge_length, wedge_height]]);
