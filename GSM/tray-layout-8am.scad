@@ -1,5 +1,7 @@
 /* Tray layout for 8 o'clock Eucharist at Great St Mary's */
 
+/* TODO: finger holes on edges of pyx wells */
+
 tray_width = 478;
 tray_height = 325;
 
@@ -199,7 +201,7 @@ module layer(upper) {
      }
 }
 
-show_both = true;
+show_both = false;
 top_layer = true;
 cut = false;
 
