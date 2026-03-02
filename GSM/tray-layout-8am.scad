@@ -15,7 +15,7 @@ lavabo_base_diameter = 66;
 lavabo_clearance_diameter = 132;
 
 small_chalice_diameter = 70;
-large_chalice_side_length = 62.5;
+large_chalice_side_length = 64;
 
 keys_length = 95;
 keys_width = 25;
@@ -138,7 +138,11 @@ module main_pyx(upper) {
 
 module gf_pyx(upper) {
      if (upper) {
-          circle_with_lift_holes(true, small_pyx_diameter, 45);
+          union() {
+               circle_with_lift_holes(true, small_pyx_diameter, 45);
+               translate([-6, small_pyx_diameter/2 -6]) square([12, 9]);
+               translate([-4, -small_pyx_diameter/2 -4]) square([8, 4]);
+          }
      } else {
           multiline(["Gluten-",
                      "free",
@@ -204,6 +208,7 @@ main_pyx_position = [70, 160];
 gf_pyx_position = [130, 160];
 
 module layout(upper) {
+     translate([0, tray_height-6]) square([6, 6]);
      translate([hosts_box_size/2 + 25,
                 hosts_box_size/2 + 15]) hosts_box(upper);
      translate([230, 100]) chalice(upper);
@@ -235,7 +240,7 @@ module pyx_finger_holes(upper) {
      translate(gf_pyx_position) lift_holes(upper, small_pyx_diameter, 45);
 }
 
-show_both = true;
+show_both = false;
 top_layer = true;
 cut = true;
 
@@ -262,6 +267,10 @@ if (show_both) {
           }
      }
 }
+
+/* translate([0, tray_height-1]) square([1,1]); */
+/* translate(gf_pyx_position) gf_pyx(true); */
+/* translate([230, 100]) chalice(true); */
 
 /* text for back of tray: */
 /* https://github.com/hillwithsmallfields/cnc-things/blob/master/GSM/tray-layout-8am.scad */
