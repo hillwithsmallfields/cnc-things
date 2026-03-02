@@ -1,8 +1,8 @@
 /* end triangles for the reading stand */
 
-width = 250;
+width = 264;
 height = 178;
-peak_offset = 187;
+peak_offset = 205;
 
 speaker_diameter = 50;
 speaker_mounting_hole_offset = 25;
@@ -12,7 +12,7 @@ speaker_centre_x = 162.5;
 speaker_centre_y = 75;
 
 mains_x = 105;
-mains_y = 35;
+mains_y = 44;
 
 module iec(width, height, corner_depth, hole_spacing) {
      union([]) {
