@@ -20,8 +20,8 @@ large_chalice_side_length = 62.5;
 keys_length = 95;
 keys_width = 25;
 
-finger_hole_upper_diameter = 15;
-finger_hole_lower_diameter = 17.5;
+finger_hole_upper_diameter = 20;
+finger_hole_lower_diameter = 24;
 
 sanitiser_dispenser_size = 65;
 
