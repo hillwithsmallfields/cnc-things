@@ -1,7 +1,5 @@
 /* Tray layout for 8 o'clock Eucharist at Great St Mary's */
 
-/* TODO: finger holes on edges of pyx wells */
-
 tray_width = 476;
 tray_height = 327;
 
@@ -110,23 +108,28 @@ module hosts_box(upper) {
      }
 }
 
-module lift_holes(size, angle) {
+module lift_holes(upper, size, angle) {
      rotate(angle) {
-	  translate([size/2, 0]) circle(d=finger_hole_upper_diameter);
-	  translate([-size/2, 0]) circle(d=finger_hole_upper_diameter);
+          difference() {
+               union() {
+                    translate([size/2, 0]) circle(d=upper ? finger_hole_upper_diameter : finger_hole_lower_diameter);
+                    translate([-size/2, 0]) circle(d=upper ? finger_hole_upper_diameter : finger_hole_lower_diameter);
+               }
+               circle(d=size);
+          }
      }
 }
 
-module circle_with_lift_holes(size, angle) {
+module circle_with_lift_holes(upper, size, angle) {
      union() {
 	  circle(d=size);
-	  lift_holes(size, angle);
+	  lift_holes(upper, size, angle);
      }
 }
 
 module main_pyx(upper) {
      if (upper) {
-          circle_with_lift_holes(large_pyx_diameter, 135);
+          circle_with_lift_holes(true, large_pyx_diameter, 135);
      } else {
           multiline(["Main",
                      "pyx"], size=12);
@@ -135,7 +138,7 @@ module main_pyx(upper) {
 
 module gf_pyx(upper) {
      if (upper) {
-     circle_with_lift_holes(small_pyx_diameter, 45);
+          circle_with_lift_holes(true, small_pyx_diameter, 45);
      } else {
           multiline(["Gluten-",
                      "free",
@@ -227,13 +230,22 @@ module layer(upper) {
      }
 }
 
+module pyx_finger_holes(upper) {
+     translate(main_pyx_position) lift_holes(upper, large_pyx_diameter, 135);
+     translate(gf_pyx_position) lift_holes(upper, small_pyx_diameter, 45);
+}
+
 show_both = true;
-top_layer = false;
+top_layer = true;
 cut = true;
 
 if (show_both) {
      linear_extrude(6) layer(true);
-     translate([0, 0, -2]) linear_extrude(2) difference() { tray(); finger_holes(false); }
+     translate([0, 0, -2]) linear_extrude(2) difference() {
+          tray();
+          finger_holes(false);
+          pyx_finger_holes(false);
+     }
      layer(false);
 } else {
      if (top_layer) {
@@ -243,8 +255,7 @@ if (show_both) {
                difference() {
                     tray();
 		    finger_holes(false);
-		    translate(main_pyx_position) lift_holes(large_pyx_diameter, 135);
-		    translate(gf_pyx_position) lift_holes(small_pyx_diameter, 45);
+                    pyx_finger_holes(false);
                }
           } else {
                layout(false);
@@ -252,3 +263,5 @@ if (show_both) {
      }
 }
 
+/* text for back of tray: */
+/* https://github.com/hillwithsmallfields/cnc-things/blob/master/GSM/tray-layout-8am.scad */
