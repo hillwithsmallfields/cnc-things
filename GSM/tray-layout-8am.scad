@@ -2,8 +2,8 @@
 
 /* TODO: finger holes on edges of pyx wells */
 
-tray_width = 478;
-tray_height = 325;
+tray_width = 476;
+tray_height = 327;
 
 large_jug_size = 56;
 small_jug_size = 53;
@@ -11,19 +11,19 @@ small_jug_size = 53;
 large_pyx_diameter = 48;
 small_pyx_diameter = 45;
 
-hosts_box_size = 90;
+hosts_box_size = 91;
 
-lavabo_base_diameter = 70;
+lavabo_base_diameter = 66;
 lavabo_clearance_diameter = 132;
 
 small_chalice_diameter = 70;
-large_chalice_side_length = 65;;
+large_chalice_side_length = 62.5;
 
-keys_length = 75;
+keys_length = 95;
 keys_width = 25;
 
-finger_hole_upper_diameter = 25;
-finger_hole_lower_diameter = 30;
+finger_hole_upper_diameter = 15;
+finger_hole_lower_diameter = 17.5;
 
 sanitiser_dispenser_size = 65;
 
@@ -75,19 +75,29 @@ module small_jug(upper) {
      if (upper) {
           square_base(small_jug_size);
      } else {
-          multiline(["Jug",
-                     "for",
-                     "ablution"], size=11);
+          multiline(["Jug for",
+                     "ablution"], size=10);
      }
 }
 
-module large_jug(upper, contents) {
+module large_jug(upper, contents, top_label, bottom_label) {
      if (upper) {
           square_base(large_jug_size);
      } else {
-          multiline(["Jug",
-                     "for",
-                     contents], size=12);
+	  translate([0, large_jug_size/2 - 6])
+	       color("brown")
+	       text(text=top_label,
+		    size=6,
+		    valign="center",
+		    halign="center");
+          multiline(["Jug for",
+                     contents], size=10);
+	  translate([0, -large_jug_size/2 + 6])
+	       color("brown")
+	       text(text=bottom_label,
+		    size=6,
+		    valign="center",
+		    halign="center");
      }
 }
 
@@ -100,9 +110,23 @@ module hosts_box(upper) {
      }
 }
 
+module lift_holes(size, angle) {
+     rotate(angle) {
+	  translate([size/2, 0]) circle(d=finger_hole_upper_diameter);
+	  translate([-size/2, 0]) circle(d=finger_hole_upper_diameter);
+     }
+}
+
+module circle_with_lift_holes(size, angle) {
+     union() {
+	  circle(d=size);
+	  lift_holes(size, angle);
+     }
+}
+
 module main_pyx(upper) {
      if (upper) {
-          circle(d=large_pyx_diameter);
+          circle_with_lift_holes(large_pyx_diameter, 135);
      } else {
           multiline(["Main",
                      "pyx"], size=12);
@@ -111,7 +135,7 @@ module main_pyx(upper) {
 
 module gf_pyx(upper) {
      if (upper) {
-     circle(d=small_pyx_diameter);
+     circle_with_lift_holes(small_pyx_diameter, 45);
      } else {
           multiline(["Gluten-",
                      "free",
@@ -164,8 +188,7 @@ module keys(upper) {
      if (upper) {
           translate([-keys_length/2, -keys_width/2]) square([keys_length, keys_width]);
      } else {
-          multiline(["Aumbry",
-                     "keys"]);
+          multiline(["Aumbry keys"]);
      }
 }
 
@@ -174,15 +197,18 @@ module finger_holes(upper) {
      translate([tray_width, tray_height/2]) circle(upper ? finger_hole_upper_diameter : finger_hole_lower_diameter);
 }
 
+main_pyx_position = [70, 160];
+gf_pyx_position = [130, 160];
+
 module layout(upper) {
-     translate([hosts_box_size/2 + 40,
+     translate([hosts_box_size/2 + 25,
                 hosts_box_size/2 + 15]) hosts_box(upper);
      translate([230, 100]) chalice(upper);
-     translate([380, 100]) lavabo(upper);
-     translate([70, 160]) main_pyx(upper);
-     translate([130, 160]) gf_pyx(upper);
-     translate([60, 250]) large_jug(upper, "water");
-     translate([150, 250]) large_jug(upper, "wine");
+     translate([395, 100]) lavabo(upper);
+     translate(main_pyx_position) main_pyx(upper);
+     translate(gf_pyx_position) gf_pyx(upper);
+     translate([60, 250]) large_jug(upper, "wine", "Handle", "Spout");
+     translate([150, 250]) large_jug(upper, "water", "Spout", "Handle");
      translate([240, 250]) gf_chalice(upper);
      translate([340, 250]) sanitiser(upper);
      translate([430, 250]) small_jug(upper);
@@ -201,9 +227,9 @@ module layer(upper) {
      }
 }
 
-show_both = false;
-top_layer = true;
-cut = false;
+show_both = true;
+top_layer = false;
+cut = true;
 
 if (show_both) {
      linear_extrude(6) layer(true);
@@ -216,7 +242,9 @@ if (show_both) {
           if (cut) {
                difference() {
                     tray();
-                         finger_holes(false);
+		    finger_holes(false);
+		    translate(main_pyx_position) lift_holes(large_pyx_diameter, 135);
+		    translate(gf_pyx_position) lift_holes(small_pyx_diameter, 45);
                }
           } else {
                layout(false);
