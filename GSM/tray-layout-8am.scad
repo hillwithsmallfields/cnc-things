@@ -140,7 +140,7 @@ module gf_pyx(upper) {
      if (upper) {
           union() {
                circle_with_lift_holes(true, small_pyx_diameter, 45);
-               translate([-6, small_pyx_diameter/2 -6]) square([12, 9]);
+               translate([-9, small_pyx_diameter/2 -6]) square([18, 9]);
                translate([-4, -small_pyx_diameter/2 -4]) square([8, 4]);
           }
      } else {
