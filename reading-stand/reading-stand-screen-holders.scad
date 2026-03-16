@@ -56,12 +56,14 @@ module extender() {
      square([30, 15]);
 }
 
-lower();
-translate([0, 40]) backing();
-translate([0, 170]) backplate();
-translate([0, 300]) square([30, 50]);
-translate([40, 300]) square([30, 50]);
-translate([80, 300]) square([30, 50]);
-translate([120, 300]) square([30, 50]);
-translate([0, 360]) square([120, 30]);
-translate([0, 400]) square([120, 30]);
+rotate([180, 0, 90]) {
+    lower();
+    translate([0, 40]) backing();
+    translate([0, 170]) backplate();
+    translate([0, 300]) square([30, 50]);
+    translate([40, 300]) square([30, 50]);
+    translate([80, 300]) square([30, 50]);
+    translate([120, 300]) square([30, 50]);
+    translate([190, 0]) square([30, 120]);
+    translate([190, 130]) square([30, 120]);
+}
