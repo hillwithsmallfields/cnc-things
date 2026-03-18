@@ -23,3 +23,5 @@ module segment(degrees) {
 }
 
 segment(112);
+rotate(120) segment(112);
+rotate(240) segment(112);
