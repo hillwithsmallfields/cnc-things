@@ -1,10 +1,19 @@
 outer_diameter = 145;
 outer_radius = outer_diameter / 2;
 
+screw_hole_diameter = 3;
+
+magnet_inset = 15;
+
 module zero_circle() {
      difference() {
           circle(d=outer_diameter, $fn=360);
           circle(d=10, $fn=36);
+          for (angle = [0:30:360]) {
+               rotate(angle + 15)
+                    translate([outer_diameter/2 - magnet_inset, 0])
+                    circle(d=screw_hole_diameter, $fn=12);
+          }
      }
 }
 
