@@ -19,6 +19,12 @@ side_sockets_space = 30;
 
 spacing = 3;
 
+audio_amp_long = 22;
+audio_amp_short = 18;
+
+audio_amp_surround_long = audio_amp_long+2*margin;
+audio_amp_surround_short = audio_amp_short+2*margin;
+
 module board_holes(diameter) {
      translate([board_length-board_hole_offset, board_hole_offset]) circle(d=diameter);
      translate([board_length-board_hole_offset, board_width-board_hole_offset]) circle(d=diameter);
@@ -32,6 +38,23 @@ module wood_screw_holes() {
      translate([layer_length/2, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
+}
+
+module audio_amp_surround() {
+     difference() {
+          square([audio_amp_surround_long, audio_amp_surround_short]);
+          translate([margin, margin]) square([audio_amp_long, audio_amp_short]);
+          translate([audio_amp_surround_long/2, margin/2]) circle(d=wood_screw_hole_diameter);
+          translate([audio_amp_surround_long/2, audio_amp_surround_short - margin/2]) circle(d=wood_screw_hole_diameter);
+     }
+}
+
+module audio_amp_retainer() {
+     difference() {
+          square([margin, audio_amp_surround_short]);
+          translate([margin/2, margin/2]) circle(d=wood_screw_hole_diameter);
+          translate([margin/2, audio_amp_surround_short - margin/2]) circle(d=wood_screw_hole_diameter);
+     }
 }
 
 module board() {
@@ -53,10 +76,16 @@ module layer() {
 }
 
 module surrounding_layer() {
-     difference() {
-          layer();
-          translate([0, margin]) board();
-          translate([side_sockets_space, margin+board_width]) square([board_length-(side_sockets_space+board_hole_offset*2), margin]);
+     union() {
+          difference() {
+               layer();
+               translate([0, margin]) board();
+               translate([side_sockets_space, margin+board_width]) square([board_length-(side_sockets_space+board_hole_offset*2), margin]);
+          }
+          /* put the amp surround in the bit we cut out --- less waste that way */
+          translate([0, margin+spacing]) audio_amp_surround();
+          /* and the retainer */
+          translate([audio_amp_surround_long+spacing, margin+spacing]) audio_amp_retainer();
      }
 }
 
@@ -87,7 +116,8 @@ if (three_d) {
 } else {
      surrounding_layer();
      translate([0, layer_width+spacing]) surrounding_layer();
+     translate([0, (layer_width+spacing)*2]) surrounding_layer();
      translate([layer_length+spacing, 0]) under_layer();
      translate([layer_length+spacing, layer_width+spacing]) under_layer();
-     translate([(layer_length+spacing)*2 + layer_width, 0]) rotate(90) base_layer();
+     translate([layer_length+spacing, (layer_width+spacing)*2]) base_layer();
 }
