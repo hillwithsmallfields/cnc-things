@@ -15,6 +15,8 @@ layer_width = board_width+2*margin;
 wood_screw_hole_offset = margin / 2;
 wood_screw_hole_diameter = 3;
 
+side_sockets_space = 30;
+
 spacing = 3;
 
 module board_holes(diameter) {
@@ -28,7 +30,6 @@ module wood_screw_holes() {
      translate([layer_length-wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([layer_length-wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([layer_length/2, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
-     translate([layer_length/2, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
      translate([wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
 }
@@ -55,6 +56,7 @@ module surrounding_layer() {
      difference() {
           layer();
           translate([0, margin]) board();
+          translate([side_sockets_space, margin+board_width]) square([board_length-(side_sockets_space+board_hole_offset*2), margin]);
      }
 }
 
