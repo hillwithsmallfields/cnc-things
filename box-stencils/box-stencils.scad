@@ -2,8 +2,8 @@
 
 /* We want to fit between the buttresses, which are not actually parallel */
 
-top_width = 153;
-bottom_width = 160;
+top_width = 155;
+bottom_width = 164;
 buttress_height = 220;
 slope = ((bottom_width - top_width) / 2) / buttress_height;
 
@@ -78,11 +78,11 @@ module right_digit(digit) {
 
 module row(digit) {
      left_digit(digit);
-     translate([(digit_width+nub_width)*1.05, 0]) middle_digit(digit);
-     translate([(digit_width+nub_width)*2.10, 0]) right_digit(digit);
+     translate([(digit_width+nub_width)*1.025, 0]) middle_digit(digit);
+     translate([(digit_width+nub_width)*2.05, 0]) right_digit(digit);
 }
 
 for (i = [0:9]) {
-     translate([(i % 2) * (digit_width+nub_width) * 3.3, round((i-0.9)/2) * digit_height * 1.05]) row(str(i));
+     translate([(i % 2) * (digit_width+nub_width) * 3.05, round((i-0.9)/2) * digit_height * 1.005]) row(str(i));
 }
 
