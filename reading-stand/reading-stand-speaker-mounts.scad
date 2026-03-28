@@ -50,11 +50,12 @@ module face_plate() {
      }
 }
 
-if (true) {
-     /* cut these two from the same solid wood used for the main structure */
-     standoff_plate();
-     translate([rim_diameter*1+10, 0]) face_plate();
-} else {
-     /* cut this one from thin ply */
-     spacer_plate();
-}
+/* if (false) { */
+/*      /\* cut these two from the same solid wood used for the main structure *\/ */
+/*      standoff_plate(); */
+/*      translate([rim_diameter*1+10, 0]) face_plate(); */
+/* } else { */
+/*      /\* cut this one from thin ply *\/ */
+/*      spacer_plate(); */
+/* } */
+face_plate();
