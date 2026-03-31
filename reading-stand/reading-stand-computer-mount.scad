@@ -105,6 +105,7 @@ module under_layer() {
 
 /* board(); */
 
+surrounded = false;
 three_d = false;
 
 if (three_d) {
@@ -114,10 +115,16 @@ if (three_d) {
      translate([0, 0, -layer_thickness])linear_extrude(height=layer_thickness) under_layer();
      translate([0, 0, -layer_thickness*2])linear_extrude(height=layer_thickness) under_layer();
 } else {
-     surrounding_layer();
-     translate([0, layer_width+spacing]) surrounding_layer();
-     translate([0, (layer_width+spacing)*2]) surrounding_layer();
-     translate([layer_length+spacing, 0]) under_layer();
-     translate([layer_length+spacing, layer_width+spacing]) under_layer();
-     translate([layer_length+spacing, (layer_width+spacing)*2]) base_layer();
+     if (surrounded) {
+          surrounding_layer();
+          translate([0, layer_width+spacing]) surrounding_layer();
+          translate([0, (layer_width+spacing)*2]) surrounding_layer();
+          translate([layer_length+spacing, 0]) under_layer();
+          translate([layer_length+spacing, layer_width+spacing]) under_layer();
+          translate([layer_length+spacing, (layer_width+spacing)*2]) base_layer();
+     } else {
+          translate([0, 0]) under_layer();
+          translate([0, layer_width+spacing]) under_layer();
+          translate([0, (layer_width+spacing)*2]) base_layer();
+     }
 }
