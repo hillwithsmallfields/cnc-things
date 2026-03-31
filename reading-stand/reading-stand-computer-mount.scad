@@ -1,9 +1,9 @@
 board_length = 85;
 board_width = 57;
 
-board_hole_offset = 3;
-board_hole_spacing = 57;
-board_hole_diameter = 2.5;
+board_hole_offset = 4;
+board_hole_spacing = 58;
+board_hole_diameter = 3;
 bolt_head_diameter = 12;
 
 margin = 10;
