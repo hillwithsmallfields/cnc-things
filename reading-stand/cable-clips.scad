@@ -36,11 +36,9 @@ module wires_clip() {
 }
 
 for (i=[0:7]) {
-     translate([i*(hdmi_width+clip_depth*2), 0]) {
-          usb_clip();
-          translate([0, clip_depth + usb_height + clearance]) {
-               hdmi_clip();
-               translate([0, clip_depth + hdmi_height + clearance]) wires_clip();
+     for (j=[0:1]) {
+          translate([i*(usb_width+clip_depth*2), j*(usb_height+clip_depth)]) {
+               usb_clip();
           }
      }
 }
