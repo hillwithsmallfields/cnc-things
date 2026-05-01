@@ -1,18 +1,23 @@
-xd_start                         = 93;
-xd_front_leg_base_to_cover_front = 71;
-y_cover_front_height             = 98;
-xd_cover_front_to_cover_back     = 132; /* horizontally along the roofrack */
-y_cover_back_height              = 160;
-xd_cover_back_to_tent_front      = 82;
-xd_tent_front_to_tent_chine      = 41;
-y_tent_chine                     = 92;
-xd_tent_front_to_tent_gable      = 92;
-y_tent_gable                     = 72;
-y_gable_base                     = 20;
-y_tent_top                       = 130;
-xd_tent_board_length             = 122;
+xd_start                         = 930;
+xd_front_leg_base_to_cover_front = 710;
+y_cover_front_height             = 980;
+xd_cover_front_to_cover_back     = 1320; /* horizontally along the roofrack */
+y_cover_back_height              = 1600;
+xd_cover_back_to_tent_front      = 820;
+xd_tent_front_to_tent_chine      = 410;
+y_tent_chine                     = 920;
+xd_tent_front_to_tent_gable      = 920;
+y_tent_gable                     = 720;
+y_gable_base                     = 200;
+y_tent_top                       = 1300;
+xd_tent_board_length             = 1220;
 
-z_annex_width = 152;
+cloth_roll_width                 = 1500;
+hem_width                        = 50;
+seam_width                       = 30;
+lower_cloth_usable_width         = cloth_roll_width - (hem_width + seam_width);
+
+z_annex_width = 1520;
 xs_roof_length = sqrt(pow(xd_cover_front_to_cover_back, 2) + pow(y_cover_back_height - y_cover_front_height, 2));
 
 x_cover_front = xd_start + xd_front_leg_base_to_cover_front;
@@ -35,7 +40,7 @@ echo("x_tent_hinge=", x_tent_hinge - x_cover_front, " y_tent_top=", y_tent_top);
 echo("x_tent_gable=", x_tent_gable - x_cover_front, " y_tent_gable=",  y_tent_gable);
 echo("x_tent_chine=", x_tent_chine - x_cover_front);
 
-roofrack_tray_depth = 15;
+roofrack_tray_depth = 150;
 
 module roofrack() {
      rotate([90,0,0]) square([x_tent_hinge, z_annex_width]);
@@ -44,7 +49,7 @@ module roofrack() {
      rotate([0,-90,0]) square([z_annex_width, roofrack_tray_depth]);
 }
 
-module annex_side() {
+module annex_side_polygon() {
      polygon([[x_cover_front, 0],
               [x_cover_front, y_cover_front_height],
               [x_cover_back, y_cover_back_height],
@@ -53,13 +58,32 @@ module annex_side() {
               [x_tent_gable, y_tent_gable],
               [x_tent_chine, 0]]);
 }
+module lower_cloth() {
+     square([x_tent_hinge, lower_cloth_usable_width]);
+}
+
+module upper_cloth() {
+     translate([0, lower_cloth_usable_width])
+          square([x_tent_hinge, lower_cloth_usable_width]);
+}
+
+module annex_side() {
+     color("red", 0.5) intersection() {
+          annex_side_polygon();
+          lower_cloth();
+     }
+     color("purple", 0.5) intersection() {
+          annex_side_polygon();
+          upper_cloth();
+     }
+}
 
 module annex_front() {
-     square([z_annex_width, y_cover_front_height]);
+     color("red") square([z_annex_width, y_cover_front_height]);
 }
 
 module annex_roof() {
-     square([z_annex_width, x_tent_hinge - x_cover_back]);
+     color("red") square([z_annex_width, x_tent_hinge - x_cover_back]);
 }
 
 module annex_overlap() {
@@ -70,14 +94,13 @@ module annex_overlap() {
 module annex() {
      roof_angle = - atan2(y_cover_back_height - y_tent_top, x_tent_hinge - x_cover_back);
      tent_angle = atan2(y_tent_top - y_tent_chine, (x_tent_hinge - x_tent_chine));
-     color("red", 0.5) {
-          annex_side();
-          translate([0,0,z_annex_width]) annex_side();
-          translate([xd_start + xd_front_leg_base_to_cover_front, 0]) rotate([0,-90,0]) annex_front();
-          translate([x_tent_hinge, y_tent_top]) rotate([roof_angle+90,-90,0]) annex_roof();
-          translate([x_tent_hinge, y_tent_top]) rotate([-tent_angle-90,-90,0]) annex_overlap();
-     }
+     annex_side();
+     translate([0,0,z_annex_width]) annex_side();
+     translate([xd_start + xd_front_leg_base_to_cover_front, 0]) rotate([0,-90,0]) annex_front();
+     translate([x_tent_hinge, y_tent_top]) rotate([roof_angle+90,-90,0]) annex_roof();
+     translate([x_tent_hinge, y_tent_top]) rotate([-tent_angle-90,-90,0]) annex_overlap();
 }
+
 
 module tent_window() {
      translate([xd_tent_window + xd_tent_board_length - xd_tent_front_to_tent_gable,
