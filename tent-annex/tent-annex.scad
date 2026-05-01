@@ -1,4 +1,5 @@
-xd_start                         = 930;
+xd_start                         = 1860;
+xd_front_poles                   = 240;
 xd_front_leg_base_to_cover_front = 710;
 y_cover_front_height             = 980;
 xd_cover_front_to_cover_back     = 1320; /* horizontally along the roofrack */
@@ -101,6 +102,20 @@ module annex() {
      translate([x_tent_hinge, y_tent_top]) rotate([-tent_angle-90,-90,0]) annex_overlap();
 }
 
+module annex_forward_extension_side() {
+     color("cyan", 0.6)
+          translate([xd_front_poles, 0])
+          square([x_cover_front - xd_front_poles, y_cover_front_height]);
+}
+
+module annex_forward_extension() {
+     annex_forward_extension_side();
+     translate([0,0,z_annex_width]) annex_forward_extension_side();
+     translate([xd_front_poles, y_cover_front_height])
+          color("cyan", 0.4)
+          rotate([90, 0, 0])
+          square([x_cover_front - xd_front_poles, z_annex_width]);
+}
 
 module tent_window() {
      translate([xd_tent_window + xd_tent_board_length - xd_tent_front_to_tent_gable,
@@ -151,6 +166,7 @@ if (true) {
     cover_roof();
     translate([x_tent_front, 0]) tent();
     annex();
+    annex_forward_extension();
 } else {
     color("green") annex_side();
     /* annex_front(); */
