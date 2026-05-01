@@ -47,6 +47,9 @@ module face_plate() {
      difference() {
           circle(d=rim_diameter, $fn=circle_steps);
           circle(d=speaker_hole_diameter, $fn=circle_steps);
+          for (i = [0:90:270]) {
+               rotate(i) translate([(rim_diameter+speaker_hole_diameter)/4, 0]) circle(d=3, $fn=12);
+          }
      }
 }
 

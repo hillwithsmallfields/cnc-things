@@ -26,18 +26,18 @@ audio_amp_surround_long = audio_amp_long+2*margin;
 audio_amp_surround_short = audio_amp_short+2*margin;
 
 module board_holes(diameter) {
-     translate([board_length-board_hole_offset, board_hole_offset]) circle(d=diameter);
-     translate([board_length-board_hole_offset, board_width-board_hole_offset]) circle(d=diameter);
-     translate([board_length-(board_hole_offset+board_hole_spacing), board_hole_offset]) circle(d=diameter);
-     translate([board_length-(board_hole_offset+board_hole_spacing), board_width-board_hole_offset]) circle(d=diameter);
+     translate([board_length-board_hole_offset, board_hole_offset]) circle(d=diameter, $fn=72);
+     translate([board_length-board_hole_offset, board_width-board_hole_offset]) circle(d=diameter, $fn=72);
+     translate([board_length-(board_hole_offset+board_hole_spacing), board_hole_offset]) circle(d=diameter, $fn=72);
+     translate([board_length-(board_hole_offset+board_hole_spacing), board_width-board_hole_offset]) circle(d=diameter, $fn=72);
 }
 
 module wood_screw_holes() {
-     translate([layer_length-wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
-     translate([layer_length-wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
-     translate([layer_length/2, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
-     translate([wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
-     translate([wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter);
+     translate([layer_length-wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter, $fn=18);
+     translate([layer_length-wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter, $fn=18);
+     translate([layer_length/2, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter, $fn=18);
+     translate([wood_screw_hole_offset, wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter, $fn=18);
+     translate([wood_screw_hole_offset, layer_width-wood_screw_hole_offset]) circle(d=wood_screw_hole_diameter, $fn=18);
 }
 
 module audio_amp_surround() {
